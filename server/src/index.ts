@@ -1,4 +1,5 @@
 import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@as-integrations/express5';
 import express from 'express';
 import cors from 'cors';
 
@@ -14,22 +15,15 @@ const resolvers = {
   },
 };
 
-async function startServer(): Promise<void> {
-  const app = express();
-  const server = new ApolloServer({ typeDefs, resolvers });
+const app = express();
+const server = new ApolloServer({ typeDefs, resolvers });
 
-  await server.start();
+await server.start();
 
-  app.use(express.json());
+app.use(cors());
+app.use(express.json());
+app.use('/graphql', expressMiddleware(server));
 
-  // add hello world route
-  app.get('/hello', (req, res) => {
-    res.send('Hello World!');
-  });
-
-  app.listen(4000, () => {
-    console.log('Server ready at http://localhost:4000/graphql');
-  });
-}
-
-startServer();
+app.listen(4000, () => {
+  console.log('Server ready at http://localhost:4000/graphql');
+});
