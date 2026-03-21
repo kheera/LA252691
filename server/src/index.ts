@@ -2,21 +2,13 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express5';
 import express from 'express';
 import cors from 'cors';
+import { typeDefs } from './schema/types.js';
+import { queryDefs } from './schema/query.js';
 
-const typeDefs = `#graphql
-  type Query {
-    hello: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => 'Hello from Apollo Server!',
-  },
-};
+const resolvers = {};
 
 const app = express();
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs: [typeDefs, queryDefs], resolvers });
 
 await server.start();
 
