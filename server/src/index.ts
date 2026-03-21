@@ -4,8 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import { typeDefs } from './schema/types.js';
 import { queryDefs } from './schema/query.js';
-
-const resolvers = {};
+import { resolvers } from './resolvers/resolvers.js';
 
 const app = express();
 const server = new ApolloServer({ typeDefs: [typeDefs, queryDefs], resolvers });
