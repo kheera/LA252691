@@ -5,7 +5,7 @@
 Full-stack application with a GraphQL API backend and a frontend client, orchestrated via Docker Compose.
 
 ```
-client/          # Frontend — React 19, Vite, Apollo Client, react-windows-ui
+client/          # Frontend — React 19, Vite, Apollo Client, Mantine
 server/          # Node.js / Apollo Server 4 / TypeScript / Express
 docker-compose.yml
 ```
@@ -19,7 +19,7 @@ docker-compose.yml
 | Linting    | ESLint + Airbnb base config + TypeScript        |
 | Infra      | Docker Compose                                  |
 | Client     | React 19, TypeScript, Vite, Apollo Client       |
-| UI         | `react-windows-ui` (Windows 11 components + theming) |
+| UI         | Mantine v8 (`@mantine/core`, `@mantine/hooks`, `@mantine/charts`, `@mantine/notifications`) |
 
 ## Build & Run
 
@@ -51,9 +51,13 @@ docker compose up --build
 - Client queries/mutations in `client/src/graphql/`
 
 ### UI / Theming
-- Wrap the app in `<AppProvider>` from `react-windows-ui` for Windows 11 theming
-- Use `react-windows-ui` components for all UI; avoid mixing in other component libraries
-- Respect light/dark mode via the `AppProvider` theme prop
+- Wrap the app in `<MantineProvider>` from `@mantine/core` at the root
+- Use Mantine components for all UI; avoid mixing in other component libraries
+- Use `@mantine/notifications` `<Notifications />` alongside `MantineProvider` for toasts
+- Import Mantine CSS in `main.tsx`: `import '@mantine/core/styles.css'`
+- Use `@mantine/charts` + `recharts` for metric visualisations
+- Use `@tabler/icons-react` for icons
+- Light/dark mode via `colorScheme` on `MantineProvider` or `useComputedColorScheme` hook
 
 ### Linting
 - ESLint with `airbnb-base` + `airbnb-typescript/base`
@@ -115,9 +119,14 @@ client/
 
 ### Runtime
 - `react`, `react-dom` — React 19
-- `@apollo/client` — Apollo Client 3
+- `@apollo/client` — Apollo Client 4
 - `graphql` — GraphQL peer dependency
-- `react-windows-ui` — Windows 11 UI components + app theming
+- `@mantine/core` — Mantine v8 UI components
+- `@mantine/hooks` — Mantine utility hooks
+- `@mantine/charts` — Chart components (wraps recharts)
+- `@mantine/notifications` — Toast/notification system
+- `recharts` — peer dep for `@mantine/charts`
+- `@tabler/icons-react` — icon set
 
 ### Dev
 - `vite`, `@vitejs/plugin-react`
@@ -131,5 +140,6 @@ client/
 - Apollo Server 5 uses `expressMiddleware()` from `@apollo/server/express4` — **not** `applyMiddleware()` (that was v3).
 - `eslint-config-airbnb-typescript` requires `parserOptions.project` pointing to `tsconfig.json`.
 - When adding new GraphQL types, always add both the schema definition AND the resolver.
-- Wrap the React app with both `<ApolloProvider>` and `<AppProvider>` at the root (`main.tsx`); order matters — `AppProvider` should be outermost for theming.
-- `react-windows-ui` requires its CSS to be imported: `import 'react-windows-ui/config/app.css'` in `main.tsx`.
+- Wrap the React app with `<MantineProvider>` outermost, then `<ApolloProvider>` inside it in `main.tsx`.
+- Mantine requires its CSS to be imported before any component usage: `import '@mantine/core/styles.css'` in `main.tsx`.
+- `postcss.config.cjs` is required at the client root with `postcss-preset-mantine` for Mantine's PostCSS features.
