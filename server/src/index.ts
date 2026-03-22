@@ -4,10 +4,11 @@ import express from 'express';
 import cors from 'cors';
 import { typeDefs } from './schema/types.js';
 import { queryDefs } from './schema/query.js';
+import { mutationDefs } from './schema/mutations.js';
 import { resolvers } from './resolvers/resolvers.js';
 
 const app = express();
-const server = new ApolloServer({ typeDefs: [typeDefs, queryDefs], resolvers });
+const server = new ApolloServer({ typeDefs: [typeDefs, queryDefs, mutationDefs], resolvers });
 
 await server.start();
 

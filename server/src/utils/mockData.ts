@@ -1,4 +1,6 @@
-export const mockDeployments = [
+import type { Service, Deployment, Metric } from '../models/index.js';
+
+export const mockDeployments: Deployment[] = [
   {
     id: 'd1',
     serviceId: 's1',
@@ -28,7 +30,7 @@ export const mockDeployments = [
   },
 ];
 
-export const mockMetrics = [
+export const mockMetrics: Metric[] = [
   {
     id: 'm1',
     timestamp: '2026-03-21T12:00:00Z',
@@ -61,7 +63,7 @@ export const mockMetrics = [
   },
 ];
 
-export const mockServices = [
+export const mockServices: Service[] = [
   {
     id: 's1',
     status: 'HEALTHY',
