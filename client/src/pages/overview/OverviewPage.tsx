@@ -1,13 +1,10 @@
 import {
   BackgroundImage,
-  Badge,
   Box,
   Button,
-  Card,
   Center,
   Group,
   Overlay,
-  Progress,
   rem,
   ScrollArea,
   SimpleGrid,
@@ -15,34 +12,24 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
   IconActivity,
-  IconAlertTriangle,
-  IconCheck,
   IconChevronLeft,
-  IconClock,
   IconCloudUpload,
   IconFlask,
+  IconHome,
   IconMenu2,
-  IconMoon,
   IconServer,
-  IconSun,
 } from '@tabler/icons-react';
+import { useSplash } from '../../components/SplashContext';
+import { ColorSchemeToggle } from '../../components/ColorSchemeToggle';
 import { useNavigate, useLocation } from 'react-router-dom';
-import heroImage from '../../assets/leg-hero-image.jpg';
+import { useHeroImage } from '../../components/useHeroImage';
+import { ServiceCard, type ServiceSummary } from './components/ServiceCard/ServiceCard';
 
 // ── Mock data — replace with useQuery(GET_SERVICES) when wiring up the backend ──
-interface ServiceSummary {
-  id: string;
-  name: string;
-  status: string | null;
-  uptime: number | null;
-  lastDeployedAt: string | null;
-}
-
 const mockServices: ServiceSummary[] = [
   { id: 's1', name: 'api-gateway',       status: 'HEALTHY',  uptime: 99.9, lastDeployedAt: '2026-03-20T10:00:00Z' },
   { id: 's2', name: 'auth-service',      status: 'DEGRADED', uptime: 95.2, lastDeployedAt: '2026-03-19T09:15:00Z' },
@@ -51,105 +38,14 @@ const mockServices: ServiceSummary[] = [
   { id: 's5', name: 'intake-portal',     status: null,       uptime: null,  lastDeployedAt: null },
 ];
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-function statusColor(s: string | null): string {
-  if (s === 'HEALTHY') return 'green';
-  if (s === 'DEGRADED') return 'yellow';
-  if (s === 'DOWN') return 'red';
-  return 'gray';
-}
-
-function statusLabel(s: string | null): string {
-  return s ?? 'NOT DEPLOYED';
-}
-
-function statusIcon(s: string | null) {
-  if (s === 'HEALTHY') return <IconCheck size={12} />;
-  if (s === 'DEGRADED' || s === 'DOWN') return <IconAlertTriangle size={12} />;
-  return <IconServer size={12} />;
-}
-
-function formatLastDeployed(iso: string | null): string {
-  if (!iso) return 'Never deployed';
-  const diffMs = Date.now() - new Date(iso).getTime();
-  const mins = Math.floor(diffMs / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
-
-// ── Sub-components ────────────────────────────────────────────────────────────
-
-function ColorSchemeToggle() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  return (
-    <Button
-      variant="subtle"
-      size="sm"
-      onClick={() => toggleColorScheme()}
-      leftSection={colorScheme === 'dark' ? <IconSun size={16} /> : <IconMoon size={16} />}
-    >
-      {colorScheme === 'dark' ? 'Light' : 'Dark'}
-    </Button>
-  );
-}
-
-function ServiceCard({ svc }: { svc: ServiceSummary }) {
-  return (
-    <Card withBorder radius="md" p="md">
-      <Stack gap="sm">
-        {/* Name + status */}
-        <Group justify="space-between" align="flex-start" wrap="nowrap">
-          <Text fw={600} size="sm" style={{ wordBreak: 'break-word' }}>
-            {svc.name}
-          </Text>
-          <Badge
-            color={statusColor(svc.status)}
-            size="sm"
-            leftSection={statusIcon(svc.status)}
-            style={{ flexShrink: 0 }}
-          >
-            {statusLabel(svc.status)}
-          </Badge>
-        </Group>
-
-        {/* Uptime */}
-        {svc.uptime !== null ? (
-          <Stack gap={4}>
-            <Group justify="space-between">
-              <Text size="xs" c="dimmed">Uptime</Text>
-              <Text size="xs" fw={500} c={statusColor(svc.status)}>{svc.uptime}%</Text>
-            </Group>
-            <Progress
-              value={svc.uptime}
-              color={statusColor(svc.status)}
-              size="sm"
-              radius="xl"
-            />
-          </Stack>
-        ) : (
-          <Text size="xs" c="dimmed">No uptime data</Text>
-        )}
-
-        {/* Last deployed */}
-        <Group gap="xs">
-          <IconClock size={13} color="var(--mantine-color-dimmed)" />
-          <Text size="xs" c="dimmed">{formatLastDeployed(svc.lastDeployedAt)}</Text>
-        </Group>
-      </Stack>
-    </Card>
-  );
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export function OverviewPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [navOpen, { toggle }] = useDisclosure(false);
+  const { show: showSplash } = useSplash();
+  const heroImage = useHeroImage();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -215,8 +111,8 @@ export function OverviewPage() {
           style={{
             height: 56,
             flexShrink: 0,
-            background: 'var(--mantine-color-dark-6)',
-            borderBottom: '1px solid var(--mantine-color-dark-4)',
+            background: 'var(--mantine-color-default)',
+            borderBottom: '1px solid var(--mantine-color-default-border)',
             display: 'flex',
             alignItems: 'center',
             padding: '0 16px',
@@ -256,14 +152,24 @@ export function OverviewPage() {
             style={{
               width: 200,
               flexShrink: 0,
-              background: 'var(--mantine-color-dark-6)',
-              borderRight: '1px solid var(--mantine-color-dark-4)',
+              background: 'var(--mantine-color-default)',
+              borderRight: '1px solid var(--mantine-color-default-border)',
               padding: '16px 12px',
               overflow: 'auto',
             }}
           >
             <Stack gap="xs">
               <Text size="xs" c="dimmed" fw={600} tt="uppercase" px={4}>Navigation</Text>
+              <Button
+                variant="subtle"
+                justify="start"
+                leftSection={<IconHome size={16} />}
+                fullWidth
+                size="sm"
+                onClick={showSplash}
+              >
+                Home
+              </Button>
               <Button
                 variant={isActive('/') ? 'light' : 'subtle'}
                 justify="start"
@@ -307,14 +213,24 @@ export function OverviewPage() {
                 bottom: 0,
                 width: 220,
                 zIndex: 200,
-                background: 'var(--mantine-color-dark-6)',
-                borderRight: '1px solid var(--mantine-color-dark-4)',
+                background: 'var(--mantine-color-default)',
+                borderRight: '1px solid var(--mantine-color-default-border)',
                 padding: '16px 12px',
                 overflow: 'auto',
               }}
             >
               <Stack gap="xs">
                 <Text size="xs" c="dimmed" fw={600} tt="uppercase" px={4}>Navigation</Text>
+                <Button
+                  variant="subtle"
+                  justify="start"
+                  leftSection={<IconHome size={16} />}
+                  fullWidth
+                  size="sm"
+                  onClick={() => { showSplash(); toggle(); }}
+                >
+                  Home
+                </Button>
                 <Button
                   variant="light"
                   justify="start"

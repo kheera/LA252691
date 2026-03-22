@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 import { BackgroundImage, Center, Overlay, rem, Stack, Text, Title } from '@mantine/core';
 import { BrandDivider } from './BrandDivider';
+import { HeroPanelProvider } from './HeroPanelProvider';
 
 interface HeroBrandingPanelProps {
   src: string;
@@ -17,6 +18,7 @@ interface HeroBrandingPanelProps {
 
 export function HeroBrandingPanel({ src, compact = false, maw, children }: HeroBrandingPanelProps) {
   return (
+    <HeroPanelProvider compact={compact}>
     <BackgroundImage
       src={src}
       style={{ height: '100%', backgroundPosition: 'center', backgroundSize: 'cover' }}
@@ -51,11 +53,12 @@ export function HeroBrandingPanel({ src, compact = false, maw, children }: HeroB
               <br />
               of British Columbia
             </Title>
-            <BrandDivider label="DevOps Services" compact={compact} mt={compact ? undefined : 'xs'} />
+            <BrandDivider label="DevOps Services" mt={compact ? undefined : 'xs'} />
           </Stack>
           {children}
         </Stack>
       </Center>
     </BackgroundImage>
+    </HeroPanelProvider>
   );
 }

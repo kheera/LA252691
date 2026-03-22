@@ -1,13 +1,26 @@
 import { Box, Group, rem, Text } from '@mantine/core';
+import { useHeroPanelContext } from './HeroPanelContext';
 
 interface BrandDividerProps {
   label: string;
-  /** compact=true shrinks line width and font size for sidebar/panel contexts */
-  compact?: boolean;
   mt?: string;
 }
 
-export function BrandDivider({ label, compact = false, mt }: BrandDividerProps) {
+/**
+ * Decorative section label — a text string flanked by two short blue accent bars.
+ *
+ * Use it to visually separate or title a section with brand styling, without the
+ * structural weight of a `<Title>`. Always centred; not a replacement for headings.
+ *
+ * @example
+ * // Full-size hero label (default, renders inside a non-compact HeroPanelProvider)
+ * <BrandDivider label="DevOps Services" mt="xs" />
+ *
+ * // Compact sizing is inherited automatically inside a compact HeroPanelProvider
+ * <BrandDivider label="Recent Deployments" mt="md" />
+ */
+export function BrandDivider({ label, mt }: BrandDividerProps) {
+  const { compact } = useHeroPanelContext();
   const lineWidth = compact ? 36 : 48;
   const fontSize = compact
     ? 'clamp(0.75rem, 1.5vw, 1.1rem)'

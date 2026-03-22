@@ -1,3 +1,4 @@
+/* DELETE THIS DEMO PAGE */
 import {
   BackgroundImage,
   Badge,
@@ -17,7 +18,6 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -30,12 +30,11 @@ import {
   IconCloudUpload,
   IconFlask,
   IconMenu2,
-  IconMoon,
   IconServer,
-  IconSun,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import heroImage from '../../assets/leg-hero-image.jpg';
+import { ColorSchemeToggle } from '../../components/ColorSchemeToggle';
+import { useHeroImage } from '../../components/useHeroImage';
 
 const chartData = [
   { time: '00:00', cpu: 22, memory: 44 },
@@ -64,23 +63,10 @@ function statusIcon(s: string) {
   return s === 'HEALTHY' ? <IconCheck size={14} /> : <IconAlertTriangle size={14} />;
 }
 
-function ColorSchemeToggle() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  return (
-    <Button
-      variant="subtle"
-      size="sm"
-      onClick={() => toggleColorScheme()}
-      leftSection={colorScheme === 'dark' ? <IconSun size={16} /> : <IconMoon size={16} />}
-    >
-      {colorScheme === 'dark' ? 'Light' : 'Dark'}
-    </Button>
-  );
-}
-
 export function DemoPage() {
   const navigate = useNavigate();
   const [navOpen, { toggle }] = useDisclosure(false);
+  const heroImage = useHeroImage();
 
   return (
     <Box style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>

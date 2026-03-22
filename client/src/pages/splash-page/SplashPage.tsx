@@ -9,29 +9,15 @@ import {
   Stack,
   Text,
   Title,
-  useMantineColorScheme,
 } from '@mantine/core';
-import { IconLayoutDashboard, IconMoon, IconSun } from '@tabler/icons-react';
+import { IconLayoutDashboard } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import heroImage from '../assets/leg-hero-image.jpg';
-
-function ColorSchemeToggle() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  return (
-    <Button
-      variant="white"
-      size="sm"
-      style={{ position: 'absolute', top: rem(16), right: rem(16), zIndex: 300 }}
-      onClick={() => toggleColorScheme()}
-      leftSection={colorScheme === 'dark' ? <IconSun size={16} /> : <IconMoon size={16} />}
-    >
-      {colorScheme === 'dark' ? 'Light' : 'Dark'}
-    </Button>
-  );
-}
+import { ColorSchemeToggle } from '../../components/ColorSchemeToggle';
+import { useHeroImage } from '../../components/useHeroImage';
 
 export function SplashPage() {
   const navigate = useNavigate();
+  const heroImage = useHeroImage();
 
   return (
     <Box style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
@@ -45,7 +31,7 @@ export function SplashPage() {
           zIndex={1}
         />
 
-        <ColorSchemeToggle />
+        <ColorSchemeToggle variant="white" floating />
 
         <Center style={{ height: '100%', position: 'relative', zIndex: 2 }}>
           <Stack align="center" gap="xl" maw={720} px="xl">
