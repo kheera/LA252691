@@ -26,3 +26,8 @@ export function formatAbsoluteDate(iso: string): string {
     hour: '2-digit', minute: '2-digit',
   });
 }
+
+export function formatDuration(seconds: number): string {
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+}

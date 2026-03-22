@@ -4,7 +4,7 @@ export interface Service {
   status: string | null;
   uptime: number | null;
   lastDeployedAt: string | null;
-  healthTrend: string | null;
+  healthTrend?: string | null;
 }
 
 export interface Deployment {

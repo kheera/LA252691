@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
-import type { Deployment } from '../models/index.js';
-import { mockDeployments } from '../utils/mockData.js';
+import type { Deployment, Metric } from '../models/index.js';
+import { mockDeployments, mockMetrics } from '../utils/mockData.js';
 
 /**
  * Batch function for DataLoader to load deployments by service IDs. It takes an array of service IDs and
@@ -17,4 +17,17 @@ function batchDeploymentsByServiceId(serviceIds: readonly string[]): Promise<Dep
 
 export function createDeploymentLoader(): DataLoader<string, Deployment[]> {
   return new DataLoader(batchDeploymentsByServiceId);
+}
+
+/**
+ * Batch function for DataLoader to load metrics by service IDs.
+ */
+function batchMetricsByServiceId(serviceIds: readonly string[]): Promise<Metric[][]> {
+  return Promise.resolve(
+    serviceIds.map((id) => mockMetrics.filter((m) => m.serviceId === id)),
+  );
+}
+
+export function createMetricLoader(): DataLoader<string, Metric[]> {
+  return new DataLoader(batchMetricsByServiceId);
 }

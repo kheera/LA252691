@@ -28,9 +28,24 @@ function metrics(_: unknown, { serviceId, last }: { serviceId: string; last?: nu
 
 /**
  * Uses DataLoader to batch and cache deployments by service ID, avoiding N+1 query issues when fetching deployments for multiple services in the Service resolver.
+ * Assumes deployments are stored in ascending chronological order (oldest first), so slice(-last) returns
+ * the most recent `last` entries. With a real DB this would be: ORDER BY timestamp DESC LIMIT $last.
  */
-function batchDeploymentsLoader(parent: { id: string }, _: unknown, context: AppContext): Promise<Deployment[]> {
-  return context.deploymentLoader.load(parent.id);
+function batchDeploymentsLoader(parent: { id: string }, { last }: { last?: number }, context: AppContext): Promise<Deployment[]> {
+  return context.deploymentLoader.load(parent.id).then((all) => (last ? all.slice(-last) : all));
+}
+
+/**
+ * Uses DataLoader to batch and cache metrics by service ID, with optional `last` argument to limit results.
+ * Assumes metrics are stored in ascending chronological order (oldest first), so slice(-last) returns the
+ * most recent `last` entries.
+ */
+function batchMetricsLoader(
+  parent: { id: string },
+  { last }: { last?: number },
+  context: AppContext,
+): Promise<Metric[]> {
+  return context.metricLoader.load(parent.id).then((all) => (last ? all.slice(-last) : all));
 }
 
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment | null {
@@ -46,5 +61,5 @@ function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Se
 export const resolvers = {
   Query: { services, service, deployments, metrics },
   Mutation: { triggerDeployment, acknowledgeOutage },
-  Service: { deployments: batchDeploymentsLoader },
+  Service: { deployments: batchDeploymentsLoader, metrics: batchMetricsLoader },
 };

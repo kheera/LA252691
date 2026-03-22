@@ -1,6 +1,7 @@
 import { Badge, Card, ScrollArea, Stack, Table, Text } from '@mantine/core';
 import { type GqlDeployment } from '../../../graphql/services';
 import { RelativeDate } from '../../../components/RelativeDate';
+import { formatDuration } from '../../../utils/dateFormat';
 
 function deployStatusColor(status: string | null): string {
   if (status === 'SUCCESS') return 'green.7';
@@ -14,11 +15,6 @@ function deployStatusLabel(status: string | null): string {
   if (status === 'FAILED') return 'Failed';
   if (status === 'ROLLING_BACK') return 'Rolling back';
   return 'Unknown';
-}
-
-function formatDuration(seconds: number): string {
-  if (seconds < 60) return `${seconds}s`;
-  return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
 }
 
 interface DeploymentHistoryTableProps {

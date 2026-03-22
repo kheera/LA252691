@@ -6,7 +6,18 @@ import { StatusCounts } from '../../components/StatusSummaryBar';
 import { GET_SERVICES } from '../../graphql/services';
 import { type ServiceSummary } from '../../components/ServiceCard/types';
 
-const SKELETON_COUNT = 6;
+function OverviewSimpleGrid({ children }: { children: React.ReactNode }) {
+  return <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}>{children}</SimpleGrid>;
+}
+
+function ServiceGridSkeleton() {
+  const count = 6;
+  return (
+    <OverviewSimpleGrid>
+      {Array.from({ length: count }).map((_, i) => <ServiceCard key={i} loading />)}
+    </OverviewSimpleGrid>
+  );
+}
 
 export function OverviewPage() {
   const { data, loading, error } = useQuery<{ services: ServiceSummary[] }>(GET_SERVICES);
@@ -19,17 +30,11 @@ export function OverviewPage() {
       </Group>
 
       {error && <Text c="red">Failed to load services: {error.message}</Text>}
-
-      {(loading || data) && (
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}>
-          {loading
-            ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-                <ServiceCard key={i} loading />
-              ))
-            : data!.services.map((svc) => (
-                <ServiceCard key={svc.id} svc={svc} />
-              ))}
-        </SimpleGrid>
+      {loading && <ServiceGridSkeleton />}
+      {data && (
+        <OverviewSimpleGrid>
+          {data.services.map((svc) => <ServiceCard key={svc.id} svc={svc} />)}
+        </OverviewSimpleGrid>
       )}
     </DashboardLayout>
   );

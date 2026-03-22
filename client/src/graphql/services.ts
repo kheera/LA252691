@@ -38,36 +38,36 @@ export interface ServiceDetailResult {
     status: string | null;
     uptime: number | null;
     lastDeployedAt: string | null;
+    deployments: GqlDeployment[];
+    metrics: GqlMetric[];
   };
-  deployments: GqlDeployment[];
-  metrics: GqlMetric[];
 }
 
 export const GET_SERVICE_DETAIL = gql`
-  query GetServiceDetail($id: ID!, $serviceId: ID!) {
+  query GetServiceDetail($id: ID!) {
     service(id: $id) {
       id
       name
       status
       uptime
       lastDeployedAt
-    }
-    deployments(serviceId: $serviceId) {
-      id
-      serviceId
-      version
-      deployedBy
-      timestamp
-      status
-      durationSeconds
-    }
-    metrics(serviceId: $serviceId, last: 20) {
-      id
-      timestamp
-      cpuPercent
-      memoryMb
-      requestsPerSecond
-      errorRate
+      deployments(last: 20) {
+        id
+        serviceId
+        version
+        deployedBy
+        timestamp
+        status
+        durationSeconds
+      }
+      metrics(last: 20) {
+        id
+        timestamp
+        cpuPercent
+        memoryMb
+        requestsPerSecond
+        errorRate
+      }
     }
   }
 `;

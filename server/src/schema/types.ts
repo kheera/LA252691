@@ -6,7 +6,8 @@ export const typeDefs = `#graphql
     uptime: Float # percentage with one decimal point (nullable, may not yet be deployed)
     lastDeployedAt: String # ISO 8601 timestamp (nullable, may not yet be deployed)
     healthTrend: String # @todo Not yet sure what this will be
-    deployments: [Deployment!]!
+    deployments(last: Int): [Deployment!]!
+    metrics(last: Int): [Metric!]!
   }
 
   type Deployment {
