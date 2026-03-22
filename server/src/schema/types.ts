@@ -1,6 +1,7 @@
 export const typeDefs = `#graphql
   type Service {
     id: ID!
+    name: String!
     status: String # nullable: HEALTHY | DEGRADED | DOWN
     uptime: Float # percentage with one decimal point (nullable, may not yet be deployed)
     lastDeployedAt: String # ISO 8601 timestamp (nullable, may not yet be deployed)
