@@ -8,7 +8,7 @@ export function ThemeProfileSwitcher() {
   const { profileKey, setProfileKey } = useThemeProfile();
 
   return (
-    <Group gap={6} wrap="wrap">
+    <Group gap="xs" wrap="wrap">
       {PROFILE_KEYS.map((key) => {
         const profile = COLOR_PROFILES[key];
         const isActive = key === profileKey;

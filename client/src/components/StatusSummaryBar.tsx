@@ -12,7 +12,7 @@ interface ChipProps {
 
 function StatusChip({ count, label, color, icon }: ChipProps) {
   return (
-    <Group gap={6} wrap="nowrap">
+    <Group gap="xs" wrap="nowrap">
       <ThemeIcon color={color} variant="filled" autoContrast size={20} radius="xl">
         {icon}
       </ThemeIcon>

@@ -70,11 +70,12 @@ export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
       <Box
         visibleFrom="lg"
         bg={SHELL_SURFACE}
+        px="sm"
+        py="md"
         style={{
           width: 200,
           flexShrink: 0,
           ...sidebarBorderStyle,
-          padding: '16px 12px',
           overflow: 'auto',
         }}
       >
@@ -86,6 +87,8 @@ export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
         <Box
           hiddenFrom="lg"
           bg={SHELL_SURFACE}
+          px="sm"
+          py="md"
           style={{
             position: 'absolute',
             top: 56,
@@ -94,7 +97,6 @@ export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
             width: 220,
             zIndex: 200,
             ...sidebarBorderStyle,
-            padding: '16px 12px',
             overflow: 'auto',
           }}
         >
