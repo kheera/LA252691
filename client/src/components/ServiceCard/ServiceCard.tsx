@@ -1,11 +1,12 @@
 import React from 'react';
-import { Anchor, Card, Divider, Group, Skeleton, Stack } from '@mantine/core';
+import { Anchor, Card, Divider, Group, Stack } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { IconArrowRight } from '@tabler/icons-react';
 import { type ServiceSummary } from './types';
 import { NameStatusRow } from './NameStatusRow';
 import { UptimeBar } from './UptimeBar';
 import { LastDeployedRow } from './LastDeployedRow';
+import { ServiceCardSkeleton } from './ServiceCardSkeleton';
 
 export type { ServiceSummary };
 
@@ -38,16 +39,19 @@ function alertPulseColor(status: string | null): string | undefined {
 }
 
 export function ServiceCard({ svc, loading = false }: { svc?: ServiceSummary; loading?: boolean }) {
-  const isAlert = !loading && (svc?.status === 'DEGRADED' || svc?.status === 'DOWN');
+  if (loading) return <ServiceCardSkeleton />;
+
+  const { name, status, uptime, lastDeployedAt, id } = svc!;
+  const isAlert = status === 'DEGRADED' || status === 'DOWN';
 
   if (isAlert) injectPulseKeyframes();
 
-  const borderColor = alertBorderColor(svc?.status ?? null);
-  const pulseColor = alertPulseColor(svc?.status ?? null);
+  const borderColor = alertBorderColor(status);
+  const pulseColor = alertPulseColor(status);
 
   const style: React.CSSProperties = {
-    ...(!loading && borderColor ? { borderColor, borderWidth: 2 } : {}),
-    ...(!loading && pulseColor ? {
+    ...(borderColor ? { borderColor, borderWidth: 2 } : {}),
+    ...(pulseColor ? {
       '--pulse-color': pulseColor,
       animation: 'alert-pulse 5s ease-in-out infinite',
     } as React.CSSProperties : {}),
@@ -56,23 +60,19 @@ export function ServiceCard({ svc, loading = false }: { svc?: ServiceSummary; lo
   return (
     <Card withBorder radius="md" p="md" style={style}>
       <Stack gap="sm">
-        <NameStatusRow name={svc?.name ?? ''} status={svc?.status ?? null} loading={loading} />
-        <UptimeBar uptime={svc?.uptime ?? null} status={svc?.status ?? null} loading={loading} />
-        <LastDeployedRow lastDeployedAt={svc?.lastDeployedAt ?? null} loading={loading} />
+        <NameStatusRow name={name} status={status} />
+        <UptimeBar uptime={uptime} status={status} />
+        <LastDeployedRow lastDeployedAt={lastDeployedAt} />
         <Divider />
         <Group justify="flex-end">
-          {loading
-            ? <Skeleton height={12} width={70} radius="sm" />
-            : (
-              <Anchor
-                component={Link}
-                to={`/service/${svc?.id ?? ''}`}
-                size="xs"
-                style={{ display: 'flex', alignItems: 'center', gap: 4 }}
-              >
-                View details <IconArrowRight size={12} />
-              </Anchor>
-            )}
+          <Anchor
+            component={Link}
+            to={`/service/${id}`}
+            size="xs"
+            style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+          >
+            View details <IconArrowRight size={12} />
+          </Anchor>
         </Group>
       </Stack>
     </Card>
