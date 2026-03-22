@@ -21,7 +21,7 @@ export function DashboardHeroPanel({ onBack }: DashboardHeroPanelProps) {
       w={{ xxxl: '28%' }}
       style={{ flexShrink: 0, position: 'relative', overflow: 'hidden' }}
     >
-      <HeroBrandingPanel src={heroImage} compact>
+      <HeroBrandingPanel src={heroImage} compact backgroundPosition="25% center">
         <Button
           variant="subtle"
           color="gray.4"

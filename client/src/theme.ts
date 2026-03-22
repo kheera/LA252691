@@ -99,17 +99,27 @@ export interface ColorProfile {
   lightBody: string;
   /** Light-mode shell border */
   lightBorder: string;
+  /**
+   * Hero image overlay gradient — dark mode.
+   * Black anchor at 0% → brand-tinted deep shade at 100%.
+   */
+  overlayDark: string;
+  /**
+   * Hero image overlay gradient — light mode.
+   * Lighter opacities, same brand tint direction.
+   */
+  overlayLight: string;
 }
 
 export const COLOR_PROFILES = {
-  ocean:    { label: 'Ocean',    swatch: '#228be6', brand: brandOcean,    dark: darkNavy,     lightBody: '#f0f5fb', lightBorder: '#dde4ed' },
-  forest:   { label: 'Forest',   swatch: '#40c057', brand: brandForest,   dark: darkForest,   lightBody: '#f0faf2', lightBorder: '#c8e8d0' },
-  slate:    { label: 'Slate',    swatch: '#1e4678', brand: brandSlate,    dark: darkSlate,    lightBody: '#f0f3f8', lightBorder: '#ccd6e8' },
-  crimson:  { label: 'Crimson',  swatch: '#e03150', brand: brandCrimson,  dark: darkWine,     lightBody: '#fff5f7', lightBorder: '#ffd0d8' },
-  gold:     { label: 'Gold',     swatch: '#e09800', brand: brandGold,     dark: darkGold,     lightBody: '#fdf8ec', lightBorder: '#f0dfa0' },
-  amethyst: { label: 'Amethyst', swatch: '#9a18e8', brand: brandAmethyst, dark: darkPlum,     lightBody: '#faf5ff', lightBorder: '#e8d0f8' },
-  steel:    { label: 'Steel',    swatch: '#3060c0', brand: brandSteel,    dark: darkObsidian, lightBody: '#f2f4fa', lightBorder: '#ccd4e8' },
-  copper:   { label: 'Copper',   swatch: '#d44e00', brand: brandCopper,   dark: darkCopper,   lightBody: '#fff8f4', lightBorder: '#f0d8c8' },
+  ocean:    { label: 'Ocean',    swatch: '#228be6', brand: brandOcean,    dark: darkNavy,     lightBody: '#f0f5fb', lightBorder: '#dde4ed', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,30,80,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,20,60,0.45)  100%)' },
+  forest:   { label: 'Forest',   swatch: '#40c057', brand: brandForest,   dark: darkForest,   lightBody: '#f0faf2', lightBorder: '#c8e8d0', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,50,20,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,38,15,0.45)  100%)' },
+  slate:    { label: 'Slate',    swatch: '#1e4678', brand: brandSlate,    dark: darkSlate,    lightBody: '#f0f3f8', lightBorder: '#ccd6e8', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(15,25,50,0.72) 100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(10,18,40,0.45) 100%)' },
+  crimson:  { label: 'Crimson',  swatch: '#e03150', brand: brandCrimson,  dark: darkWine,     lightBody: '#fff5f7', lightBorder: '#ffd0d8', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(70,5,20,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(55,4,15,0.45)  100%)' },
+  gold:     { label: 'Gold',     swatch: '#e09800', brand: brandGold,     dark: darkGold,     lightBody: '#fdf8ec', lightBorder: '#f0dfa0', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(55,28,0,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(45,22,0,0.45)  100%)' },
+  amethyst: { label: 'Amethyst', swatch: '#9a18e8', brand: brandAmethyst, dark: darkPlum,     lightBody: '#faf5ff', lightBorder: '#e8d0f8', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(35,5,65,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(25,4,50,0.45)  100%)' },
+  steel:    { label: 'Steel',    swatch: '#3060c0', brand: brandSteel,    dark: darkObsidian, lightBody: '#f2f4fa', lightBorder: '#ccd4e8', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(5,18,55,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(4,14,45,0.45)  100%)' },
+  copper:   { label: 'Copper',   swatch: '#d44e00', brand: brandCopper,   dark: darkCopper,   lightBody: '#fff8f4', lightBorder: '#f0d8c8', overlayDark: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(65,20,0,0.72)  100%)', overlayLight: 'linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(50,15,0,0.45)  100%)' },
 } as const satisfies Record<string, ColorProfile>;
 
 export type ColorProfileKey = keyof typeof COLOR_PROFILES;
@@ -187,12 +197,14 @@ export function buildCssVariablesResolver(profileKey: ColorProfileKey): CSSVaria
     variables: {
       '--shell-surface': 'var(--mantine-color-default)',
       '--shell-border':  'var(--mantine-color-default-border)',
-      '--hero-overlay':  'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,30,80,0.72) 100%)',
     },
     light: {
-      '--shell-border': p.lightBorder,
+      '--shell-border':  p.lightBorder,
+      '--hero-overlay':  p.overlayLight,
     },
-    dark: {},
+    dark: {
+      '--hero-overlay':  p.overlayDark,
+    },
   });
 }
 

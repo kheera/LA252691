@@ -13,16 +13,22 @@ interface HeroBrandingPanelProps {
   compact?: boolean;
   /** Max width of the inner content stack; e.g. 720 for the full-page hero */
   maw?: number;
+  /**
+   * CSS background-position for the hero image.
+   * Defaults to 'center'. Pass '25% center' when the panel is a narrow left column
+   * beside the dashboard so the subject of the image stays visible.
+   */
+  backgroundPosition?: string;
   /** Content rendered below the branding block (description + CTAs, or back button) */
   children?: ReactNode;
 }
 
-export function HeroBrandingPanel({ src, compact = false, maw, children }: HeroBrandingPanelProps) {
+export function HeroBrandingPanel({ src, compact = false, maw, backgroundPosition = 'center', children }: HeroBrandingPanelProps) {
   return (
     <HeroPanelProvider compact={compact}>
     <BackgroundImage
       src={src}
-      style={{ height: '100%', backgroundPosition: 'center', backgroundSize: 'cover' }}
+      style={{ height: '100%', backgroundPosition, backgroundSize: 'cover' }}
     >
       <Overlay
         gradient={HERO_OVERLAY}
