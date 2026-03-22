@@ -1,40 +1,320 @@
 {
   "services": [
-    { "id": "s1", "name": "api-gateway",       "status": "HEALTHY",  "uptime": 99.9, "lastDeployedAt": "2026-03-20T10:00:00Z" },
-    { "id": "s2", "name": "auth-service",      "status": "DEGRADED", "uptime": 95.2, "lastDeployedAt": "2026-03-19T09:15:00Z" },
-    { "id": "s3", "name": "reporting-service", "status": "HEALTHY",  "uptime": 98.7, "lastDeployedAt": "2026-03-17T08:00:00Z" },
-    { "id": "s4", "name": "scheduler",         "status": "DOWN",     "uptime": 71.3, "lastDeployedAt": "2026-03-21T06:45:00Z" },
-    { "id": "s5", "name": "intake-portal",     "status": null,       "uptime": null,  "lastDeployedAt": null                   }
+    {
+      "id": "s1",
+      "name": "api-gateway",
+      "status": "HEALTHY",
+      "uptime": 99.9,
+      "lastDeployedAt": "2026-03-20T10:00:00Z"
+    },
+    {
+      "id": "s2",
+      "name": "auth-service",
+      "status": "DEGRADED",
+      "uptime": 95.2,
+      "lastDeployedAt": "2026-03-19T09:15:00Z"
+    },
+    {
+      "id": "s3",
+      "name": "reporting-service",
+      "status": "HEALTHY",
+      "uptime": 98.7,
+      "lastDeployedAt": "2026-03-17T08:00:00Z"
+    },
+    {
+      "id": "s4",
+      "name": "scheduler",
+      "status": "DOWN",
+      "uptime": 71.3,
+      "lastDeployedAt": "2026-03-22T22:50:37.643Z"
+    },
+    {
+      "id": "s5",
+      "name": "intake-portal",
+      "status": null,
+      "uptime": null,
+      "lastDeployedAt": null
+    }
   ],
   "deployments": [
-    { "id": "d1",  "serviceId": "s1", "version": "1.2.0", "deployedBy": "alice",   "timestamp": "2026-03-20T10:00:00Z", "status": "SUCCESS",      "durationSeconds": 42  },
-    { "id": "d2",  "serviceId": "s1", "version": "1.1.0", "deployedBy": "bob",     "timestamp": "2026-03-18T14:30:00Z", "status": "FAILED",       "durationSeconds": 15  },
-    { "id": "d3",  "serviceId": "s1", "version": "1.0.9", "deployedBy": "carol",   "timestamp": "2026-03-15T11:00:00Z", "status": "SUCCESS",      "durationSeconds": 38  },
-    { "id": "d4",  "serviceId": "s1", "version": "1.0.8", "deployedBy": "alice",   "timestamp": "2026-03-10T09:20:00Z", "status": "SUCCESS",      "durationSeconds": 51  },
-    { "id": "d5",  "serviceId": "s2", "version": "2.0.1", "deployedBy": "alice",   "timestamp": "2026-03-19T09:15:00Z", "status": "SUCCESS",      "durationSeconds": 67  },
-    { "id": "d6",  "serviceId": "s2", "version": "2.0.0", "deployedBy": "dan",     "timestamp": "2026-03-14T16:00:00Z", "status": "ROLLING_BACK", "durationSeconds": 120 },
-    { "id": "d7",  "serviceId": "s2", "version": "1.9.5", "deployedBy": "bob",     "timestamp": "2026-03-12T13:45:00Z", "status": "SUCCESS",      "durationSeconds": 58  },
-    { "id": "d8",  "serviceId": "s2", "version": "1.9.4", "deployedBy": "carol",   "timestamp": "2026-03-08T10:30:00Z", "status": "FAILED",       "durationSeconds": 22  },
-    { "id": "d9",  "serviceId": "s2", "version": "1.9.3", "deployedBy": "alice",   "timestamp": "2026-03-05T08:00:00Z", "status": "SUCCESS",      "durationSeconds": 61  },
-    { "id": "d10", "serviceId": "s3", "version": "3.1.0", "deployedBy": "dan",     "timestamp": "2026-03-17T08:00:00Z", "status": "SUCCESS",      "durationSeconds": 44  },
-    { "id": "d11", "serviceId": "s3", "version": "3.0.2", "deployedBy": "alice",   "timestamp": "2026-03-13T12:00:00Z", "status": "SUCCESS",      "durationSeconds": 39  },
-    { "id": "d12", "serviceId": "s3", "version": "3.0.1", "deployedBy": "bob",     "timestamp": "2026-03-09T15:30:00Z", "status": "FAILED",       "durationSeconds": 18  },
-    { "id": "d13", "serviceId": "s3", "version": "3.0.0", "deployedBy": "carol",   "timestamp": "2026-03-04T11:15:00Z", "status": "SUCCESS",      "durationSeconds": 72  },
-    { "id": "d14", "serviceId": "s4", "version": "0.9.1-beta1", "deployedBy": "dan",     "timestamp": "2026-03-21T06:45:00Z", "status": "FAILED",       "durationSeconds": 9   },
-    { "id": "d15", "serviceId": "s4", "version": "0.9.0", "deployedBy": "alice",   "timestamp": "2026-03-21T05:00:00Z", "status": "ROLLING_BACK", "durationSeconds": 300 },
-    { "id": "d16", "serviceId": "s4", "version": "0.8.5", "deployedBy": "bob",     "timestamp": "2026-03-16T14:00:00Z", "status": "SUCCESS",      "durationSeconds": 55  },
-    { "id": "d17", "serviceId": "s4", "version": "0.8.4", "deployedBy": "carol",   "timestamp": "2026-03-11T10:00:00Z", "status": "SUCCESS",      "durationSeconds": 48  },
-    { "id": "d18", "serviceId": "s4", "version": "0.8.3", "deployedBy": "dan",     "timestamp": "2026-03-06T09:00:00Z", "status": "FAILED",       "durationSeconds": 11  },
-    { "id": "d19", "serviceId": "s4", "version": "0.8.2", "deployedBy": "alice",   "timestamp": "2026-03-02T08:30:00Z", "status": "SUCCESS",      "durationSeconds": 43  },
-    { "id": "d20", "serviceId": "s4", "version": "0.8.1", "deployedBy": "bob",     "timestamp": "2026-02-28T16:00:00Z", "status": "SUCCESS",      "durationSeconds": 37  }
+    {
+      "id": "86b12773-8dc3-4705-aadf-94ee39fcc14b",
+      "serviceId": "s4",
+      "version": "v1.0.1",
+      "deployedBy": "manual",
+      "timestamp": "2026-03-22T22:50:37.643Z",
+      "status": "SUCCESS",
+      "durationSeconds": 0
+    },
+    {
+      "id": "f6e2130a-aeaf-4622-a4dd-b8759e403ebb",
+      "serviceId": "s4",
+      "version": "v1.0.0",
+      "deployedBy": "manual",
+      "timestamp": "2026-03-22T22:49:44.215Z",
+      "status": "SUCCESS",
+      "durationSeconds": 0
+    },
+    {
+      "id": "ded72544-d586-4453-98fe-381c30d1eb68",
+      "serviceId": "s4",
+      "version": "v0.9.1",
+      "deployedBy": "manual",
+      "timestamp": "2026-03-22T22:49:20.914Z",
+      "status": "SUCCESS",
+      "durationSeconds": 0
+    },
+    {
+      "id": "d1",
+      "serviceId": "s1",
+      "version": "1.2.0",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-20T10:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 42
+    },
+    {
+      "id": "d2",
+      "serviceId": "s1",
+      "version": "1.1.0",
+      "deployedBy": "bob",
+      "timestamp": "2026-03-18T14:30:00Z",
+      "status": "FAILED",
+      "durationSeconds": 15
+    },
+    {
+      "id": "d3",
+      "serviceId": "s1",
+      "version": "1.0.9",
+      "deployedBy": "carol",
+      "timestamp": "2026-03-15T11:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 38
+    },
+    {
+      "id": "d4",
+      "serviceId": "s1",
+      "version": "1.0.8",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-10T09:20:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 51
+    },
+    {
+      "id": "d5",
+      "serviceId": "s2",
+      "version": "2.0.1",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-19T09:15:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 67
+    },
+    {
+      "id": "d6",
+      "serviceId": "s2",
+      "version": "2.0.0",
+      "deployedBy": "dan",
+      "timestamp": "2026-03-14T16:00:00Z",
+      "status": "ROLLING_BACK",
+      "durationSeconds": 120
+    },
+    {
+      "id": "d7",
+      "serviceId": "s2",
+      "version": "1.9.5",
+      "deployedBy": "bob",
+      "timestamp": "2026-03-12T13:45:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 58
+    },
+    {
+      "id": "d8",
+      "serviceId": "s2",
+      "version": "1.9.4",
+      "deployedBy": "carol",
+      "timestamp": "2026-03-08T10:30:00Z",
+      "status": "FAILED",
+      "durationSeconds": 22
+    },
+    {
+      "id": "d9",
+      "serviceId": "s2",
+      "version": "1.9.3",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-05T08:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 61
+    },
+    {
+      "id": "d10",
+      "serviceId": "s3",
+      "version": "3.1.0",
+      "deployedBy": "dan",
+      "timestamp": "2026-03-17T08:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 44
+    },
+    {
+      "id": "d11",
+      "serviceId": "s3",
+      "version": "3.0.2",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-13T12:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 39
+    },
+    {
+      "id": "d12",
+      "serviceId": "s3",
+      "version": "3.0.1",
+      "deployedBy": "bob",
+      "timestamp": "2026-03-09T15:30:00Z",
+      "status": "FAILED",
+      "durationSeconds": 18
+    },
+    {
+      "id": "d13",
+      "serviceId": "s3",
+      "version": "3.0.0",
+      "deployedBy": "carol",
+      "timestamp": "2026-03-04T11:15:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 72
+    },
+    {
+      "id": "d14",
+      "serviceId": "s4",
+      "version": "0.9.1-beta1",
+      "deployedBy": "dan",
+      "timestamp": "2026-03-21T06:45:00Z",
+      "status": "FAILED",
+      "durationSeconds": 9
+    },
+    {
+      "id": "d15",
+      "serviceId": "s4",
+      "version": "0.9.0",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-21T05:00:00Z",
+      "status": "ROLLING_BACK",
+      "durationSeconds": 300
+    },
+    {
+      "id": "d16",
+      "serviceId": "s4",
+      "version": "0.8.5",
+      "deployedBy": "bob",
+      "timestamp": "2026-03-16T14:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 55
+    },
+    {
+      "id": "d17",
+      "serviceId": "s4",
+      "version": "0.8.4",
+      "deployedBy": "carol",
+      "timestamp": "2026-03-11T10:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 48
+    },
+    {
+      "id": "d18",
+      "serviceId": "s4",
+      "version": "0.8.3",
+      "deployedBy": "dan",
+      "timestamp": "2026-03-06T09:00:00Z",
+      "status": "FAILED",
+      "durationSeconds": 11
+    },
+    {
+      "id": "d19",
+      "serviceId": "s4",
+      "version": "0.8.2",
+      "deployedBy": "alice",
+      "timestamp": "2026-03-02T08:30:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 43
+    },
+    {
+      "id": "d20",
+      "serviceId": "s4",
+      "version": "0.8.1",
+      "deployedBy": "bob",
+      "timestamp": "2026-02-28T16:00:00Z",
+      "status": "SUCCESS",
+      "durationSeconds": 37
+    }
   ],
   "metrics": [
-    { "id": "m1", "serviceId": "s1", "timestamp": "2026-03-21T12:00:00Z", "createdAt": "2026-03-21T12:00:00Z", "cpuPercent": 23.4, "memoryMb": 512.0,  "requestsPerSecond": 140.2, "errorRate": 0.5 },
-    { "id": "m2", "serviceId": "s1", "timestamp": "2026-03-21T11:00:00Z", "createdAt": "2026-03-21T11:00:00Z", "cpuPercent": 31.1, "memoryMb": 528.5,  "requestsPerSecond": 155.8, "errorRate": 1.2 },
-    { "id": "m3", "serviceId": "s2", "timestamp": "2026-03-21T12:00:00Z", "createdAt": "2026-03-21T12:00:00Z", "cpuPercent": 10.0, "memoryMb": 256.0,  "requestsPerSecond": 42.5,  "errorRate": 0.0 },
-    { "id": "m4", "serviceId": "s2", "timestamp": "2026-03-21T11:00:00Z", "createdAt": "2026-03-21T11:00:00Z", "cpuPercent": 88.7, "memoryMb": 980.0,  "requestsPerSecond": 38.1,  "errorRate": 12.4 },
-    { "id": "m5", "serviceId": "s3", "timestamp": "2026-03-21T12:00:00Z", "createdAt": "2026-03-21T12:00:00Z", "cpuPercent": 18.2, "memoryMb": 340.0,  "requestsPerSecond": 95.6,  "errorRate": 0.1 },
-    { "id": "m6", "serviceId": "s3", "timestamp": "2026-03-21T11:00:00Z", "createdAt": "2026-03-21T11:00:00Z", "cpuPercent": 21.5, "memoryMb": 355.2,  "requestsPerSecond": 102.3, "errorRate": 0.3 },
-    { "id": "m7", "serviceId": "s4", "timestamp": "2026-03-21T12:00:00Z", "createdAt": "2026-03-21T12:00:00Z", "cpuPercent": null, "memoryMb": null,   "requestsPerSecond": null,  "errorRate": null }
+    {
+      "id": "m1",
+      "serviceId": "s1",
+      "timestamp": "2026-03-21T12:00:00Z",
+      "createdAt": "2026-03-21T12:00:00Z",
+      "cpuPercent": 23.4,
+      "memoryMb": 512,
+      "requestsPerSecond": 140.2,
+      "errorRate": 0.5
+    },
+    {
+      "id": "m2",
+      "serviceId": "s1",
+      "timestamp": "2026-03-21T11:00:00Z",
+      "createdAt": "2026-03-21T11:00:00Z",
+      "cpuPercent": 31.1,
+      "memoryMb": 528.5,
+      "requestsPerSecond": 155.8,
+      "errorRate": 1.2
+    },
+    {
+      "id": "m3",
+      "serviceId": "s2",
+      "timestamp": "2026-03-21T12:00:00Z",
+      "createdAt": "2026-03-21T12:00:00Z",
+      "cpuPercent": 10,
+      "memoryMb": 256,
+      "requestsPerSecond": 42.5,
+      "errorRate": 0
+    },
+    {
+      "id": "m4",
+      "serviceId": "s2",
+      "timestamp": "2026-03-21T11:00:00Z",
+      "createdAt": "2026-03-21T11:00:00Z",
+      "cpuPercent": 88.7,
+      "memoryMb": 980,
+      "requestsPerSecond": 38.1,
+      "errorRate": 12.4
+    },
+    {
+      "id": "m5",
+      "serviceId": "s3",
+      "timestamp": "2026-03-21T12:00:00Z",
+      "createdAt": "2026-03-21T12:00:00Z",
+      "cpuPercent": 18.2,
+      "memoryMb": 340,
+      "requestsPerSecond": 95.6,
+      "errorRate": 0.1
+    },
+    {
+      "id": "m6",
+      "serviceId": "s3",
+      "timestamp": "2026-03-21T11:00:00Z",
+      "createdAt": "2026-03-21T11:00:00Z",
+      "cpuPercent": 21.5,
+      "memoryMb": 355.2,
+      "requestsPerSecond": 102.3,
+      "errorRate": 0.3
+    },
+    {
+      "id": "m7",
+      "serviceId": "s4",
+      "timestamp": "2026-03-21T12:00:00Z",
+      "createdAt": "2026-03-21T12:00:00Z",
+      "cpuPercent": null,
+      "memoryMb": null,
+      "requestsPerSecond": null,
+      "errorRate": null
+    }
   ]
 }

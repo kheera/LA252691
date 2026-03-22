@@ -71,3 +71,21 @@ export const GET_SERVICE_DETAIL = gql`
     }
   }
 `;
+
+export interface TriggerDeploymentResult {
+  triggerDeployment: GqlDeployment;
+}
+
+export const TRIGGER_DEPLOYMENT = gql`
+  mutation TriggerDeployment($serviceId: ID!, $version: String!) {
+    triggerDeployment(serviceId: $serviceId, version: $version) {
+      id
+      serviceId
+      version
+      deployedBy
+      timestamp
+      status
+      durationSeconds
+    }
+  }
+`;

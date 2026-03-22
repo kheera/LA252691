@@ -1,4 +1,5 @@
-import { mockServices, mockDeployments, mockMetrics } from '../utils/mockData.js';
+import { randomUUID } from 'node:crypto';
+import { mockServices, mockDeployments, mockMetrics, persistFixtures } from '../utils/mockData.js';
 import type { Service, Deployment, Metric } from '../models/index.js';
 import type { AppContext } from '../context.js';
 
@@ -49,8 +50,25 @@ function batchMetricsLoader(
 }
 
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment | null {
-  console.log('triggerDeployment', { serviceId, version });
-  return null;
+  const service = mockServices.find((s) => s.id === serviceId);
+  if (!service) return null;
+
+  const now = new Date().toISOString();
+  const newDeployment: Deployment = {
+    id: randomUUID(),
+    serviceId,
+    version,
+    deployedBy: 'manual',
+    timestamp: now,
+    status: 'SUCCESS',
+    durationSeconds: 0,
+  };
+
+  mockDeployments.unshift(newDeployment); // newest-first, matching fixture ordering
+  service.lastDeployedAt = now;
+  persistFixtures();
+
+  return newDeployment;
 }
 
 function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Service | null {

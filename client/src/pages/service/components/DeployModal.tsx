@@ -1,6 +1,13 @@
 import { useState } from 'react';
+import { useMutation } from '@apollo/client/react';
 import { Button, Checkbox, Group, Modal, SegmentedControl, Stack, Text, TextInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { IconRocket } from '@tabler/icons-react';
+import {
+  GET_SERVICE_DETAIL,
+  TRIGGER_DEPLOYMENT,
+  type TriggerDeploymentResult,
+} from '../../../graphql/services';
 
 type BumpType = 'patch' | 'minor' | 'major';
 
@@ -50,15 +57,35 @@ function bumpVersion(current: string, { bumpType, isBeta }: BumpOptions): string
 interface DeployModalProps {
   opened: boolean;
   onClose: () => void;
+  serviceId: string;
   serviceName: string;
   latestVersion: string;
 }
 
-export function DeployModal({ opened, onClose, serviceName, latestVersion }: DeployModalProps) {
+export function DeployModal({ opened, onClose, serviceId, serviceName, latestVersion }: DeployModalProps) {
   const isBetaBase = /[-.]beta\d*$/i.test(latestVersion);
   const [bumpType, setBumpType] = useState<BumpType>('patch');
   const [isBeta, setIsBeta] = useState(isBetaBase);
   const [version, setVersion] = useState(() => bumpVersion(latestVersion, { bumpType: 'patch', isBeta: isBetaBase }));
+
+  const [triggerDeployment, { loading }] = useMutation<TriggerDeploymentResult>(TRIGGER_DEPLOYMENT, {
+    refetchQueries: [{ query: GET_SERVICE_DETAIL, variables: { id: serviceId } }],
+    onCompleted: (data) => {
+      notifications.show({
+        title: 'Deployment triggered',
+        message: `${serviceName} ${data.triggerDeployment.version} is being rolled out`,
+        color: 'green',
+      });
+      onClose();
+    },
+    onError: (err) => {
+      notifications.show({
+        title: 'Deployment failed',
+        message: err.message,
+        color: 'red',
+      });
+    },
+  });
 
   const recompute = (nextBump: BumpType, nextBeta: boolean) => {
     setVersion(bumpVersion(latestVersion, { bumpType: nextBump, isBeta: nextBeta }));
@@ -76,12 +103,11 @@ export function DeployModal({ opened, onClose, serviceName, latestVersion }: Dep
   };
 
   const handleSubmit = () => {
-    console.log('Trigger deployment', { serviceName, version, bumpType, isBeta });
-    onClose();
+    triggerDeployment({ variables: { serviceId, version } });
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Deploy" centered>
+    <Modal opened={opened} onClose={onClose} title="Deploy" centered closeOnClickOutside={!loading} closeOnEscape={!loading}>
       <Stack gap="md">
 
         {isBetaBase ? (
@@ -120,8 +146,8 @@ export function DeployModal({ opened, onClose, serviceName, latestVersion }: Dep
         />
 
         <Group justify="flex-end" mt="xs">
-          <Button variant="default" onClick={onClose}>Cancel</Button>
-          <Button leftSection={<IconRocket size={14} />} onClick={handleSubmit}>Deploy</Button>
+          <Button variant="default" onClick={onClose} disabled={loading}>Cancel</Button>
+          <Button leftSection={<IconRocket size={14} />} onClick={handleSubmit} loading={loading}>Deploy</Button>
         </Group>
 
       </Stack>

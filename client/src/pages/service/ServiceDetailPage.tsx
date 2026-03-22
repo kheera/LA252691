@@ -76,7 +76,7 @@ export function ServiceDetailPage() {
   return (
     <DashboardLayout>
       <Stack gap="lg">
-        <ServiceActionBar serviceName={service.name} onBack={onBack} onDeployClick={() => { setDeployKey((k) => k + 1); setDeployModalOpen(true); }} />
+        <ServiceActionBar onBack={onBack} onDeployClick={() => { setDeployKey((k) => k + 1); setDeployModalOpen(true); }} />
         <ServiceIdentityHeader name={service.name} status={service.status} />
         <MetricTicker metric={latestMetric} />
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
@@ -89,6 +89,7 @@ export function ServiceDetailPage() {
         key={deployKey}
         opened={deployModalOpen}
         onClose={() => setDeployModalOpen(false)}
+        serviceId={service.id}
         serviceName={service.name}
         latestVersion={latestVersion}
       />
