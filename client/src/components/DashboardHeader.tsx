@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 import { Box, Button, Group, rem, Text, ThemeIcon } from '@mantine/core';
 import { IconChevronLeft, IconMenu2, IconServer } from '@tabler/icons-react';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
+import { BRAND_GRADIENT } from '../theme';
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
@@ -10,14 +11,22 @@ interface DashboardHeaderProps {
   actions?: ReactNode;
 }
 
+// Mantine's Box has no single-side border prop — borderBottom must stay in style.
+// The var() reference is still theme-aware via cssVariablesResolver.
+const headerBorderStyle = { borderBottom: '1px solid var(--shell-border)' } as const;
+
+// bg accepts var() strings directly — Mantine passes them through to CSS.
+// --shell-surface resolves to different colours per mode via cssVariablesResolver.
+const SHELL_SURFACE = 'var(--shell-surface)';
+
 export function DashboardHeader({ onMenuToggle, onHomeClick, actions }: DashboardHeaderProps) {
   return (
     <Box
+      bg={SHELL_SURFACE}
       style={{
         height: 56,
         flexShrink: 0,
-        background: 'var(--mantine-color-default)',
-        borderBottom: '1px solid var(--mantine-color-default-border)',
+        ...headerBorderStyle,
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
@@ -38,7 +47,7 @@ export function DashboardHeader({ onMenuToggle, onHomeClick, actions }: Dashboar
             Home
           </Button>
           <Group gap={rem(8)} visibleFrom="sm">
-            <ThemeIcon variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} size="sm">
+            <ThemeIcon variant="gradient" gradient={BRAND_GRADIENT} size="sm">
               <IconServer size={14} />
             </ThemeIcon>
             <Text fw={700} size="md">DeployDash</Text>

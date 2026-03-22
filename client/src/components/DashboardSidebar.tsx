@@ -5,12 +5,35 @@ import {
   IconFlask,
   IconHome,
 } from '@tabler/icons-react';
+import { type ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSplash } from './SplashContext';
 
 interface DashboardSidebarProps {
   navOpen: boolean;
   onClose: () => void;
+}
+
+interface NavButtonProps {
+  icon: ReactNode;
+  label: string;
+  onClick: () => void;
+  active?: boolean;
+}
+
+function NavButton({ icon, label, onClick, active = false }: NavButtonProps) {
+  return (
+    <Button
+      variant={active ? 'light' : 'subtle'}
+      justify="start"
+      leftSection={icon}
+      fullWidth
+      size="sm"
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  );
 }
 
 function NavContent({ onClose }: { onClose?: () => void }) {
@@ -24,49 +47,21 @@ function NavContent({ onClose }: { onClose?: () => void }) {
   return (
     <Stack gap="xs">
       <Text size="xs" c="dimmed" fw={600} tt="uppercase" px={4}>Navigation</Text>
-      <Button
-        variant="subtle"
-        justify="start"
-        leftSection={<IconHome size={16} />}
-        fullWidth
-        size="sm"
-        onClick={() => { showSplash(); onClose?.(); }}
-      >
-        Home
-      </Button>
-      <Button
-        variant={isActive('/') ? 'light' : 'subtle'}
-        justify="start"
-        leftSection={<IconActivity size={16} />}
-        fullWidth
-        size="sm"
-        onClick={() => go('/')}
-      >
-        Overview
-      </Button>
-      <Button
-        variant={isActive('/demo') ? 'light' : 'subtle'}
-        justify="start"
-        leftSection={<IconFlask size={16} />}
-        fullWidth
-        size="sm"
-        onClick={() => go('/demo')}
-      >
-        Demo
-      </Button>
-      <Button
-        variant="subtle"
-        justify="start"
-        leftSection={<IconCloudUpload size={16} />}
-        fullWidth
-        size="sm"
-        onClick={onClose}
-      >
-        Deployments
-      </Button>
+      <NavButton icon={<IconHome size={16} />}        label="Home"        onClick={() => { showSplash(); onClose?.(); }} />
+      <NavButton icon={<IconActivity size={16} />}    label="Overview"    onClick={() => go('/')}     active={isActive('/')} />
+      <NavButton icon={<IconFlask size={16} />}       label="Demo"        onClick={() => go('/demo')} active={isActive('/demo')} />
+      <NavButton icon={<IconCloudUpload size={16} />} label="Deployments" onClick={() => onClose?.()} />
     </Stack>
   );
 }
+
+// Mantine's Box has no single-side border prop — borderRight must stay in style.
+// The var() reference is still theme-aware via cssVariablesResolver.
+const sidebarBorderStyle = { borderRight: '1px solid var(--shell-border)' } as const;
+
+// bg accepts var() strings directly — Mantine passes them through to CSS.
+// --shell-surface resolves to different colours per mode via cssVariablesResolver.
+const SHELL_SURFACE = 'var(--shell-surface)';
 
 export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
   return (
@@ -74,11 +69,11 @@ export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
       {/* Inline sidebar — lg and above */}
       <Box
         visibleFrom="lg"
+        bg={SHELL_SURFACE}
         style={{
           width: 200,
           flexShrink: 0,
-          background: 'var(--mantine-color-default)',
-          borderRight: '1px solid var(--mantine-color-default-border)',
+          ...sidebarBorderStyle,
           padding: '16px 12px',
           overflow: 'auto',
         }}
@@ -90,6 +85,7 @@ export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
       {navOpen && (
         <Box
           hiddenFrom="lg"
+          bg={SHELL_SURFACE}
           style={{
             position: 'absolute',
             top: 56,
@@ -97,8 +93,7 @@ export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
             bottom: 0,
             width: 220,
             zIndex: 200,
-            background: 'var(--mantine-color-default)',
-            borderRight: '1px solid var(--mantine-color-default-border)',
+            ...sidebarBorderStyle,
             padding: '16px 12px',
             overflow: 'auto',
           }}

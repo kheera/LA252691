@@ -1,5 +1,6 @@
 import { Badge, Card, Grid, Group, Progress, RingProgress, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
+import { statusColor } from '../utils/statusColor';
 
 export interface ServiceRowProps {
   name: string;
@@ -7,12 +8,6 @@ export interface ServiceRowProps {
   status: string;
   uptime: number;
   deploys: number;
-}
-
-function statusColor(status: string) {
-  if (status === 'HEALTHY') return 'green';
-  if (status === 'DEGRADED') return 'yellow';
-  return 'red';
 }
 
 function statusIcon(status: string) {

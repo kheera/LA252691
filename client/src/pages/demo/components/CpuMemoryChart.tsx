@@ -20,7 +20,7 @@ export function CpuMemoryChart() {
         data={chartData}
         dataKey="time"
         series={[
-          { name: 'cpu', color: 'blue.6', label: 'CPU %' },
+          { name: 'cpu', color: 'brand.6', label: 'CPU %' },
           { name: 'memory', color: 'teal.6', label: 'Memory %' },
         ]}
         curveType="monotone"

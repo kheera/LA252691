@@ -1,17 +1,12 @@
 import { Badge, Card, Grid, Group, Progress, RingProgress, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
+import { statusColor } from '../../../utils/statusColor';
 
 export interface DemoService {
   name: string;
   status: string;
   uptime: number;
   deploys: number;
-}
-
-function statusColor(s: string): string {
-  if (s === 'HEALTHY') return 'green';
-  if (s === 'DEGRADED') return 'yellow';
-  return 'red';
 }
 
 function statusIcon(s: string) {

@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 import { BackgroundImage, Center, Overlay, rem, Stack, Text, Title } from '@mantine/core';
 import { BrandDivider } from './BrandDivider';
 import { HeroPanelProvider } from './HeroPanelProvider';
+import { HERO_OVERLAY } from '../theme';
 
 interface HeroBrandingPanelProps {
   src: string;
@@ -24,7 +25,7 @@ export function HeroBrandingPanel({ src, compact = false, maw, children }: HeroB
       style={{ height: '100%', backgroundPosition: 'center', backgroundSize: 'cover' }}
     >
       <Overlay
-        gradient="linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,30,80,0.72) 100%)"
+        gradient={HERO_OVERLAY}
         opacity={1}
         zIndex={1}
       />
@@ -35,7 +36,7 @@ export function HeroBrandingPanel({ src, compact = false, maw, children }: HeroB
               size={compact ? 'xs' : 'sm'}
               fw={600}
               tt="uppercase"
-              c="blue.3"
+              c="brand.3"
               style={{ letterSpacing: rem(3) }}
             >
               Province of British Columbia

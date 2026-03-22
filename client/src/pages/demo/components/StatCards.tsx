@@ -4,12 +4,13 @@ import {
   IconCheck,
   IconServer,
 } from '@tabler/icons-react';
+import { STATUS_COLORS } from '../../../theme';
 
 const stats = [
-  { label: 'Total Services', value: '4', color: 'blue',   icon: <IconServer size={18} /> },
-  { label: 'Healthy',        value: '2', color: 'green',  icon: <IconCheck size={18} /> },
-  { label: 'Degraded',       value: '1', color: 'yellow', icon: <IconAlertTriangle size={18} /> },
-  { label: 'Down',           value: '1', color: 'red',    icon: <IconAlertTriangle size={18} /> },
+  { label: 'Total Services', value: '4', color: 'brand',              icon: <IconServer size={18} /> },
+  { label: 'Healthy',        value: '2', color: STATUS_COLORS.HEALTHY,     icon: <IconCheck size={18} /> },
+  { label: 'Degraded',       value: '1', color: STATUS_COLORS.DEGRADED,    icon: <IconAlertTriangle size={18} /> },
+  { label: 'Down',           value: '1', color: STATUS_COLORS.DOWN,        icon: <IconAlertTriangle size={18} /> },
 ];
 
 export function StatCards() {

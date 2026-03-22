@@ -29,21 +29,21 @@ export function BrandDivider({ label, mt }: BrandDividerProps) {
   return (
     <Group gap="xs" justify="center" mt={mt}>
       <Box
+        bg="brand.4"
         style={{
           height: 2,
           width: rem(lineWidth),
-          background: 'var(--mantine-color-blue-4)',
           borderRadius: 2,
         }}
       />
-      <Text fw={500} c="blue.2" style={{ fontSize }}>
+      <Text fw={500} c="brand.2" style={{ fontSize }}>
         {label}
       </Text>
       <Box
+        bg="brand.4"
         style={{
           height: 2,
           width: rem(lineWidth),
-          background: 'var(--mantine-color-blue-4)',
           borderRadius: 2,
         }}
       />

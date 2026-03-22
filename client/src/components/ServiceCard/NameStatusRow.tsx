@@ -1,12 +1,6 @@
 import { Badge, Group, Text } from '@mantine/core';
 import { IconAlertTriangle, IconCheck, IconServer } from '@tabler/icons-react';
-
-function statusColor(s: string | null): string {
-  if (s === 'HEALTHY') return 'green';
-  if (s === 'DEGRADED') return 'yellow';
-  if (s === 'DOWN') return 'red';
-  return 'gray';
-}
+import { statusColor } from '../../utils/statusColor';
 
 function statusLabel(s: string | null): string {
   return s ?? 'NOT DEPLOYED';

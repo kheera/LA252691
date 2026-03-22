@@ -11,7 +11,7 @@ export function TriggerDeployButton() {
         notifications.show({
           title: 'Deployment triggered',
           message: 'api-gateway v2.4.1 is being rolled out',
-          color: 'blue',
+          color: 'brand',
           icon: <IconCheck size={16} />,
         })
       }

@@ -1,11 +1,5 @@
 import { Group, Progress, Stack, Text } from '@mantine/core';
-
-function statusColor(s: string | null): string {
-  if (s === 'HEALTHY') return 'green';
-  if (s === 'DEGRADED') return 'yellow';
-  if (s === 'DOWN') return 'red';
-  return 'gray';
-}
+import { statusColor } from '../../utils/statusColor';
 
 interface UptimeBarProps {
   uptime: number | null;
