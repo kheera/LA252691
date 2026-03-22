@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
-import { Box, Button, Group, rem, Text, ThemeIcon } from '@mantine/core';
-import { IconChevronLeft, IconMenu2, IconServer } from '@tabler/icons-react';
+import { ActionIcon, Box, Button, Group, Popover, rem, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core';
+import { IconChevronLeft, IconMenu2, IconPalette, IconServer } from '@tabler/icons-react';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { ThemeProfileSwitcher } from './ThemeProfileSwitcher';
 import { BRAND_GRADIENT } from '../theme';
@@ -8,7 +8,7 @@ import { BRAND_GRADIENT } from '../theme';
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
   onHomeClick: () => void;
-  /** Extra buttons/controls rendered on the right side, before ColorSchemeToggle */
+  /** Extra buttons/controls rendered on the right side, before the appearance popover */
   actions?: ReactNode;
 }
 
@@ -56,8 +56,23 @@ export function DashboardHeader({ onMenuToggle, onHomeClick, actions }: Dashboar
         </Group>
         <Group gap="xs">
           {actions}
-          <ThemeProfileSwitcher />
-          <ColorSchemeToggle />
+          <Popover position="bottom-end" withArrow shadow="md" width={220}>
+            <Popover.Target>
+              <Tooltip label="Appearance" withArrow openDelay={400}>
+                <ActionIcon variant="subtle" size="md" aria-label="Appearance settings">
+                  <IconPalette size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <Stack gap="sm">
+                <Text size="xs" fw={600} c="dimmed" tt="uppercase">Colour theme</Text>
+                <ThemeProfileSwitcher />
+                <Text size="xs" fw={600} c="dimmed" tt="uppercase">Color scheme</Text>
+                <ColorSchemeToggle />
+              </Stack>
+            </Popover.Dropdown>
+          </Popover>
         </Group>
       </Group>
     </Box>

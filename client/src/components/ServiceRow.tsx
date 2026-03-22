@@ -1,6 +1,6 @@
 import { Badge, Card, Grid, Group, Progress, RingProgress, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
-import { statusColor } from '../utils/statusColor';
+import { statusBadgeColor, statusProgressColor } from '../utils/statusColor';
 
 export interface ServiceRowProps {
   name: string;
@@ -15,14 +15,14 @@ function statusIcon(status: string) {
 }
 
 export function ServiceRow({ name, status, uptime, deploys }: ServiceRowProps) {
-  const color = statusColor(status);
+  const color = statusProgressColor(status);
   return (
     <Card withBorder radius="sm" p="sm">
       <Grid align="center">
         <Grid.Col span={5}>
           <Group gap="xs">
             <Text fw={500} size="sm">{name}</Text>
-            <Badge color={color} size="sm" leftSection={statusIcon(status)}>
+            <Badge color={statusBadgeColor(status)} variant="filled" autoContrast size="sm" leftSection={statusIcon(status)}>
               {status}
             </Badge>
           </Group>

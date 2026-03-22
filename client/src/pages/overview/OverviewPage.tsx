@@ -1,11 +1,7 @@
-import {
-  Group,
-  SimpleGrid,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Group, SimpleGrid, Title } from '@mantine/core';
 import { DashboardLayout } from '../../components/DashboardLayout';
 import { ServiceCard, type ServiceSummary } from '../../components/ServiceCard/ServiceCard';
+import { StatusCounts } from '../../components/StatusSummaryBar';
 
 // ── Mock data — replace with useQuery(GET_SERVICES) when wiring up the backend ──
 const mockServices: ServiceSummary[] = [
@@ -19,9 +15,9 @@ const mockServices: ServiceSummary[] = [
 export function OverviewPage() {
   return (
     <DashboardLayout>
-      <Group justify="space-between" align="center">
+      <Group justify="space-between" align="center" mb="md">
         <Title order={3}>Services Overview</Title>
-        <Text size="xs" c="dimmed">{mockServices.length} services</Text>
+        <StatusCounts services={mockServices} />
       </Group>
 
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}>

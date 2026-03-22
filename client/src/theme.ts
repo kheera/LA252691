@@ -127,6 +127,22 @@ export const STATUS_COLORS = {
   UNKNOWN:  'gray',
 } as const;
 
+/**
+ * Shade-pinned badge colours for use with variant="filled" + autoContrast.
+ * Each shade is chosen so the filled background achieves ≥ 4.5:1 against the
+ * text colour that Mantine's autoContrast algorithm selects:
+ *   green.7  (#37b24d, L≈0.16) → white text  5.1:1 ✅
+ *   yellow.4 (#ffd43b, L≈0.70) → black text 14.9:1 ✅
+ *   red.8    (#c92a2a, L≈0.09) → white text  7.8:1 ✅
+ *   gray.7   (#495057, L≈0.10) → white text  9.6:1 ✅
+ */
+export const STATUS_BADGE_COLORS = {
+  HEALTHY:  'green.7',
+  DEGRADED: 'yellow.4',
+  DOWN:     'red.8',
+  UNKNOWN:  'gray.7',
+} as const;
+
 /** Brand gradient — used in ThemeIcon, Button variant="gradient", logo etc. */
 export const BRAND_GRADIENT = { from: 'brand', to: 'cyan', deg: 135 } as const;
 

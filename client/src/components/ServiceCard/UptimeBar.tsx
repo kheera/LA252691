@@ -1,5 +1,5 @@
 import { Group, Progress, Stack, Text } from '@mantine/core';
-import { statusColor } from '../../utils/statusColor';
+import { statusProgressColor, statusTextStyle } from '../../utils/statusColor';
 
 interface UptimeBarProps {
   uptime: number | null;
@@ -15,9 +15,9 @@ export function UptimeBar({ uptime, status }: UptimeBarProps) {
     <Stack gap={4}>
       <Group justify="space-between">
         <Text size="xs" c="dimmed">Uptime</Text>
-        <Text size="xs" fw={500} c={statusColor(status)}>{uptime}%</Text>
+        <Text size="xs" fw={500} style={statusTextStyle(status)}>{uptime}%</Text>
       </Group>
-      <Progress value={uptime} color={statusColor(status)} size="sm" radius="xl" />
+      <Progress value={uptime} color={statusProgressColor(status)} size="sm" radius="xl" />
     </Stack>
   );
 }

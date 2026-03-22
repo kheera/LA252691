@@ -1,6 +1,6 @@
 import { Badge, Card, Grid, Group, Progress, RingProgress, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
-import { statusColor } from '../../../utils/statusColor';
+import { statusBadgeColor, statusProgressColor } from '../../../utils/statusColor';
 
 export interface DemoService {
   name: string;
@@ -14,13 +14,14 @@ function statusIcon(s: string) {
 }
 
 export function ServiceRow({ svc }: { svc: DemoService }) {
+  const color = statusProgressColor(svc.status);
   return (
     <Card withBorder radius="sm" p="sm">
       <Grid align="center">
         <Grid.Col span={5}>
           <Group gap="xs">
             <Text fw={500} size="sm">{svc.name}</Text>
-            <Badge color={statusColor(svc.status)} size="sm" leftSection={statusIcon(svc.status)}>
+            <Badge color={statusBadgeColor(svc.status)} variant="filled" autoContrast size="sm" leftSection={statusIcon(svc.status)}>
               {svc.status}
             </Badge>
           </Group>
@@ -28,7 +29,7 @@ export function ServiceRow({ svc }: { svc: DemoService }) {
         <Grid.Col span={5}>
           <Stack gap={4}>
             <Text size="xs" c="dimmed">Uptime {svc.uptime}%</Text>
-            <Progress value={svc.uptime} color={statusColor(svc.status)} size="sm" radius="xl" />
+            <Progress value={svc.uptime} color={color} size="sm" radius="xl" />
           </Stack>
         </Grid.Col>
         <Grid.Col span={2}>
@@ -36,7 +37,7 @@ export function ServiceRow({ svc }: { svc: DemoService }) {
             <RingProgress
               size={44}
               thickness={4}
-              sections={[{ value: svc.uptime, color: statusColor(svc.status) }]}
+              sections={[{ value: svc.uptime, color }]}
               label={<Text ta="center" size="xs" lh={1}>{svc.deploys}d</Text>}
             />
           </Group>

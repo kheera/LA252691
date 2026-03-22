@@ -38,6 +38,9 @@ export function BrandDivider({ label, mt }: BrandDividerProps) {
       />
       <Text fw={500} c="brand.2" style={{ fontSize }}>
         {label}
+        {/* brand.2 is an intentionally light shade — BrandDivider requires a dark
+            background (the hero panel overlay) to meet contrast. Do not use outside
+            a HeroPanelProvider / dark overlay context. */}
       </Text>
       <Box
         bg="brand.4"
