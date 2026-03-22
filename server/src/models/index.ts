@@ -1,6 +1,6 @@
 export interface Service {
   id: string;
-  name: string | null;
+  name: string;
   status: string | null;
   uptime: number | null;
   lastDeployedAt: string | null;

@@ -1,4 +1,4 @@
-import { Badge, Group, Text, ThemeIcon } from '@mantine/core';
+import { Badge, Group, Skeleton, Text, ThemeIcon } from '@mantine/core';
 import { IconAlertTriangle, IconCheck, IconServer } from '@tabler/icons-react';
 import { statusBadgeColor } from '../../utils/statusColor';
 
@@ -15,35 +15,48 @@ function statusIcon(s: string | null) {
 interface NameStatusRowProps {
   name: string;
   status: string | null;
+  loading?: boolean;
 }
 
-export function NameStatusRow({ name, status }: NameStatusRowProps) {
+export function NameStatusRow({ name, status, loading }: NameStatusRowProps) {
   return (
     <Group justify="space-between" align="center" wrap="nowrap">
       <Group gap="xs" wrap="nowrap" style={{ minWidth: 0 }}>
-        <ThemeIcon
-          color={statusBadgeColor(status)}
-          variant="filled"
-          autoContrast
-          size={22}
-          radius="xl"
-          style={{ flexShrink: 0 }}
-        >
-          {statusIcon(status)}
-        </ThemeIcon>
-        <Text fw={600} size="sm" style={{ wordBreak: 'break-word' }}>
-          {name}
-        </Text>
+        {loading
+          ? <Skeleton circle height={22} style={{ flexShrink: 0 }} />
+          : (
+            <ThemeIcon
+              color={statusBadgeColor(status)}
+              variant="filled"
+              autoContrast
+              size={22}
+              radius="xl"
+              style={{ flexShrink: 0 }}
+            >
+              {statusIcon(status)}
+            </ThemeIcon>
+          )}
+        {loading
+          ? <Skeleton height={14} width={120} radius="sm" />
+          : (
+            <Text fw={600} size="sm" style={{ wordBreak: 'break-word' }}>
+              {name}
+            </Text>
+          )}
       </Group>
-      <Badge
-        color={statusBadgeColor(status)}
-        variant="filled"
-        autoContrast
-        size="sm"
-        style={{ flexShrink: 0 }}
-      >
-        {statusLabel(status)}
-      </Badge>
+      {loading
+        ? <Skeleton height={20} width={72} radius="xl" style={{ flexShrink: 0 }} />
+        : (
+          <Badge
+            color={statusBadgeColor(status)}
+            variant="filled"
+            autoContrast
+            size="sm"
+            style={{ flexShrink: 0 }}
+          >
+            {statusLabel(status)}
+          </Badge>
+        )}
     </Group>
   );
 }
