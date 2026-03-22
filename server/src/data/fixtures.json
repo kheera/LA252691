@@ -17,7 +17,7 @@
     {
       "id": "s3",
       "name": "reporting-service",
-      "status": "HEALTHY",
+      "status": "DEGRADED",
       "uptime": 98.7,
       "lastDeployedAt": "2026-03-17T08:00:00Z"
     },

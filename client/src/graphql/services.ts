@@ -89,3 +89,21 @@ export const TRIGGER_DEPLOYMENT = gql`
     }
   }
 `;
+
+export interface AcknowledgeOutageResult {
+  acknowledgeOutage: {
+    id: string;
+    name: string;
+    status: string | null;
+  };
+}
+
+export const ACKNOWLEDGE_OUTAGE = gql`
+  mutation AcknowledgeOutage($serviceId: ID!) {
+    acknowledgeOutage(serviceId: $serviceId) {
+      id
+      name
+      status
+    }
+  }
+`;

@@ -1,3 +1,4 @@
+export { AcknowledgeOutageModal } from './AcknowledgeOutageModal';
 export { DeploymentHistoryTable } from './DeploymentHistoryTable';
 export { DeployModal } from './DeployModal';
 export { MetricTicker } from './MetricTicker';

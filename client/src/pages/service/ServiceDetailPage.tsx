@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client/react';
 import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import {
   DeploymentHistoryTable,
+  AcknowledgeOutageModal,
   DeployModal,
   MetricTicker,
   MetricsChart,
@@ -52,6 +53,8 @@ export function ServiceDetailPage() {
   const onBack = () => navigate('/');
   const [deployModalOpen, setDeployModalOpen] = useState(false);
   const [deployKey, setDeployKey] = useState(0);
+  const [ackOutageOpen, setAckOutageOpen] = useState(false);
+  const [ackOutageKey, setAckOutageKey] = useState(0);
 
   const { data, loading, error } = useQuery<ServiceDetailResult>(GET_SERVICE_DETAIL, {
     variables: { id },
@@ -76,7 +79,12 @@ export function ServiceDetailPage() {
   return (
     <DashboardLayout>
       <Stack gap="lg">
-        <ServiceActionBar onBack={onBack} onDeployClick={() => { setDeployKey((k) => k + 1); setDeployModalOpen(true); }} />
+        <ServiceActionBar
+          onBack={onBack}
+          onDeployClick={() => { setDeployKey((prev) => prev + 1); setDeployModalOpen(true); }}
+          serviceStatus={service.status}
+          onAcknowledgeOutageClick={() => { setAckOutageKey((prev) => prev + 1); setAckOutageOpen(true); }}
+        />
         <ServiceIdentityHeader name={service.name} status={service.status} />
         <MetricTicker metric={latestMetric} />
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
@@ -92,6 +100,13 @@ export function ServiceDetailPage() {
         serviceId={service.id}
         serviceName={service.name}
         latestVersion={latestVersion}
+      />
+      <AcknowledgeOutageModal
+        key={ackOutageKey}
+        opened={ackOutageOpen}
+        onClose={() => setAckOutageOpen(false)}
+        serviceId={service.id}
+        serviceName={service.name}
       />
     </DashboardLayout>
   );

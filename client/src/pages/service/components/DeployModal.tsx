@@ -71,11 +71,20 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
   const [triggerDeployment, { loading }] = useMutation<TriggerDeploymentResult>(TRIGGER_DEPLOYMENT, {
     refetchQueries: [{ query: GET_SERVICE_DETAIL, variables: { id: serviceId } }],
     onCompleted: (data) => {
-      notifications.show({
-        title: 'Deployment triggered',
-        message: `${serviceName} ${data.triggerDeployment.version} is being rolled out`,
-        color: 'green',
-      });
+      const { status, version: deployedVersion } = data.triggerDeployment;
+      if (status === 'FAILED') {
+        notifications.show({
+          title: 'Deployment failed',
+          message: `${serviceName} ${deployedVersion} failed to deploy`,
+          color: 'red',
+        });
+      } else {
+        notifications.show({
+          title: 'Deployment triggered',
+          message: `${serviceName} ${deployedVersion} is being rolled out`,
+          color: 'green',
+        });
+      }
       onClose();
     },
     onError: (err) => {

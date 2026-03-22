@@ -54,26 +54,42 @@ function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: stri
   if (!service) return null;
 
   const now = new Date().toISOString();
+  const isBeta = /-beta\d*$/i.test(version);
+
+  // Simulate deployment risk: beta builds are more likely to fail
+  const BETA_FAILURE_RATE = 0.75; // 75% chance of failure
+  const STABLE_FAILURE_RATE = 0.20; // 20% chance of failure
+  const failureRate = isBeta ? BETA_FAILURE_RATE : STABLE_FAILURE_RATE;
+  const failed = Math.random() < failureRate;
   const newDeployment: Deployment = {
     id: randomUUID(),
     serviceId,
     version,
     deployedBy: 'manual',
     timestamp: now,
-    status: 'SUCCESS',
-    durationSeconds: 0,
+    status: failed ? 'FAILED' : 'SUCCESS',
+    durationSeconds: failed ? Math.floor(Math.random() * 20) + 5 : Math.floor(Math.random() * 60) + 30,
   };
 
-  mockDeployments.unshift(newDeployment); // newest-first, matching fixture ordering
-  service.lastDeployedAt = now;
+  mockDeployments.push(newDeployment); // append to end, keeping the array oldest-first so DataLoader's slice(-last) returns the most recent N
+  if (failed) {
+    service.status = 'DOWN';
+  } else {
+    service.lastDeployedAt = now;
+  }
   persistFixtures();
 
   return newDeployment;
 }
 
 function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Service | null {
-  console.log('acknowledgeOutage', { serviceId });
-  return null;
+  const service = mockServices.find((s) => s.id === serviceId);
+  if (!service) return null;
+
+  service.status = 'DEGRADED';
+  persistFixtures();
+
+  return service;
 }
 
 export const resolvers = {

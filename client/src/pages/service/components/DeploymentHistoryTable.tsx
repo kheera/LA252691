@@ -21,7 +21,12 @@ interface DeploymentHistoryTableProps {
   deployments: GqlDeployment[];
 }
 
+function newestFirst(a: GqlDeployment, b: GqlDeployment): number {
+  return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+}
+
 export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTableProps) {
+  const sorted = [...deployments].sort(newestFirst);
   return (
     <Card withBorder radius="md" p="lg">
       <Stack gap="md">
@@ -39,10 +44,10 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-              {deployments.map((d, i) => (
+              {sorted.map((d, i) => (
                 <Table.Tr key={d.id}>
                   <Table.Td>
-                    <Text size="sm" c="dimmed">{deployments.length - i}</Text>
+                    <Text size="sm" c="dimmed">{sorted.length - i}</Text>
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm" fw={600}>{d.version}</Text>
