@@ -1,21 +1,18 @@
 /* DELETE THIS DEMO PAGE */
 import {
   Badge,
-  Box,
   Button,
   Card,
   Grid,
   Group,
   Progress,
   RingProgress,
-  ScrollArea,
   SimpleGrid,
   Stack,
   Text,
   ThemeIcon,
   Title,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { AreaChart } from '@mantine/charts';
 import {
@@ -24,10 +21,7 @@ import {
   IconCloudUpload,
   IconServer,
 } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
-import { DashboardHeroPanel } from '../../components/DashboardHeroPanel';
-import { DashboardHeader } from '../../components/DashboardHeader';
-import { DashboardSidebar } from '../../components/DashboardSidebar';
+import { DashboardLayout } from '../../components/DashboardLayout';
 
 const chartData = [
   { time: '00:00', cpu: 22, memory: 44 },
@@ -57,50 +51,26 @@ function statusIcon(s: string) {
 }
 
 export function DemoPage() {
-  const navigate = useNavigate();
-  const [navOpen, { toggle }] = useDisclosure(false);
+  const triggerDeploy = (
+    <Button
+      size="sm"
+      leftSection={<IconCloudUpload size={15} />}
+      onClick={() =>
+        notifications.show({
+          title: 'Deployment triggered',
+          message: 'api-gateway v2.4.1 is being rolled out',
+          color: 'blue',
+          icon: <IconCheck size={16} />,
+        })
+      }
+    >
+      Trigger Deploy
+    </Button>
+  );
 
   return (
-    <Box style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
-
-      {/* ── LEFT: hero splash panel ───────────────────────────────────── */}
-      {/* visible only above ~2576px (xxxl / ¾ of a 34" ultrawide) */}
-      <DashboardHeroPanel onBack={() => navigate('/')} />
-
-      {/* ── RIGHT: dashboard panel ────────────────────────────────────── */}
-      <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-
-        {/* Header */}
-        <DashboardHeader
-          onMenuToggle={toggle}
-          onHomeClick={() => navigate('/')}
-          actions={
-            <Button
-              size="sm"
-              leftSection={<IconCloudUpload size={15} />}
-              onClick={() =>
-                notifications.show({
-                  title: 'Deployment triggered',
-                  message: 'api-gateway v2.4.1 is being rolled out',
-                  color: 'blue',
-                  icon: <IconCheck size={16} />,
-                })
-              }
-            >
-              Trigger Deploy
-            </Button>
-          }
-        />
-
-        {/* Body row */}
-        <Box style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-
-          <DashboardSidebar navOpen={navOpen} onClose={toggle} />
-
-          {/* Main scrollable content */}
-          <ScrollArea style={{ flex: 1 }} p="md" offsetScrollbars>
-            <Stack gap="lg" pb="xl">
-              <Title order={3}>Overview</Title>
+    <DashboardLayout headerActions={triggerDeploy}>
+      <Title order={3}>Overview</Title>
 
               {/* Stat cards */}
               <SimpleGrid cols={{ base: 2, lg: 4 }}>
@@ -172,12 +142,7 @@ export function DemoPage() {
                   ))}
                 </Stack>
               </Card>
-
-            </Stack>
-          </ScrollArea>
-        </Box>
-      </Box>
-    </Box>
+    </DashboardLayout>
   );
 }
 

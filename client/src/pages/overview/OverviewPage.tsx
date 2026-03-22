@@ -1,17 +1,10 @@
 import {
-  Box,
   Group,
-  ScrollArea,
   SimpleGrid,
-  Stack,
   Text,
   Title,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useNavigate } from 'react-router-dom';
-import { DashboardHeroPanel } from '../../components/DashboardHeroPanel';
-import { DashboardHeader } from '../../components/DashboardHeader';
-import { DashboardSidebar } from '../../components/DashboardSidebar';
+import { DashboardLayout } from '../../components/DashboardLayout';
 import { ServiceCard, type ServiceSummary } from '../../components/ServiceCard/ServiceCard';
 
 // ── Mock data — replace with useQuery(GET_SERVICES) when wiring up the backend ──
@@ -23,48 +16,20 @@ const mockServices: ServiceSummary[] = [
   { id: 's5', name: 'intake-portal',     status: null,       uptime: null,  lastDeployedAt: null },
 ];
 
-// ── Page ──────────────────────────────────────────────────────────────────────
-
 export function OverviewPage() {
-  const navigate = useNavigate();
-  const [navOpen, { toggle }] = useDisclosure(false);
-
   return (
-    <Box style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+    <DashboardLayout>
+      <Group justify="space-between" align="center">
+        <Title order={3}>Services Overview</Title>
+        <Text size="xs" c="dimmed">{mockServices.length} services</Text>
+      </Group>
 
-      <DashboardHeroPanel onBack={() => navigate('/splash')} />
-
-      {/* ── RIGHT: dashboard panel ────────────────────────────────────── */}
-      <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-
-        <DashboardHeader
-          onMenuToggle={toggle}
-          onHomeClick={() => navigate('/splash')}
-        />
-
-        {/* Body row */}
-        <Box style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-
-          <DashboardSidebar navOpen={navOpen} onClose={toggle} />
-
-          {/* Main content */}
-          <ScrollArea style={{ flex: 1 }} p="md" offsetScrollbars>
-            <Stack gap="lg" pb="xl">
-              <Group justify="space-between" align="center">
-                <Title order={3}>Services Overview</Title>
-                <Text size="xs" c="dimmed">{mockServices.length} services</Text>
-              </Group>
-
-              <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}>
-                {mockServices.map((svc) => (
-                  <ServiceCard key={svc.id} svc={svc} />
-                ))}
-              </SimpleGrid>
-            </Stack>
-          </ScrollArea>
-        </Box>
-      </Box>
-    </Box>
+      <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}>
+        {mockServices.map((svc) => (
+          <ServiceCard key={svc.id} svc={svc} />
+        ))}
+      </SimpleGrid>
+    </DashboardLayout>
   );
 }
 
