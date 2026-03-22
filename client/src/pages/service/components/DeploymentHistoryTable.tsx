@@ -1,5 +1,6 @@
 import { Badge, Card, Code, ScrollArea, Stack, Table, Text } from '@mantine/core';
 import { type Deployment, type DeploymentStatus } from '../../../data/mockServiceDetails';
+import { RelativeDate } from '../../../components/RelativeDate';
 
 function deployStatusColor(status: DeploymentStatus): string {
   if (status === 'success') return 'green.7';
@@ -19,17 +20,6 @@ function formatDuration(seconds: number): string {
   return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
 }
 
-function formatRelative(isoString: string): string {
-  const diff = Date.now() - new Date(isoString).getTime();
-  const mins = Math.floor(diff / 60_000);
-  const hours = Math.floor(mins / 60);
-  const days = Math.floor(hours / 24);
-  if (days > 0) return `${days}d ago`;
-  if (hours > 0) return `${hours}h ago`;
-  if (mins > 0) return `${mins}m ago`;
-  return 'just now';
-}
-
 interface DeploymentHistoryTableProps {
   deployments: Deployment[];
 }
@@ -47,9 +37,9 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
                 <Table.Th>Version</Table.Th>
                 <Table.Th>Status</Table.Th>
                 <Table.Th>Triggered by</Table.Th>
-                <Table.Th>Commit</Table.Th>
+                <Table.Th visibleFrom="sm">Commit</Table.Th>
                 <Table.Th>Duration</Table.Th>
-                <Table.Th>Deployed</Table.Th>
+                <Table.Th style={{ minWidth: 168 }}>Deployed</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -69,14 +59,14 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
                   <Table.Td>
                     <Text size="sm">{d.triggeredBy}</Text>
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td visibleFrom="sm">
                     <Code fz="xs">{d.commitSha.slice(0, 7)}</Code>
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm">{formatDuration(d.durationSeconds)}</Text>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm" c="dimmed">{formatRelative(d.deployedAt)}</Text>
+                    <RelativeDate iso={d.deployedAt} />
                   </Table.Td>
                 </Table.Tr>
               ))}

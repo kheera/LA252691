@@ -1,8 +1,10 @@
 import { type ReactNode } from 'react';
-import { BackgroundImage, Center, Overlay, rem, Stack, Text, Title } from '@mantine/core';
+import { BackgroundImage, Center, Overlay } from '@mantine/core';
 import { BrandDivider } from './BrandDivider';
+import { HeroGlassPanel } from './HeroGlassPanel';
 import { HeroPanelProvider } from './HeroPanelProvider';
-import { HERO_OVERLAY } from '../theme';
+import { HeroContentStack, HeroSubtitle, HeroTitle } from './HeroText';
+import { HERO_OVERLAY } from '../../theme';
 
 interface HeroBrandingPanelProps {
   src: string;
@@ -36,34 +38,30 @@ export function HeroBrandingPanel({ src, compact = false, maw, backgroundPositio
         zIndex={1}
       />
       <Center style={{ height: '100%', position: 'relative', zIndex: 2 }}>
-        <Stack align="center" gap={compact ? 'lg' : 'xl'} px="xl" maw={maw}>
-          <Stack align="center" gap="xs">
-            <Text
-              size={compact ? 'xs' : 'sm'}
-              fw={600}
-              tt="uppercase"
-              c="brand.3"
-              style={{ letterSpacing: rem(3) }}
-            >
-              Province of British Columbia
-            </Text>
-            <Title
-              order={compact ? 2 : 1}
-              ta="center"
-              c="white"
-              style={{
-                fontSize: compact ? 'clamp(1.1rem, 2.5vw, 2rem)' : 'clamp(1.8rem, 5vw, 3.2rem)',
-                lineHeight: compact ? 1.25 : 1.2,
-              }}
-            >
+        <HeroContentStack maw={maw}>
+          <HeroGlassPanel
+            align="center"
+            gap="xs"
+          >
+            <HeroSubtitle>Province of British Columbia</HeroSubtitle>
+            <HeroTitle>
               Legislative Assembly
               <br />
               of British Columbia
-            </Title>
-            <BrandDivider label="DevOps Services" mt={compact ? undefined : 'xs'} />
-          </Stack>
-          {children}
-        </Stack>
+            </HeroTitle>
+            <BrandDivider label="DevOps Services" />
+          </HeroGlassPanel>
+          {children && (
+            <HeroGlassPanel
+              align="center"
+              gap="sm"
+              w="100%"
+              bgOpacity={0.5}
+            >
+              {children}
+            </HeroGlassPanel>
+          )}
+        </HeroContentStack>
       </Center>
     </BackgroundImage>
     </HeroPanelProvider>

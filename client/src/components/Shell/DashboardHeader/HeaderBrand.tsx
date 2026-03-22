@@ -1,6 +1,6 @@
 import { Group, rem, Text, ThemeIcon } from '@mantine/core';
 import { IconServer } from '@tabler/icons-react';
-import { BRAND_GRADIENT } from '../../theme';
+import { BRAND_GRADIENT } from '../../../theme';
 
 /** App logo mark + wordmark. Hidden below the `sm` breakpoint on mobile. */
 export function HeaderBrand() {

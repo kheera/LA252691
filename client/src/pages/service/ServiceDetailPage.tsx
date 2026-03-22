@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, SimpleGrid, Stack, Text } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { DashboardLayout } from '../../components/DashboardLayout';
+import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import { mockServices } from '../../data/mockServices';
 import { mockServiceDetails } from '../../data/mockServiceDetails';
 import {

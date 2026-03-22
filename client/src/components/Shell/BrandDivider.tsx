@@ -3,7 +3,6 @@ import { useHeroPanelContext } from './HeroPanelContext';
 
 interface BrandDividerProps {
   label: string;
-  mt?: string;
 }
 
 /**
@@ -19,7 +18,7 @@ interface BrandDividerProps {
  * // Compact sizing is inherited automatically inside a compact HeroPanelProvider
  * <BrandDivider label="Recent Deployments" mt="md" />
  */
-export function BrandDivider({ label, mt }: BrandDividerProps) {
+export function BrandDivider({ label }: BrandDividerProps) {
   const { compact } = useHeroPanelContext();
   const lineWidth = compact ? 36 : 48;
   const fontSize = compact
@@ -27,7 +26,7 @@ export function BrandDivider({ label, mt }: BrandDividerProps) {
     : 'clamp(1rem, 2.5vw, 1.35rem)';
 
   return (
-    <Group gap="xs" justify="center" mt={mt}>
+    <Group gap="xs" justify="center" mt={compact ? undefined : 'xs'}>
       <Box
         bg="brand.4"
         style={{

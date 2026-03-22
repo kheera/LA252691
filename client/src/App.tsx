@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { DemoPage } from './pages/demo/DemoPage';
 import { OverviewPage } from './pages/overview/OverviewPage';
 import { ServiceDetailPage } from './pages/service/ServiceDetailPage';
-import { SplashProvider } from './components/SplashProvider';
+import { SplashProvider } from './components/Shell/SplashProvider';
 
 export function App() {
   return (

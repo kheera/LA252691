@@ -1,6 +1,6 @@
 /* DELETE THIS DEMO PAGE */
 import { Title } from '@mantine/core';
-import { DashboardLayout } from '../../components/DashboardLayout';
+import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import { TriggerDeployButton } from './components/TriggerDeployButton';
 import { StatCards } from './components/StatCards';
 import { CpuMemoryChart } from './components/CpuMemoryChart';

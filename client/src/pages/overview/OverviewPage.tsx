@@ -1,5 +1,5 @@
 import { Group, SimpleGrid, Title } from '@mantine/core';
-import { DashboardLayout } from '../../components/DashboardLayout';
+import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import { ServiceCard } from '../../components/ServiceCard/ServiceCard';
 import { StatusCounts } from '../../components/StatusSummaryBar';
 import { mockServices } from '../../data/mockServices';

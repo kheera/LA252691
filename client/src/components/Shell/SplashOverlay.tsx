@@ -2,7 +2,7 @@ import { Box, Button, Group, Text } from '@mantine/core';
 import { IconLayoutDashboard } from '@tabler/icons-react';
 import { useHeroImage } from './useHeroImage';
 import { HeroBrandingPanel } from './HeroBrandingPanel';
-import { BRAND_GRADIENT } from '../theme';
+import { BRAND_GRADIENT } from '../../theme';
 
 interface SplashOverlayProps {
   onDismiss: () => void;
