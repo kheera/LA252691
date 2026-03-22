@@ -1,35 +1,26 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-  Badge,
-  Button,
-  Card,
-  Divider,
-  Group,
-  Stack,
-  Text,
-  ThemeIcon,
-  Title,
-} from '@mantine/core';
-import { IconAlertTriangle, IconArrowLeft, IconCheck, IconServer } from '@tabler/icons-react';
+import { Button, SimpleGrid, Stack, Text } from '@mantine/core';
+import { IconArrowLeft } from '@tabler/icons-react';
 import { DashboardLayout } from '../../components/DashboardLayout';
-import { UptimeBar } from '../../components/ServiceCard/UptimeBar';
-import { LastDeployedRow } from '../../components/ServiceCard/LastDeployedRow';
-import { statusBadgeColor } from '../../utils/statusColor';
 import { mockServices } from '../../data/mockServices';
-
-function statusIcon(s: string | null) {
-  if (s === 'HEALTHY') return <IconCheck size={16} />;
-  if (s === 'DEGRADED' || s === 'DOWN') return <IconAlertTriangle size={16} />;
-  return <IconServer size={16} />;
-}
+import { mockServiceDetails } from '../../data/mockServiceDetails';
+import {
+  DeploymentHistoryTable,
+  MetricTicker,
+  MetricsChart,
+  ServiceActionBar,
+  ServiceHealthCard,
+  ServiceIdentityHeader,
+} from './components';
 
 export function ServiceDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const svc = mockServices.find((s) => s.id === id);
+  const detail = id ? mockServiceDetails[id] : undefined;
 
-  if (!svc) {
+  if (!svc || !detail) {
     return (
       <DashboardLayout>
         <Stack gap="md">
@@ -45,44 +36,14 @@ export function ServiceDetailPage() {
   return (
     <DashboardLayout>
       <Stack gap="lg">
-        <Group justify="space-between" align="center">
-          <Button
-            variant="subtle"
-            size="sm"
-            leftSection={<IconArrowLeft size={16} />}
-            onClick={() => navigate('/')}
-          >
-            Overview
-          </Button>
-        </Group>
-
-        <Group gap="sm" align="center">
-          <ThemeIcon
-            color={statusBadgeColor(svc.status)}
-            variant="filled"
-            autoContrast
-            size={32}
-            radius="xl"
-          >
-            {statusIcon(svc.status)}
-          </ThemeIcon>
-          <Title order={2}>{svc.name}</Title>
-          <Badge color={statusBadgeColor(svc.status)} variant="filled" autoContrast size="md">
-            {svc.status ?? 'NOT DEPLOYED'}
-          </Badge>
-        </Group>
-
-        <Card withBorder radius="md" p="lg">
-          <Stack gap="md">
-            <Text fw={600} size="sm" c="dimmed" tt="uppercase">Health</Text>
-            <UptimeBar uptime={svc.uptime} status={svc.status} />
-
-            <Divider />
-
-            <Text fw={600} size="sm" c="dimmed" tt="uppercase">Last Deployment</Text>
-            <LastDeployedRow lastDeployedAt={svc.lastDeployedAt} />
-          </Stack>
-        </Card>
+        <ServiceActionBar serviceName={svc.name} onBack={() => navigate('/')} />
+        <ServiceIdentityHeader name={svc.name} status={svc.status} />
+        <MetricTicker metrics={detail.currentMetrics} />
+        <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+          <ServiceHealthCard svc={svc} detail={detail} />
+          <MetricsChart data={detail.metrics} />
+        </SimpleGrid>
+        <DeploymentHistoryTable deployments={detail.deployments} />
       </Stack>
     </DashboardLayout>
   );
