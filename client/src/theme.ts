@@ -1,48 +1,123 @@
 import { createTheme, type CSSVariablesResolver, type MantineColorsTuple } from '@mantine/core';
 
-/**
- * Navy-blue dark palette — replaces Mantine's default grey-dark scale.
- *
- * Mantine dark-mode slot mapping:
- *   dark[7] → --mantine-color-body         (page background)
- *   dark[6] → card / surface background
- *   dark[5] → slightly elevated surface
- *   dark[4] → borders, dividers
- *   dark[3] → placeholder / disabled text
- *   dark[2] → dimmed text
- *   dark[1] → secondary text
- *   dark[0] → primary text
- */
-const navyDark: MantineColorsTuple = [
-  '#cfdcf5', // 0  primary text
-  '#a3b8e0', // 1  secondary text
-  '#7695c8', // 2  dimmed text
-  '#4e6fa0', // 3  placeholder / disabled
-  '#2a3e6a', // 4  borders / dividers
-  '#1e2c50', // 5  elevated surface (hover states)
-  '#172342', // 6  card / surface background
-  '#101832', // 7  page body background  ← the main bg colour
-  '#0c1228', // 8  deeper wells
-  '#07091e', // 9  deepest (tooltips etc.)
+// ---------------------------------------------------------------------------
+// Dark surface palettes
+// Each tuple drives the `dark` colour scale used in dark mode.
+// Mantine slot mapping:
+//   dark[7] → page body background
+//   dark[6] → card / surface
+//   dark[5] → elevated surface
+//   dark[4] → borders / dividers
+//   dark[3] → placeholder text
+//   dark[2] → dimmed text
+//   dark[1] → secondary text
+//   dark[0] → primary text
+// ---------------------------------------------------------------------------
+
+const darkNavy: MantineColorsTuple = [
+  '#cfdcf5', '#a3b8e0', '#7695c8', '#4e6fa0',
+  '#2a3e6a', '#1e2c50', '#172342', '#101832', '#0c1228', '#07091e',
+];
+const darkForest: MantineColorsTuple = [
+  '#d3f5e0', '#a8e8c0', '#75d49a', '#41b96e',
+  '#1f7a44', '#165c33', '#0f4225', '#092c18', '#05200f', '#021408',
+];
+const darkSlate: MantineColorsTuple = [
+  '#e0e6f0', '#c0ccde', '#96a8c2', '#6a849f',
+  '#3a5268', '#28394f', '#1c2a3c', '#121d2b', '#0b141f', '#060c14',
+];
+const darkWine: MantineColorsTuple = [
+  '#f5d0da', '#e8a3b5', '#d47090', '#b84065',
+  '#7a1f3a', '#5c152a', '#420e1d', '#2c0812', '#1e040b', '#120205',
+];
+const darkGold: MantineColorsTuple = [
+  '#faf0d0', '#f5dfa0', '#e8c45a', '#d4a020',
+  '#8a6400', '#664b00', '#4a3400', '#321f00', '#221200', '#140a00',
+];
+const darkPlum: MantineColorsTuple = [
+  '#edd5f5', '#d8a8e8', '#be74d4', '#9e40b8',
+  '#62007a', '#48005c', '#340042', '#22002c', '#15001e', '#0a0012',
+];
+const darkObsidian: MantineColorsTuple = [
+  '#d8dce8', '#b0b8cc', '#8090aa', '#556080',
+  '#2c3450', '#1e2438', '#141828', '#0d101c', '#080b14', '#04060c',
+];
+const darkCopper: MantineColorsTuple = [
+  '#fce8d8', '#f5c8a8', '#e89a68', '#d46828',
+  '#8a3c00', '#662c00', '#4a1e00', '#321200', '#200a00', '#120500',
 ];
 
-/**
- * Brand colour palette — Mantine's blue scale, registered under the 'brand' key
- * so all colour props use brand.N instead of leaking the implementation detail 'blue'.
- * Seed: #228be6 (Mantine blue-6). Swap this tuple to rebrand the entire app.
- */
-const brandPalette: MantineColorsTuple = [
-  '#e7f5ff', // 0
-  '#d0ebff', // 1
-  '#a5d8ff', // 2
-  '#74c0fc', // 3
-  '#4dabf7', // 4
-  '#339af0', // 5
-  '#228be6', // 6  ← primary shade
-  '#1c7ed6', // 7
-  '#1971c2', // 8
-  '#1864ab', // 9
+// ---------------------------------------------------------------------------
+// Brand palettes (registered as 'brand' key in createTheme)
+// ---------------------------------------------------------------------------
+
+const brandOcean: MantineColorsTuple = [
+  '#e7f5ff', '#d0ebff', '#a5d8ff', '#74c0fc',
+  '#4dabf7', '#339af0', '#228be6', '#1c7ed6', '#1971c2', '#1864ab',
 ];
+const brandForest: MantineColorsTuple = [
+  '#ebfbee', '#d3f9d8', '#b2f2bb', '#8ce99a',
+  '#69db7c', '#51cf66', '#40c057', '#37b24d', '#2f9e44', '#2b8a3e',
+];
+const brandSlate: MantineColorsTuple = [
+  '#e8edf5', '#c8d4e8', '#9db4d4', '#6e92bc',
+  '#4472a4', '#2d5a8e', '#1e4678', '#153566', '#0e2654', '#081944',
+];
+const brandCrimson: MantineColorsTuple = [
+  '#fff0f3', '#ffd6e0', '#ffa8be', '#ff758f',
+  '#ff4d6d', '#f03e54', '#e03150', '#c91a3c', '#b5122e', '#9c0a22',
+];
+const brandGold: MantineColorsTuple = [
+  '#fff9e0', '#fff0b0', '#ffe070', '#ffc928',
+  '#ffb300', '#e09800', '#c27c00', '#a06200', '#804a00', '#623400',
+];
+const brandAmethyst: MantineColorsTuple = [
+  '#f8edff', '#edcefd', '#dfa4fa', '#cf74f6',
+  '#be4df2', '#ab2eed', '#9a18e8', '#8810d0', '#7408b8', '#6002a0',
+];
+const brandSteel: MantineColorsTuple = [
+  '#f0f4ff', '#dde5fa', '#b8cbf5', '#8eaeed',
+  '#6892e0', '#4a78d0', '#3060c0', '#244fab', '#1a3f96', '#103080',
+];
+const brandCopper: MantineColorsTuple = [
+  '#fff4ee', '#ffe4cc', '#ffbf8a', '#ff9a48',
+  '#ff7c14', '#f06000', '#d44e00', '#b83e00', '#9c3000', '#802400',
+];
+
+// ---------------------------------------------------------------------------
+// Profile definitions
+// ---------------------------------------------------------------------------
+
+export interface ColorProfile {
+  /** Display name shown in the switcher */
+  label: string;
+  /** Representative swatch colour (brand[6]) for the picker UI */
+  swatch: string;
+  brand: MantineColorsTuple;
+  dark: MantineColorsTuple;
+  /** Light-mode body background */
+  lightBody: string;
+  /** Light-mode shell border */
+  lightBorder: string;
+}
+
+export const COLOR_PROFILES = {
+  ocean:    { label: 'Ocean',    swatch: '#228be6', brand: brandOcean,    dark: darkNavy,     lightBody: '#f0f5fb', lightBorder: '#dde4ed' },
+  forest:   { label: 'Forest',   swatch: '#40c057', brand: brandForest,   dark: darkForest,   lightBody: '#f0faf2', lightBorder: '#c8e8d0' },
+  slate:    { label: 'Slate',    swatch: '#1e4678', brand: brandSlate,    dark: darkSlate,    lightBody: '#f0f3f8', lightBorder: '#ccd6e8' },
+  crimson:  { label: 'Crimson',  swatch: '#e03150', brand: brandCrimson,  dark: darkWine,     lightBody: '#fff5f7', lightBorder: '#ffd0d8' },
+  gold:     { label: 'Gold',     swatch: '#e09800', brand: brandGold,     dark: darkGold,     lightBody: '#fdf8ec', lightBorder: '#f0dfa0' },
+  amethyst: { label: 'Amethyst', swatch: '#9a18e8', brand: brandAmethyst, dark: darkPlum,     lightBody: '#faf5ff', lightBorder: '#e8d0f8' },
+  steel:    { label: 'Steel',    swatch: '#3060c0', brand: brandSteel,    dark: darkObsidian, lightBody: '#f2f4fa', lightBorder: '#ccd4e8' },
+  copper:   { label: 'Copper',   swatch: '#d44e00', brand: brandCopper,   dark: darkCopper,   lightBody: '#fff8f4', lightBorder: '#f0d8c8' },
+} as const satisfies Record<string, ColorProfile>;
+
+export type ColorProfileKey = keyof typeof COLOR_PROFILES;
+export const DEFAULT_PROFILE: ColorProfileKey = 'ocean';
+
+// ---------------------------------------------------------------------------
+// Semantic constants (profile-independent — always reference 'brand')
+// ---------------------------------------------------------------------------
 
 /** Semantic status colours — use these instead of raw strings in Mantine color props. */
 export const STATUS_COLORS = {
@@ -58,45 +133,56 @@ export const BRAND_GRADIENT = { from: 'brand', to: 'cyan', deg: 135 } as const;
 /** Hero panel image overlay — dark translucent gradient over hero background images. */
 export const HERO_OVERLAY = 'var(--hero-overlay)';
 
+// ---------------------------------------------------------------------------
+// Theme factory
+// ---------------------------------------------------------------------------
+
+/**
+ * Builds a Mantine theme for the given colour profile.
+ * All components reference 'brand.*' so swapping the palette is the only change needed.
+ */
+export function buildTheme(profileKey: ColorProfileKey) {
+  const p = COLOR_PROFILES[profileKey];
+  return createTheme({
+    colors: {
+      dark:  p.dark,
+      brand: p.brand,
+    },
+    primaryColor: 'brand',
+    white: p.lightBody,
+    breakpoints: {
+      xs: '36em', sm: '48em', md: '62em', lg: '75em',
+      xl: '88em', xxl: '96em', xxxl: '161em',
+    },
+  });
+}
+
 /**
  * Shell surface tokens — injected as CSS custom properties so all layout
  * components can use var(--shell-surface) / var(--shell-border) instead of
  * the verbose var(--mantine-color-default*) aliases.
+ *
+ * Mantine's Box has no single-side border prop — borderBottom/borderRight must
+ * stay in style objects. The var() references are still theme-aware here.
  */
-export const cssVariablesResolver: CSSVariablesResolver = () => ({
-  variables: {
-    '--shell-surface': 'var(--mantine-color-default)',
-    '--shell-border':  'var(--mantine-color-default-border)',
-    '--hero-overlay':  'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,30,80,0.72) 100%)',
-  },
-  light: {
-    '--shell-border': '#dde4ed', // muted blue-gray dividers in light mode
-  },
-  dark: {},
-});
+export function buildCssVariablesResolver(profileKey: ColorProfileKey): CSSVariablesResolver {
+  const p = COLOR_PROFILES[profileKey];
+  return () => ({
+    variables: {
+      '--shell-surface': 'var(--mantine-color-default)',
+      '--shell-border':  'var(--mantine-color-default-border)',
+      '--hero-overlay':  'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,30,80,0.72) 100%)',
+    },
+    light: {
+      '--shell-border': p.lightBorder,
+    },
+    dark: {},
+  });
+}
 
-export const theme = createTheme({
-  colors: {
-    dark:  navyDark,
-    brand: brandPalette,
-  },
+// ---------------------------------------------------------------------------
+// Default exports (used before context is available, e.g. initial render)
+// ---------------------------------------------------------------------------
 
-  primaryColor: 'brand',
-
-  /**
-   * white / black control --mantine-color-body and surface defaults in light/dark mode.
-   * Setting white to a soft blue-tinted off-white gives the light theme a warm, non-stark feel.
-   */
-  white: '#f0f5fb',
-
-  /** Custom breakpoints — xxxl hides the splash panel on everything up to ~3/4 of a 34" ultrawide */
-  breakpoints: {
-    xs: '36em',
-    sm: '48em',
-    md: '62em',
-    lg: '75em',
-    xl: '88em',
-    xxl: '96em',   // ~1536px
-    xxxl: '161em', // ~2576px — splash panel appears only above this
-  },
-});
+export const theme = buildTheme(DEFAULT_PROFILE);
+export const cssVariablesResolver = buildCssVariablesResolver(DEFAULT_PROFILE);

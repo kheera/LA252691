@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 import { Box, Button, Group, rem, Text, ThemeIcon } from '@mantine/core';
 import { IconChevronLeft, IconMenu2, IconServer } from '@tabler/icons-react';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
+import { ThemeProfileSwitcher } from './ThemeProfileSwitcher';
 import { BRAND_GRADIENT } from '../theme';
 
 interface DashboardHeaderProps {
@@ -55,6 +56,7 @@ export function DashboardHeader({ onMenuToggle, onHomeClick, actions }: Dashboar
         </Group>
         <Group gap="xs">
           {actions}
+          <ThemeProfileSwitcher />
           <ColorSchemeToggle />
         </Group>
       </Group>
