@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, Stack } from '@mantine/core';
+import { Anchor, Card, Divider, Group, Stack } from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { IconArrowRight } from '@tabler/icons-react';
 import { type ServiceSummary } from './types';
 import { NameStatusRow } from './NameStatusRow';
 import { UptimeBar } from './UptimeBar';
@@ -57,6 +59,17 @@ export function ServiceCard({ svc }: { svc: ServiceSummary }) {
         <NameStatusRow name={svc.name} status={svc.status} />
         <UptimeBar uptime={svc.uptime} status={svc.status} />
         <LastDeployedRow lastDeployedAt={svc.lastDeployedAt} />
+        <Divider />
+        <Group justify="flex-end">
+          <Anchor
+            component={Link}
+            to={`/service/${svc.id}`}
+            size="xs"
+            style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+          >
+            View details <IconArrowRight size={12} />
+          </Anchor>
+        </Group>
       </Stack>
     </Card>
   );
