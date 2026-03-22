@@ -1,18 +1,19 @@
-import { Badge, Card, Code, ScrollArea, Stack, Table, Text } from '@mantine/core';
-import { type Deployment, type DeploymentStatus } from '../../../data/mockServiceDetails';
+import { Badge, Card, ScrollArea, Stack, Table, Text } from '@mantine/core';
+import { type GqlDeployment } from '../../../graphql/services';
 import { RelativeDate } from '../../../components/RelativeDate';
 
-function deployStatusColor(status: DeploymentStatus): string {
-  if (status === 'success') return 'green.7';
-  if (status === 'failed') return 'red.8';
-  if (status === 'in_progress') return 'blue.6';
-  return 'orange.7'; // rolled_back
+function deployStatusColor(status: string | null): string {
+  if (status === 'SUCCESS') return 'green.7';
+  if (status === 'FAILED') return 'red.8';
+  if (status === 'ROLLING_BACK') return 'orange.7';
+  return 'gray.6';
 }
 
-function deployStatusLabel(status: DeploymentStatus): string {
-  if (status === 'in_progress') return 'In progress';
-  if (status === 'rolled_back') return 'Rolled back';
-  return status.charAt(0).toUpperCase() + status.slice(1);
+function deployStatusLabel(status: string | null): string {
+  if (status === 'SUCCESS') return 'Success';
+  if (status === 'FAILED') return 'Failed';
+  if (status === 'ROLLING_BACK') return 'Rolling back';
+  return 'Unknown';
 }
 
 function formatDuration(seconds: number): string {
@@ -21,7 +22,7 @@ function formatDuration(seconds: number): string {
 }
 
 interface DeploymentHistoryTableProps {
-  deployments: Deployment[];
+  deployments: GqlDeployment[];
 }
 
 export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTableProps) {
@@ -57,16 +58,16 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
                     </Badge>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm">{d.triggeredBy}</Text>
+                    <Text size="sm">{d.deployedBy}</Text>
                   </Table.Td>
                   <Table.Td visibleFrom="sm">
-                    <Code fz="xs">{d.commitSha.slice(0, 7)}</Code>
+                    <Text size="sm" c="dimmed">—</Text>
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm">{formatDuration(d.durationSeconds)}</Text>
                   </Table.Td>
                   <Table.Td>
-                    <RelativeDate iso={d.deployedAt} />
+                    <RelativeDate iso={d.timestamp} />
                   </Table.Td>
                 </Table.Tr>
               ))}

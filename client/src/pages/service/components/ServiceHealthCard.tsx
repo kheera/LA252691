@@ -2,7 +2,6 @@ import { Card, Divider, SimpleGrid, Stack, Text } from '@mantine/core';
 import { UptimeBar } from '../../../components/ServiceCard/UptimeBar';
 import { LastDeployedRow } from '../../../components/ServiceCard/LastDeployedRow';
 import { type ServiceSummary } from '../../../components/ServiceCard/types';
-import { type ServiceDetail } from '../../../data/mockServiceDetails';
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
@@ -15,10 +14,9 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 
 interface ServiceHealthCardProps {
   svc: ServiceSummary;
-  detail: ServiceDetail;
 }
 
-export function ServiceHealthCard({ svc, detail }: ServiceHealthCardProps) {
+export function ServiceHealthCard({ svc }: ServiceHealthCardProps) {
   return (
     <Card withBorder radius="md" p="lg" h="100%">
       <Stack gap="md">
@@ -33,10 +31,10 @@ export function ServiceHealthCard({ svc, detail }: ServiceHealthCardProps) {
         <Divider />
 
         <SimpleGrid cols={2} spacing="sm">
-          <MetaItem label="Environment" value={detail.environment} />
-          <MetaItem label="Region"      value={detail.region} />
-          <MetaItem label="Version"     value={detail.version} />
-          <MetaItem label="Owner"       value={detail.owner} />
+          <MetaItem label="Environment" value="—" />
+          <MetaItem label="Region"      value="—" />
+          <MetaItem label="Version"     value="—" />
+          <MetaItem label="Owner"       value="—" />
         </SimpleGrid>
       </Stack>
     </Card>

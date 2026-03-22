@@ -1,23 +1,27 @@
 import { AreaChart } from '@mantine/charts';
 import { Card, Stack, Text } from '@mantine/core';
-import { type MetricPoint } from '../../../data/mockServiceDetails';
+import { type GqlMetric } from '../../../graphql/services';
 
 interface MetricsChartProps {
-  data: MetricPoint[];
+  metrics: GqlMetric[];
 }
 
-export function MetricsChart({ data }: MetricsChartProps) {
+export function MetricsChart({ metrics }: MetricsChartProps) {
+  const chartData = metrics.map((m) => ({
+    time: m.timestamp.slice(11, 16),
+    cpu: m.cpuPercent ?? 0,
+  }));
+
   return (
     <Card withBorder radius="md" p="lg" h="100%">
       <Stack gap="md">
-        <Text fw={600} size="sm" c="dimmed" tt="uppercase">CPU &amp; Memory — last 20 min</Text>
+        <Text fw={600} size="sm" c="dimmed" tt="uppercase">CPU — last 20 min</Text>
         <AreaChart
           h={200}
-          data={data}
+          data={chartData}
           dataKey="time"
           series={[
-            { name: 'cpu',    label: 'CPU %',    color: 'blue.5' },
-            { name: 'memory', label: 'Memory %', color: 'violet.5' },
+            { name: 'cpu', label: 'CPU %', color: 'blue.5' },
           ]}
           withLegend
           yAxisProps={{ domain: [0, 100], tickCount: 5 }}

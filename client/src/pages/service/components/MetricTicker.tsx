@@ -1,5 +1,5 @@
 import { Paper, SimpleGrid, Stack, Text } from '@mantine/core';
-import { type CurrentMetrics } from '../../../data/mockServiceDetails';
+import { type GqlMetric } from '../../../graphql/services';
 
 interface TickerStatProps {
   label: string;
@@ -19,21 +19,25 @@ function TickerStat({ label, value, color }: TickerStatProps) {
 }
 
 interface MetricTickerProps {
-  metrics: CurrentMetrics;
+  metric: GqlMetric | null;
 }
 
-export function MetricTicker({ metrics }: MetricTickerProps) {
-  const cpuColor = metrics.cpu > 80 ? 'red' : metrics.cpu > 60 ? 'orange' : undefined;
-  const memColor = metrics.memory > 85 ? 'red' : metrics.memory > 70 ? 'orange' : undefined;
-  const errColor = metrics.errorRate > 1 ? 'red' : metrics.errorRate > 0.5 ? 'orange' : undefined;
+export function MetricTicker({ metric }: MetricTickerProps) {
+  const cpu = metric?.cpuPercent ?? null;
+  const memMb = metric?.memoryMb ?? null;
+  const rps = metric?.requestsPerSecond ?? null;
+  const errRate = metric?.errorRate ?? null;
+
+  const cpuColor = cpu !== null && cpu > 80 ? 'red' : cpu !== null && cpu > 60 ? 'orange' : undefined;
+  const errColor = errRate !== null && errRate > 1 ? 'red' : errRate !== null && errRate > 0.5 ? 'orange' : undefined;
 
   return (
     <SimpleGrid cols={{ base: 2, sm: 3, md: 5 }} spacing="sm">
-      <TickerStat label="CPU" value={`${metrics.cpu}%`} color={cpuColor} />
-      <TickerStat label="Memory" value={`${metrics.memory}%`} color={memColor} />
-      <TickerStat label="Req / s" value={metrics.requestRate.toLocaleString()} />
-      <TickerStat label="Error rate" value={`${metrics.errorRate}%`} color={errColor} />
-      <TickerStat label="P99 latency" value={metrics.p99Latency > 0 ? `${metrics.p99Latency} ms` : '—'} />
+      <TickerStat label="CPU" value={cpu !== null ? `${cpu}%` : '—'} color={cpuColor} />
+      <TickerStat label="Memory" value={memMb !== null ? `${memMb} MB` : '—'} />
+      <TickerStat label="Req / s" value={rps !== null ? rps.toLocaleString() : '—'} />
+      <TickerStat label="Error rate" value={errRate !== null ? `${errRate}%` : '—'} color={errColor} />
+      <TickerStat label="P99 latency" value="—" />
     </SimpleGrid>
   );
 }
