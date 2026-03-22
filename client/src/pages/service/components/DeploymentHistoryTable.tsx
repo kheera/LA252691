@@ -34,7 +34,6 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
                 <Table.Th>Version</Table.Th>
                 <Table.Th>Status</Table.Th>
                 <Table.Th>Triggered by</Table.Th>
-                <Table.Th visibleFrom="sm">Commit</Table.Th>
                 <Table.Th>Duration</Table.Th>
                 <Table.Th style={{ minWidth: 168 }}>Deployed</Table.Th>
               </Table.Tr>
@@ -55,9 +54,6 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm">{d.deployedBy}</Text>
-                  </Table.Td>
-                  <Table.Td visibleFrom="sm">
-                    <Text size="sm" c="dimmed">—</Text>
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm">{formatDuration(d.durationSeconds)}</Text>
