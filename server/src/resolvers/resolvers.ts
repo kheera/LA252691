@@ -1,5 +1,6 @@
 import { mockServices, mockDeployments, mockMetrics } from '../utils/mockData.js';
 import type { Service, Deployment, Metric } from '../models/index.js';
+import type { AppContext } from '../context.js';
 
 function services(): Service[] {
   return mockServices;
@@ -25,8 +26,11 @@ function metrics(_: unknown, { serviceId, last }: { serviceId: string; last?: nu
     .slice(last ? -last : 0);
 }
 
-function serviceDeployments(parent: { id: string }): Deployment[] {
-  return mockDeployments.filter((d) => d.serviceId === parent.id);
+/**
+ * Uses DataLoader to batch and cache deployments by service ID, avoiding N+1 query issues when fetching deployments for multiple services in the Service resolver.
+ */
+function batchDeploymentsLoader(parent: { id: string }, _: unknown, context: AppContext): Promise<Deployment[]> {
+  return context.deploymentLoader.load(parent.id);
 }
 
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment | null {
@@ -42,5 +46,5 @@ function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Se
 export const resolvers = {
   Query: { services, service, deployments, metrics },
   Mutation: { triggerDeployment, acknowledgeOutage },
-  Service: { deployments: serviceDeployments },
+  Service: { deployments: batchDeploymentsLoader },
 };
