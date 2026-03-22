@@ -1,4 +1,5 @@
 export { DeploymentHistoryTable } from './DeploymentHistoryTable';
+export { DeployModal } from './DeployModal';
 export { MetricTicker } from './MetricTicker';
 export { MetricsChart } from './MetricsChart';
 export { ServiceActionBar } from './ServiceActionBar';

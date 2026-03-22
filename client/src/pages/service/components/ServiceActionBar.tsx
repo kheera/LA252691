@@ -11,15 +11,10 @@ import {
 interface ServiceActionBarProps {
   serviceName: string;
   onBack: () => void;
+  onDeployClick: () => void;
 }
 
-export function ServiceActionBar({ serviceName, onBack }: ServiceActionBarProps) {
-  const handleRedeploy = () => notifications.show({
-    title: 'Deploying…',
-    message: `Triggered new deployment for ${serviceName}`,
-    color: 'blue',
-  });
-
+export function ServiceActionBar({ serviceName, onBack, onDeployClick }: ServiceActionBarProps) {
   const handleRollback = () => notifications.show({
     title: 'Rollback initiated',
     message: `Rolling ${serviceName} back to the previous version`,
@@ -49,7 +44,7 @@ export function ServiceActionBar({ serviceName, onBack }: ServiceActionBarProps)
         Overview
       </Button>
       <Group gap="sm" wrap="wrap">
-        <Button size="sm" variant="filled"  leftSection={<IconRocket size={14} />}      onClick={handleRedeploy}>Redeploy</Button>
+        <Button size="sm" variant="filled"  leftSection={<IconRocket size={14} />}      onClick={onDeployClick}>Deploy</Button>
         <Button size="sm" variant="default" leftSection={<IconArrowBackUp size={14} />} onClick={handleRollback}>Rollback</Button>
         <Button size="sm" variant="default" leftSection={<IconRefresh size={14} />}     onClick={handleRestart}>Restart</Button>
         <Button size="sm" variant="subtle"  leftSection={<IconTerminal2 size={14} />}   onClick={handleLogs}>Logs</Button>

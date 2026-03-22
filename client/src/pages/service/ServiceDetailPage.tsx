@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, SimpleGrid, Skeleton, Stack, Text } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
@@ -5,6 +6,7 @@ import { useQuery } from '@apollo/client/react';
 import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import {
   DeploymentHistoryTable,
+  DeployModal,
   MetricTicker,
   MetricsChart,
   ServiceActionBar,
@@ -48,6 +50,8 @@ export function ServiceDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const onBack = () => navigate('/');
+  const [deployModalOpen, setDeployModalOpen] = useState(false);
+  const [deployKey, setDeployKey] = useState(0);
 
   const { data, loading, error } = useQuery<ServiceDetailResult>(GET_SERVICE_DETAIL, {
     variables: { id },
@@ -65,11 +69,14 @@ export function ServiceDetailPage() {
   const { deployments, metrics } = service;
   // Assumes metrics are returned in ascending chronological order (oldest first); the last element is therefore the most recent.
   const latestMetric = metrics[metrics.length - 1] ?? null;
+  // Sort a copy by timestamp descending to find the most recent deployment regardless of return order.
+  const latestVersion = [...deployments]
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0]?.version ?? 'v0.0.0';
 
   return (
     <DashboardLayout>
       <Stack gap="lg">
-        <ServiceActionBar serviceName={service.name} onBack={onBack} />
+        <ServiceActionBar serviceName={service.name} onBack={onBack} onDeployClick={() => { setDeployKey((k) => k + 1); setDeployModalOpen(true); }} />
         <ServiceIdentityHeader name={service.name} status={service.status} />
         <MetricTicker metric={latestMetric} />
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
@@ -78,6 +85,13 @@ export function ServiceDetailPage() {
         </SimpleGrid>
         <DeploymentHistoryTable deployments={deployments} />
       </Stack>
+      <DeployModal
+        key={deployKey}
+        opened={deployModalOpen}
+        onClose={() => setDeployModalOpen(false)}
+        serviceName={service.name}
+        latestVersion={latestVersion}
+      />
     </DashboardLayout>
   );
 }

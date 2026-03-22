@@ -20,7 +20,7 @@
     { "id": "d11", "serviceId": "s3", "version": "3.0.2", "deployedBy": "alice",   "timestamp": "2026-03-13T12:00:00Z", "status": "SUCCESS",      "durationSeconds": 39  },
     { "id": "d12", "serviceId": "s3", "version": "3.0.1", "deployedBy": "bob",     "timestamp": "2026-03-09T15:30:00Z", "status": "FAILED",       "durationSeconds": 18  },
     { "id": "d13", "serviceId": "s3", "version": "3.0.0", "deployedBy": "carol",   "timestamp": "2026-03-04T11:15:00Z", "status": "SUCCESS",      "durationSeconds": 72  },
-    { "id": "d14", "serviceId": "s4", "version": "0.9.1", "deployedBy": "dan",     "timestamp": "2026-03-21T06:45:00Z", "status": "FAILED",       "durationSeconds": 9   },
+    { "id": "d14", "serviceId": "s4", "version": "0.9.1-beta1", "deployedBy": "dan",     "timestamp": "2026-03-21T06:45:00Z", "status": "FAILED",       "durationSeconds": 9   },
     { "id": "d15", "serviceId": "s4", "version": "0.9.0", "deployedBy": "alice",   "timestamp": "2026-03-21T05:00:00Z", "status": "ROLLING_BACK", "durationSeconds": 300 },
     { "id": "d16", "serviceId": "s4", "version": "0.8.5", "deployedBy": "bob",     "timestamp": "2026-03-16T14:00:00Z", "status": "SUCCESS",      "durationSeconds": 55  },
     { "id": "d17", "serviceId": "s4", "version": "0.8.4", "deployedBy": "carol",   "timestamp": "2026-03-11T10:00:00Z", "status": "SUCCESS",      "durationSeconds": 48  },
