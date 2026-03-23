@@ -12,7 +12,7 @@
       "name": "auth-service",
       "status": "DEGRADED",
       "uptime": 95.2,
-      "lastDeployedAt": "2026-03-19T09:15:00Z"
+      "lastDeployedAt": "2026-03-23T02:32:02.503Z"
     },
     {
       "id": "s3",
@@ -243,6 +243,15 @@
       "timestamp": "2026-02-28T16:00:00Z",
       "status": "SUCCESS",
       "durationSeconds": 37
+    },
+    {
+      "id": "c9967d80-8b09-409b-9869-36cc92eade83",
+      "serviceId": "s2",
+      "version": "v2.0.2",
+      "deployedBy": "manual",
+      "timestamp": "2026-03-23T02:31:21.489Z",
+      "status": "SUCCESS",
+      "durationSeconds": 88
     }
   ],
   "metrics": [

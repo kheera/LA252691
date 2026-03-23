@@ -18,7 +18,7 @@ export function MetricsChart({ metrics }: MetricsChartProps) {
       <Stack gap="md">
         <Text fw={600} size="sm" c="dimmed" tt="uppercase">CPU & Memory — last 20 min</Text>
         <AreaChart
-          h={200}
+          h={150}
           data={chartData}
           dataKey="time"
           series={[

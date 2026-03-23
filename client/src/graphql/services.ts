@@ -13,6 +13,7 @@ export const GET_SERVICES = gql`
 `;
 
 export interface GqlDeployment {
+  __typename?: 'Deployment';
   id: string;
   serviceId: string;
   version: string;

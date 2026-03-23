@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, SimpleGrid, Skeleton, Stack, Text } from '@mantine/core';
+import { Button, Grid, Skeleton, Stack, Text } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useQuery } from '@apollo/client/react';
 import { DashboardLayout } from '../../components/Shell/DashboardLayout';
@@ -11,7 +11,6 @@ import {
   MetricTicker,
   MetricsChart,
   ServiceActionBar,
-  ServiceHealthCard,
   ServiceIdentityHeader,
 } from './components';
 import { GET_SERVICE_DETAIL, type ServiceDetailResult } from '../../graphql/services';
@@ -21,14 +20,17 @@ function ServiceDetailSkeleton() {
     <DashboardLayout>
       <Stack gap="lg">
         <Skeleton height={36} width={320} radius="md" />
-        <SimpleGrid cols={{ base: 2, sm: 3, md: 5 }} spacing="sm">
-          {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} height={72} radius="md" />)}
-        </SimpleGrid>
-        <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-          <Skeleton height={280} radius="md" />
-          <Skeleton height={280} radius="md" />
-        </SimpleGrid>
-        <Skeleton height={240} radius="md" />
+        <Grid gutter="md" align="stretch">
+          <Grid.Col span={{ base: 12, md: 9 }}>
+            <Skeleton height={210} radius="md" />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 3 }}>
+            <Stack gap="sm">
+              {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={72} radius="md" />)}
+            </Stack>
+          </Grid.Col>
+        </Grid>
+        <Skeleton height={280} radius="md" />
       </Stack>
     </DashboardLayout>
   );
@@ -86,11 +88,14 @@ export function ServiceDetailPage() {
           onAcknowledgeOutageClick={() => { setAckOutageKey((prev) => prev + 1); setAckOutageOpen(true); }}
         />
         <ServiceIdentityHeader name={service.name} status={service.status} />
-        <MetricTicker metric={latestMetric} />
-        <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-          <ServiceHealthCard svc={service} />
-          <MetricsChart metrics={metrics} />
-        </SimpleGrid>
+        <Grid gutter="md" align="stretch">
+          <Grid.Col span={{ base: 12, md: 9 }}>
+            <MetricsChart metrics={metrics} />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 3 }}>
+            <MetricTicker metric={latestMetric} />
+          </Grid.Col>
+        </Grid>
         <DeploymentHistoryTable deployments={deployments} />
       </Stack>
       <DeployModal

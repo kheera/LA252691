@@ -71,30 +71,40 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
   const [triggerDeployment, { loading }] = useMutation<TriggerDeploymentResult>(TRIGGER_DEPLOYMENT, {
     refetchQueries: [{ query: GET_SERVICE_DETAIL, variables: { id: serviceId } }],
     onCompleted: (data) => {
-      const { status, version: deployedVersion } = data.triggerDeployment;
-      if (status === 'FAILED') {
-        notifications.show({
-          title: 'Deployment failed',
-          message: `${serviceName} ${deployedVersion} failed to deploy`,
-          color: 'red',
-        });
-      } else {
-        notifications.show({
-          title: 'Deployment triggered',
-          message: `${serviceName} ${deployedVersion} is being rolled out`,
-          color: 'green',
-        });
-      }
+      const { version: deployedVersion } = data.triggerDeployment;
+      notifications.show({
+        title: 'Deployment queued',
+        message: `${serviceName} ${deployedVersion} is deploying — check the history for the result`,
+        color: 'blue',
+      });
       onClose();
     },
     onError: (err) => {
       notifications.show({
-        title: 'Deployment failed',
+        title: 'Deployment error',
         message: err.message,
         color: 'red',
       });
     },
   });
+
+  const handleSubmit = () => {
+    triggerDeployment({
+      variables: { serviceId, version },
+      optimisticResponse: {
+        triggerDeployment: {
+          __typename: 'Deployment',
+          id: `optimistic-${Date.now()}`,
+          serviceId,
+          version,
+          deployedBy: 'manual',
+          timestamp: new Date().toISOString(),
+          status: 'PENDING',
+          durationSeconds: 0,
+        },
+      },
+    });
+  };
 
   const recompute = (nextBump: BumpType, nextBeta: boolean) => {
     setVersion(bumpVersion(latestVersion, { bumpType: nextBump, isBeta: nextBeta }));
@@ -109,10 +119,6 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
   const handleBetaChange = (checked: boolean) => {
     setIsBeta(checked);
     recompute(bumpType, checked);
-  };
-
-  const handleSubmit = () => {
-    triggerDeployment({ variables: { serviceId, version } });
   };
 
   return (

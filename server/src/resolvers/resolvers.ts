@@ -49,35 +49,54 @@ function batchMetricsLoader(
   return context.metricLoader.load(parent.id).then((all) => (last ? all.slice(-last) : all));
 }
 
+/**
+ * Simulates handing off to a CI/CD pipeline (e.g. dispatching a GitHub Actions workflow).
+ * The pipeline reports back after 30–60 seconds with a success or failure outcome.
+ */
+function dispatchPipeline(deployment: Deployment, service: Service, version: string): void {
+  // Simulate deployment risk: beta builds are more likely to fail
+  const BETA_FAILURE_RATE = 0.75;
+  const STABLE_FAILURE_RATE = 0.20;
+  const failureRate = /-beta\d*$/i.test(version) ? BETA_FAILURE_RATE : STABLE_FAILURE_RATE;
+  const onPipelineComplete = () => {
+    const failed = Math.random() < failureRate;
+    deployment.status = failed ? 'FAILED' : 'SUCCESS';
+    deployment.durationSeconds = failed
+      ? Math.floor(Math.random() * 20) + 5
+      : Math.floor(Math.random() * 60) + 30;
+
+    if (failed) {
+      service.status = 'DOWN';
+    } else {
+      service.lastDeployedAt = new Date().toISOString();
+    }
+    persistFixtures();
+  };
+  const delayMs = (Math.floor(Math.random() * 31) + 30) * 1000;
+  setTimeout(onPipelineComplete, delayMs);
+}
+
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment | null {
   const service = mockServices.find((s) => s.id === serviceId);
   if (!service) return null;
 
   const now = new Date().toISOString();
-  const isBeta = /-beta\d*$/i.test(version);
 
-  // Simulate deployment risk: beta builds are more likely to fail
-  const BETA_FAILURE_RATE = 0.75; // 75% chance of failure
-  const STABLE_FAILURE_RATE = 0.20; // 20% chance of failure
-  const failureRate = isBeta ? BETA_FAILURE_RATE : STABLE_FAILURE_RATE;
-  const failed = Math.random() < failureRate;
+  // Create a PENDING deployment and return it immediately — resolution happens asynchronously below.
   const newDeployment: Deployment = {
     id: randomUUID(),
     serviceId,
     version,
     deployedBy: 'manual',
     timestamp: now,
-    status: failed ? 'FAILED' : 'SUCCESS',
-    durationSeconds: failed ? Math.floor(Math.random() * 20) + 5 : Math.floor(Math.random() * 60) + 30,
+    status: 'PENDING',
+    durationSeconds: 0,
   };
 
-  mockDeployments.push(newDeployment); // append to end, keeping the array oldest-first so DataLoader's slice(-last) returns the most recent N
-  if (failed) {
-    service.status = 'DOWN';
-  } else {
-    service.lastDeployedAt = now;
-  }
+  mockDeployments.push(newDeployment); // append oldest-first so DataLoader's slice(-last) returns the most recent N
   persistFixtures();
+
+  dispatchPipeline(newDeployment, service, version);
 
   return newDeployment;
 }

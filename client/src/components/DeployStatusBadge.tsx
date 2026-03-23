@@ -4,6 +4,7 @@ function deployStatusColor(status: string | null): string {
   if (status === 'SUCCESS') return 'green.7';
   if (status === 'FAILED') return 'red.8';
   if (status === 'ROLLING_BACK') return 'orange.7';
+  if (status === 'PENDING') return 'blue.6';
   return 'gray.6';
 }
 
@@ -11,6 +12,7 @@ function deployStatusLabel(status: string | null): string {
   if (status === 'SUCCESS') return 'Success';
   if (status === 'FAILED') return 'Failed';
   if (status === 'ROLLING_BACK') return 'Rolling back';
+  if (status === 'PENDING') return 'Pending…';
   return 'Unknown';
 }
 

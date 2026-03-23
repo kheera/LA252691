@@ -1,4 +1,4 @@
-import { Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Paper, Stack, Text } from '@mantine/core';
 import { type GqlMetric } from '../../../graphql/services';
 
 interface TickerStatProps {
@@ -25,19 +25,16 @@ interface MetricTickerProps {
 export function MetricTicker({ metric }: MetricTickerProps) {
   const cpu = metric?.cpuPercent ?? null;
   const memMb = metric?.memoryMb ?? null;
-  const rps = metric?.requestsPerSecond ?? null;
   const errRate = metric?.errorRate ?? null;
 
   const cpuColor = cpu !== null && cpu > 80 ? 'red' : cpu !== null && cpu > 60 ? 'orange' : undefined;
   const errColor = errRate !== null && errRate > 1 ? 'red' : errRate !== null && errRate > 0.5 ? 'orange' : undefined;
 
   return (
-    <SimpleGrid cols={{ base: 2, sm: 3, md: 5 }} spacing="sm">
+    <Stack gap="sm">
       <TickerStat label="CPU" value={cpu !== null ? `${cpu}%` : '—'} color={cpuColor} />
       <TickerStat label="Memory" value={memMb !== null ? `${memMb} MB` : '—'} />
-      <TickerStat label="Req / s" value={rps !== null ? rps.toLocaleString() : '—'} />
       <TickerStat label="Error rate" value={errRate !== null ? `${errRate}%` : '—'} color={errColor} />
-      <TickerStat label="P99 latency" value="—" />
-    </SimpleGrid>
+    </Stack>
   );
 }

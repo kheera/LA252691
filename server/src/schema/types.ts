@@ -1,5 +1,6 @@
 export const typeDefs = `#graphql
   enum DeploymentStatus {
+    PENDING
     SUCCESS
     FAILED
     ROLLING_BACK
