@@ -13,10 +13,10 @@ function service(_: unknown, { id }: { id: string }): Service | null {
 
 function deployments(
   _: unknown,
-  { serviceId, status, limit }: { serviceId: string; status?: string; limit?: number },
+  { serviceId, status, limit }: { serviceId?: string; status?: string; limit?: number },
 ): Deployment[] {
   return mockDeployments
-    .filter((d) => d.serviceId === serviceId)
+    .filter((d) => !serviceId || d.serviceId === serviceId)
     .filter((d) => !status || d.status === status)
     .slice(0, limit ?? undefined);
 }

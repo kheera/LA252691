@@ -2,7 +2,7 @@ export const queryDefs = `#graphql
   type Query {
     services: [Service!]!
     service(id: ID!): Service
-    deployments(serviceId: ID!, status: String, limit: Int): [Deployment!]!
+    deployments(serviceId: ID, status: DeploymentStatus, limit: Int): [Deployment!]!
     metrics(serviceId: ID!, last: Int): [Metric!]!
   }
 `;

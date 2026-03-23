@@ -1,4 +1,10 @@
 export const typeDefs = `#graphql
+  enum DeploymentStatus {
+    SUCCESS
+    FAILED
+    ROLLING_BACK
+  }
+
   type Service {
     id: ID!
     name: String!
@@ -16,7 +22,7 @@ export const typeDefs = `#graphql
     version: String!
     deployedBy: String!
     timestamp: String!
-    status: String # SUCCESS | FAILED | ROLLING_BACK
+    status: DeploymentStatus
     durationSeconds: Int!
   }
 
