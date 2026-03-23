@@ -14,6 +14,7 @@ import {
   ServiceIdentityHeader,
 } from './components';
 import { GET_SERVICE_DETAIL, type ServiceDetailResult } from '../../graphql/services';
+import { useDeploymentSettledSubscription } from '../../hooks/useDeploymentSettledSubscription';
 
 function ServiceDetailSkeleton() {
   return (
@@ -62,6 +63,9 @@ export function ServiceDetailPage() {
     variables: { id },
     skip: !id,
   });
+
+  // WS subscription — opens when this page mounts, closes on unmount.
+  useDeploymentSettledSubscription(id ?? '');
 
   if (loading) return <ServiceDetailSkeleton />;
 

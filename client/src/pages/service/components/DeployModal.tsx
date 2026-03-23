@@ -4,6 +4,7 @@ import { Button, Checkbox, Group, Modal, SegmentedControl, Stack, Text, TextInpu
 import { notifications } from '@mantine/notifications';
 import { IconRocket } from '@tabler/icons-react';
 import {
+  GET_RECENT_DEPLOYMENTS,
   GET_SERVICE_DETAIL,
   TRIGGER_DEPLOYMENT,
   type TriggerDeploymentResult,
@@ -69,7 +70,7 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
   const [version, setVersion] = useState(() => bumpVersion(latestVersion, { bumpType: 'patch', isBeta: isBetaBase }));
 
   const [triggerDeployment, { loading }] = useMutation<TriggerDeploymentResult>(TRIGGER_DEPLOYMENT, {
-    refetchQueries: [{ query: GET_SERVICE_DETAIL, variables: { id: serviceId } }],
+    refetchQueries: [{ query: GET_SERVICE_DETAIL, variables: { id: serviceId } }, { query: GET_RECENT_DEPLOYMENTS, variables: { limit: 30 } }],
     onCompleted: (data) => {
       const { version: deployedVersion } = data.triggerDeployment;
       notifications.show({
