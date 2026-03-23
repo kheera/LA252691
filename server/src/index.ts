@@ -2,8 +2,8 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express5';
 import express from 'express';
 import cors from 'cors';
-import { allTypeDefs } from './schema/index.js';
-import { resolvers } from './resolvers/resolvers.js';
+import { createServer } from 'http';
+import { schema, attachWsServer } from './ws.js';
 import { createContext } from './context.js';
 
 const PORT = parseInt(process.env.PORT ?? '4000', 10);
@@ -11,11 +11,7 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
 const DISABLE_INTROSPECTION = process.env.DISABLE_INTROSPECTION !== 'false';
 
 const app = express();
-const server = new ApolloServer({
-  typeDefs: allTypeDefs,
-  resolvers,
-  introspection: !DISABLE_INTROSPECTION,
-});
+const server = new ApolloServer({ schema, introspection: !DISABLE_INTROSPECTION });
 
 await server.start();
 
@@ -34,7 +30,11 @@ app.use(cors({
 app.use(express.json());
 app.use('/graphql', expressMiddleware(server, { context: async () => createContext() }));
 
-app.listen(PORT, () => {
+const httpServer = createServer(app);
+attachWsServer(httpServer);
+
+httpServer.listen(PORT, () => {
   console.log(`Server ready at http://localhost:${PORT}/graphql`);
+  console.log(`WebSocket ready at ws://localhost:${PORT}/graphql/ws`);
   console.log(`Introspection: ${DISABLE_INTROSPECTION ? 'disabled' : 'enabled'}`);
 });

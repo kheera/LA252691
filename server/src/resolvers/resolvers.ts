@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { mockServices, mockDeployments, mockMetrics, persistFixtures } from '../utils/mockData.js';
 import type { Service, Deployment, Metric } from '../models/index.js';
 import type { AppContext } from '../context.js';
+import { pubsub, EVENTS } from '../pubsub.js';
 
 function services(): Service[] {
   return mockServices;
@@ -71,6 +72,7 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
       service.lastDeployedAt = new Date().toISOString();
     }
     persistFixtures();
+    pubsub.publish(EVENTS.DEPLOYMENT_SETTLED, { deploymentSettled: deployment });
   };
   const delayMs = (Math.floor(Math.random() * 31) + 30) * 1000;
   setTimeout(onPipelineComplete, delayMs);
@@ -115,4 +117,12 @@ export const resolvers = {
   Query: { services, service, deployments, metrics },
   Mutation: { triggerDeployment, acknowledgeOutage },
   Service: { deployments: batchDeploymentsLoader, metrics: batchMetricsLoader },
+  Subscription: {
+    metricUpdated: {
+      subscribe: () => pubsub.asyncIterableIterator(EVENTS.METRIC_UPDATED),
+    },
+    deploymentSettled: {
+      subscribe: () => pubsub.asyncIterableIterator(EVENTS.DEPLOYMENT_SETTLED),
+    },
+  },
 };
