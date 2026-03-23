@@ -258,72 +258,1002 @@
     {
       "id": "m1",
       "serviceId": "s1",
-      "timestamp": "2026-03-21T12:00:00Z",
-      "createdAt": "2026-03-21T12:00:00Z",
-      "cpuPercent": 23.4,
-      "memoryMb": 512,
-      "requestsPerSecond": 140.2,
-      "errorRate": 0.5
+      "timestamp": "2026-03-22T11:41:00.000Z",
+      "createdAt": "2026-03-22T11:41:00.000Z",
+      "cpuPercent": 26.3,
+      "memoryMb": 538.7,
+      "requestsPerSecond": 160.7,
+      "errorRate": 1
     },
     {
       "id": "m2",
       "serviceId": "s1",
-      "timestamp": "2026-03-21T11:00:00Z",
-      "createdAt": "2026-03-21T11:00:00Z",
-      "cpuPercent": 31.1,
-      "memoryMb": 528.5,
-      "requestsPerSecond": 155.8,
-      "errorRate": 1.2
-    },
-    {
-      "id": "m3",
-      "serviceId": "s2",
-      "timestamp": "2026-03-21T12:00:00Z",
-      "createdAt": "2026-03-21T12:00:00Z",
-      "cpuPercent": 10,
-      "memoryMb": 256,
-      "requestsPerSecond": 42.5,
-      "errorRate": 0
-    },
-    {
-      "id": "m4",
-      "serviceId": "s2",
-      "timestamp": "2026-03-21T11:00:00Z",
-      "createdAt": "2026-03-21T11:00:00Z",
-      "cpuPercent": 88.7,
-      "memoryMb": 980,
-      "requestsPerSecond": 38.1,
-      "errorRate": 12.4
-    },
-    {
-      "id": "m5",
-      "serviceId": "s3",
-      "timestamp": "2026-03-21T12:00:00Z",
-      "createdAt": "2026-03-21T12:00:00Z",
-      "cpuPercent": 18.2,
-      "memoryMb": 340,
-      "requestsPerSecond": 95.6,
+      "timestamp": "2026-03-22T11:42:00.000Z",
+      "createdAt": "2026-03-22T11:42:00.000Z",
+      "cpuPercent": 26.1,
+      "memoryMb": 550.5,
+      "requestsPerSecond": 64.8,
       "errorRate": 0.1
     },
     {
+      "id": "m3",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:43:00.000Z",
+      "createdAt": "2026-03-22T11:43:00.000Z",
+      "cpuPercent": 24.5,
+      "memoryMb": 544.4,
+      "requestsPerSecond": 80.5,
+      "errorRate": 1
+    },
+    {
+      "id": "m4",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:44:00.000Z",
+      "createdAt": "2026-03-22T11:44:00.000Z",
+      "cpuPercent": 31.7,
+      "memoryMb": 529.6,
+      "requestsPerSecond": 157,
+      "errorRate": 1
+    },
+    {
+      "id": "m5",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:45:00.000Z",
+      "createdAt": "2026-03-22T11:45:00.000Z",
+      "cpuPercent": 36,
+      "memoryMb": 545.4,
+      "requestsPerSecond": 101.1,
+      "errorRate": 1.2
+    },
+    {
       "id": "m6",
-      "serviceId": "s3",
-      "timestamp": "2026-03-21T11:00:00Z",
-      "createdAt": "2026-03-21T11:00:00Z",
-      "cpuPercent": 21.5,
-      "memoryMb": 355.2,
-      "requestsPerSecond": 102.3,
-      "errorRate": 0.3
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:46:00.000Z",
+      "createdAt": "2026-03-22T11:46:00.000Z",
+      "cpuPercent": 21.9,
+      "memoryMb": 503.7,
+      "requestsPerSecond": 125.2,
+      "errorRate": 1.7
     },
     {
       "id": "m7",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:47:00.000Z",
+      "createdAt": "2026-03-22T11:47:00.000Z",
+      "cpuPercent": 24.2,
+      "memoryMb": 530.9,
+      "requestsPerSecond": 116.9,
+      "errorRate": 1.7
+    },
+    {
+      "id": "m8",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:48:00.000Z",
+      "createdAt": "2026-03-22T11:48:00.000Z",
+      "cpuPercent": 31.8,
+      "memoryMb": 522.5,
+      "requestsPerSecond": 183.5,
+      "errorRate": 0
+    },
+    {
+      "id": "m9",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:49:00.000Z",
+      "createdAt": "2026-03-22T11:49:00.000Z",
+      "cpuPercent": 41.8,
+      "memoryMb": 551.8,
+      "requestsPerSecond": 101.8,
+      "errorRate": 0.5
+    },
+    {
+      "id": "m10",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:50:00.000Z",
+      "createdAt": "2026-03-22T11:50:00.000Z",
+      "cpuPercent": 43.2,
+      "memoryMb": 523,
+      "requestsPerSecond": 53.8,
+      "errorRate": 0.4
+    },
+    {
+      "id": "m11",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:51:00.000Z",
+      "createdAt": "2026-03-22T11:51:00.000Z",
+      "cpuPercent": 29.2,
+      "memoryMb": 518.1,
+      "requestsPerSecond": 31.8,
+      "errorRate": 0.8
+    },
+    {
+      "id": "m12",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:52:00.000Z",
+      "createdAt": "2026-03-22T11:52:00.000Z",
+      "cpuPercent": 20.4,
+      "memoryMb": 523.4,
+      "requestsPerSecond": 49.3,
+      "errorRate": 2
+    },
+    {
+      "id": "m13",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:53:00.000Z",
+      "createdAt": "2026-03-22T11:53:00.000Z",
+      "cpuPercent": 31.4,
+      "memoryMb": 535,
+      "requestsPerSecond": 136.3,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m14",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:54:00.000Z",
+      "createdAt": "2026-03-22T11:54:00.000Z",
+      "cpuPercent": 25,
+      "memoryMb": 544.7,
+      "requestsPerSecond": 143.6,
+      "errorRate": 0.6
+    },
+    {
+      "id": "m15",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:55:00.000Z",
+      "createdAt": "2026-03-22T11:55:00.000Z",
+      "cpuPercent": 23.5,
+      "memoryMb": 531.1,
+      "requestsPerSecond": 102.9,
+      "errorRate": 0.6
+    },
+    {
+      "id": "m16",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:56:00.000Z",
+      "createdAt": "2026-03-22T11:56:00.000Z",
+      "cpuPercent": 32.8,
+      "memoryMb": 504.8,
+      "requestsPerSecond": 139.1,
+      "errorRate": 0.4
+    },
+    {
+      "id": "m17",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:57:00.000Z",
+      "createdAt": "2026-03-22T11:57:00.000Z",
+      "cpuPercent": 22.1,
+      "memoryMb": 544.1,
+      "requestsPerSecond": 131.4,
+      "errorRate": 0.9
+    },
+    {
+      "id": "m18",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:58:00.000Z",
+      "createdAt": "2026-03-22T11:58:00.000Z",
+      "cpuPercent": 38.7,
+      "memoryMb": 509.4,
+      "requestsPerSecond": 69.6,
+      "errorRate": 1
+    },
+    {
+      "id": "m19",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T11:59:00.000Z",
+      "createdAt": "2026-03-22T11:59:00.000Z",
+      "cpuPercent": 28.4,
+      "memoryMb": 518.9,
+      "requestsPerSecond": 39.3,
+      "errorRate": 1.1
+    },
+    {
+      "id": "m20",
+      "serviceId": "s1",
+      "timestamp": "2026-03-22T12:00:00.000Z",
+      "createdAt": "2026-03-22T12:00:00.000Z",
+      "cpuPercent": 33.6,
+      "memoryMb": 534.4,
+      "requestsPerSecond": 140.6,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m21",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:41:00.000Z",
+      "createdAt": "2026-03-22T11:41:00.000Z",
+      "cpuPercent": 23.8,
+      "memoryMb": 295.3,
+      "requestsPerSecond": 192.3,
+      "errorRate": 1.9
+    },
+    {
+      "id": "m22",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:42:00.000Z",
+      "createdAt": "2026-03-22T11:42:00.000Z",
+      "cpuPercent": 23.9,
+      "memoryMb": 275.8,
+      "requestsPerSecond": 64.5,
+      "errorRate": 1.1
+    },
+    {
+      "id": "m23",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:43:00.000Z",
+      "createdAt": "2026-03-22T11:43:00.000Z",
+      "cpuPercent": 7.9,
+      "memoryMb": 253.2,
+      "requestsPerSecond": 137.5,
+      "errorRate": 1.5
+    },
+    {
+      "id": "m24",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:44:00.000Z",
+      "createdAt": "2026-03-22T11:44:00.000Z",
+      "cpuPercent": 26.1,
+      "memoryMb": 285.3,
+      "requestsPerSecond": 91.1,
+      "errorRate": 1.6
+    },
+    {
+      "id": "m25",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:45:00.000Z",
+      "createdAt": "2026-03-22T11:45:00.000Z",
+      "cpuPercent": 21.8,
+      "memoryMb": 258.2,
+      "requestsPerSecond": 127.5,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m26",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:46:00.000Z",
+      "createdAt": "2026-03-22T11:46:00.000Z",
+      "cpuPercent": 20.6,
+      "memoryMb": 265,
+      "requestsPerSecond": 149.7,
+      "errorRate": 0.6
+    },
+    {
+      "id": "m27",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:47:00.000Z",
+      "createdAt": "2026-03-22T11:47:00.000Z",
+      "cpuPercent": 30.1,
+      "memoryMb": 260.4,
+      "requestsPerSecond": 167.9,
+      "errorRate": 0.3
+    },
+    {
+      "id": "m28",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:48:00.000Z",
+      "createdAt": "2026-03-22T11:48:00.000Z",
+      "cpuPercent": 14.7,
+      "memoryMb": 251.4,
+      "requestsPerSecond": 99.4,
+      "errorRate": 1.2
+    },
+    {
+      "id": "m29",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:49:00.000Z",
+      "createdAt": "2026-03-22T11:49:00.000Z",
+      "cpuPercent": 24,
+      "memoryMb": 277.3,
+      "requestsPerSecond": 96.2,
+      "errorRate": 0.2
+    },
+    {
+      "id": "m30",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:50:00.000Z",
+      "createdAt": "2026-03-22T11:50:00.000Z",
+      "cpuPercent": 9.6,
+      "memoryMb": 256.8,
+      "requestsPerSecond": 161.7,
+      "errorRate": 1.5
+    },
+    {
+      "id": "m31",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:51:00.000Z",
+      "createdAt": "2026-03-22T11:51:00.000Z",
+      "cpuPercent": 31.1,
+      "memoryMb": 253.6,
+      "requestsPerSecond": 136.5,
+      "errorRate": 2
+    },
+    {
+      "id": "m32",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:52:00.000Z",
+      "createdAt": "2026-03-22T11:52:00.000Z",
+      "cpuPercent": 31.9,
+      "memoryMb": 279.7,
+      "requestsPerSecond": 62.7,
+      "errorRate": 0.4
+    },
+    {
+      "id": "m33",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:53:00.000Z",
+      "createdAt": "2026-03-22T11:53:00.000Z",
+      "cpuPercent": 8.7,
+      "memoryMb": 243.7,
+      "requestsPerSecond": 168.7,
+      "errorRate": 1
+    },
+    {
+      "id": "m34",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:54:00.000Z",
+      "createdAt": "2026-03-22T11:54:00.000Z",
+      "cpuPercent": 22.2,
+      "memoryMb": 289.9,
+      "requestsPerSecond": 57.5,
+      "errorRate": 0.9
+    },
+    {
+      "id": "m35",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:55:00.000Z",
+      "createdAt": "2026-03-22T11:55:00.000Z",
+      "cpuPercent": 22.8,
+      "memoryMb": 252,
+      "requestsPerSecond": 80,
+      "errorRate": 1.3
+    },
+    {
+      "id": "m36",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:56:00.000Z",
+      "createdAt": "2026-03-22T11:56:00.000Z",
+      "cpuPercent": 18,
+      "memoryMb": 270.7,
+      "requestsPerSecond": 48.9,
+      "errorRate": 1.3
+    },
+    {
+      "id": "m37",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:57:00.000Z",
+      "createdAt": "2026-03-22T11:57:00.000Z",
+      "cpuPercent": 13,
+      "memoryMb": 276.4,
+      "requestsPerSecond": 138.5,
+      "errorRate": 1.2
+    },
+    {
+      "id": "m38",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:58:00.000Z",
+      "createdAt": "2026-03-22T11:58:00.000Z",
+      "cpuPercent": 29.5,
+      "memoryMb": 276.7,
+      "requestsPerSecond": 97.3,
+      "errorRate": 0.3
+    },
+    {
+      "id": "m39",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T11:59:00.000Z",
+      "createdAt": "2026-03-22T11:59:00.000Z",
+      "cpuPercent": 18.9,
+      "memoryMb": 286.6,
+      "requestsPerSecond": 87.5,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m40",
+      "serviceId": "s2",
+      "timestamp": "2026-03-22T12:00:00.000Z",
+      "createdAt": "2026-03-22T12:00:00.000Z",
+      "cpuPercent": 27.3,
+      "memoryMb": 285.3,
+      "requestsPerSecond": 126.6,
+      "errorRate": 0.9
+    },
+    {
+      "id": "m41",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:41:00.000Z",
+      "createdAt": "2026-03-22T11:41:00.000Z",
+      "cpuPercent": 28.6,
+      "memoryMb": 365.1,
+      "requestsPerSecond": 64.1,
+      "errorRate": 1.5
+    },
+    {
+      "id": "m42",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:42:00.000Z",
+      "createdAt": "2026-03-22T11:42:00.000Z",
+      "cpuPercent": 36.8,
+      "memoryMb": 345.4,
+      "requestsPerSecond": 116.1,
+      "errorRate": 1.6
+    },
+    {
+      "id": "m43",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:43:00.000Z",
+      "createdAt": "2026-03-22T11:43:00.000Z",
+      "cpuPercent": 37.7,
+      "memoryMb": 378.5,
+      "requestsPerSecond": 66.3,
+      "errorRate": 1.9
+    },
+    {
+      "id": "m44",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:44:00.000Z",
+      "createdAt": "2026-03-22T11:44:00.000Z",
+      "cpuPercent": 29.2,
+      "memoryMb": 364.7,
+      "requestsPerSecond": 119,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m45",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:45:00.000Z",
+      "createdAt": "2026-03-22T11:45:00.000Z",
+      "cpuPercent": 39.3,
+      "memoryMb": 361.8,
+      "requestsPerSecond": 55.7,
+      "errorRate": 0.4
+    },
+    {
+      "id": "m46",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:46:00.000Z",
+      "createdAt": "2026-03-22T11:46:00.000Z",
+      "cpuPercent": 26.1,
+      "memoryMb": 375,
+      "requestsPerSecond": 125.3,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m47",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:47:00.000Z",
+      "createdAt": "2026-03-22T11:47:00.000Z",
+      "cpuPercent": 20.1,
+      "memoryMb": 380.9,
+      "requestsPerSecond": 155.8,
+      "errorRate": 0.2
+    },
+    {
+      "id": "m48",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:48:00.000Z",
+      "createdAt": "2026-03-22T11:48:00.000Z",
+      "cpuPercent": 35.1,
+      "memoryMb": 350,
+      "requestsPerSecond": 121.6,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m49",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:49:00.000Z",
+      "createdAt": "2026-03-22T11:49:00.000Z",
+      "cpuPercent": 27.9,
+      "memoryMb": 360.9,
+      "requestsPerSecond": 82.2,
+      "errorRate": 1.1
+    },
+    {
+      "id": "m50",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:50:00.000Z",
+      "createdAt": "2026-03-22T11:50:00.000Z",
+      "cpuPercent": 21.8,
+      "memoryMb": 357.5,
+      "requestsPerSecond": 38.4,
+      "errorRate": 1.4
+    },
+    {
+      "id": "m51",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:51:00.000Z",
+      "createdAt": "2026-03-22T11:51:00.000Z",
+      "cpuPercent": 29.7,
+      "memoryMb": 348.4,
+      "requestsPerSecond": 76.8,
+      "errorRate": 2
+    },
+    {
+      "id": "m52",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:52:00.000Z",
+      "createdAt": "2026-03-22T11:52:00.000Z",
+      "cpuPercent": 34.1,
+      "memoryMb": 327.6,
+      "requestsPerSecond": 193.4,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m53",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:53:00.000Z",
+      "createdAt": "2026-03-22T11:53:00.000Z",
+      "cpuPercent": 23.7,
+      "memoryMb": 359.3,
+      "requestsPerSecond": 119.4,
+      "errorRate": 0.9
+    },
+    {
+      "id": "m54",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:54:00.000Z",
+      "createdAt": "2026-03-22T11:54:00.000Z",
+      "cpuPercent": 19.3,
+      "memoryMb": 378.7,
+      "requestsPerSecond": 134.7,
+      "errorRate": 0.1
+    },
+    {
+      "id": "m55",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:55:00.000Z",
+      "createdAt": "2026-03-22T11:55:00.000Z",
+      "cpuPercent": 27.7,
+      "memoryMb": 365.3,
+      "requestsPerSecond": 89.6,
+      "errorRate": 1.4
+    },
+    {
+      "id": "m56",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:56:00.000Z",
+      "createdAt": "2026-03-22T11:56:00.000Z",
+      "cpuPercent": 15,
+      "memoryMb": 381,
+      "requestsPerSecond": 90.3,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m57",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:57:00.000Z",
+      "createdAt": "2026-03-22T11:57:00.000Z",
+      "cpuPercent": 34.9,
+      "memoryMb": 329.3,
+      "requestsPerSecond": 105.8,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m58",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:58:00.000Z",
+      "createdAt": "2026-03-22T11:58:00.000Z",
+      "cpuPercent": 29.4,
+      "memoryMb": 370,
+      "requestsPerSecond": 81.2,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m59",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T11:59:00.000Z",
+      "createdAt": "2026-03-22T11:59:00.000Z",
+      "cpuPercent": 25.2,
+      "memoryMb": 384.4,
+      "requestsPerSecond": 97.8,
+      "errorRate": 1.5
+    },
+    {
+      "id": "m60",
+      "serviceId": "s3",
+      "timestamp": "2026-03-22T12:00:00.000Z",
+      "createdAt": "2026-03-22T12:00:00.000Z",
+      "cpuPercent": 20.1,
+      "memoryMb": 377,
+      "requestsPerSecond": 51.6,
+      "errorRate": 1.6
+    },
+    {
+      "id": "m61",
       "serviceId": "s4",
-      "timestamp": "2026-03-21T12:00:00Z",
-      "createdAt": "2026-03-21T12:00:00Z",
-      "cpuPercent": null,
-      "memoryMb": null,
-      "requestsPerSecond": null,
-      "errorRate": null
+      "timestamp": "2026-03-22T11:41:00.000Z",
+      "createdAt": "2026-03-22T11:41:00.000Z",
+      "cpuPercent": 69.8,
+      "memoryMb": 709,
+      "requestsPerSecond": 171.4,
+      "errorRate": 2
+    },
+    {
+      "id": "m62",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:42:00.000Z",
+      "createdAt": "2026-03-22T11:42:00.000Z",
+      "cpuPercent": 71.3,
+      "memoryMb": 736.3,
+      "requestsPerSecond": 101.9,
+      "errorRate": 1.1
+    },
+    {
+      "id": "m63",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:43:00.000Z",
+      "createdAt": "2026-03-22T11:43:00.000Z",
+      "cpuPercent": 72.3,
+      "memoryMb": 717.1,
+      "requestsPerSecond": 190,
+      "errorRate": 1.5
+    },
+    {
+      "id": "m64",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:44:00.000Z",
+      "createdAt": "2026-03-22T11:44:00.000Z",
+      "cpuPercent": 52.7,
+      "memoryMb": 717.3,
+      "requestsPerSecond": 49.8,
+      "errorRate": 0.5
+    },
+    {
+      "id": "m65",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:45:00.000Z",
+      "createdAt": "2026-03-22T11:45:00.000Z",
+      "cpuPercent": 72.7,
+      "memoryMb": 758.6,
+      "requestsPerSecond": 149,
+      "errorRate": 0.8
+    },
+    {
+      "id": "m66",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:46:00.000Z",
+      "createdAt": "2026-03-22T11:46:00.000Z",
+      "cpuPercent": 59.7,
+      "memoryMb": 740.3,
+      "requestsPerSecond": 154.7,
+      "errorRate": 0.2
+    },
+    {
+      "id": "m67",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:47:00.000Z",
+      "createdAt": "2026-03-22T11:47:00.000Z",
+      "cpuPercent": 58.3,
+      "memoryMb": 731.1,
+      "requestsPerSecond": 88.3,
+      "errorRate": 0.8
+    },
+    {
+      "id": "m68",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:48:00.000Z",
+      "createdAt": "2026-03-22T11:48:00.000Z",
+      "cpuPercent": 56.6,
+      "memoryMb": 700.5,
+      "requestsPerSecond": 32.5,
+      "errorRate": 0.3
+    },
+    {
+      "id": "m69",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:49:00.000Z",
+      "createdAt": "2026-03-22T11:49:00.000Z",
+      "cpuPercent": 65.9,
+      "memoryMb": 712.7,
+      "requestsPerSecond": 170,
+      "errorRate": 1.9
+    },
+    {
+      "id": "m70",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:50:00.000Z",
+      "createdAt": "2026-03-22T11:50:00.000Z",
+      "cpuPercent": 50.3,
+      "memoryMb": 752.8,
+      "requestsPerSecond": 94,
+      "errorRate": 1.6
+    },
+    {
+      "id": "m71",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:51:00.000Z",
+      "createdAt": "2026-03-22T11:51:00.000Z",
+      "cpuPercent": 73.2,
+      "memoryMb": 704.9,
+      "requestsPerSecond": 192.7,
+      "errorRate": 2
+    },
+    {
+      "id": "m72",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:52:00.000Z",
+      "createdAt": "2026-03-22T11:52:00.000Z",
+      "cpuPercent": 62.1,
+      "memoryMb": 737,
+      "requestsPerSecond": 52.7,
+      "errorRate": 1.3
+    },
+    {
+      "id": "m73",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:53:00.000Z",
+      "createdAt": "2026-03-22T11:53:00.000Z",
+      "cpuPercent": 73.3,
+      "memoryMb": 754.3,
+      "requestsPerSecond": 88.5,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m74",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:54:00.000Z",
+      "createdAt": "2026-03-22T11:54:00.000Z",
+      "cpuPercent": 54.3,
+      "memoryMb": 718.9,
+      "requestsPerSecond": 179.2,
+      "errorRate": 0.4
+    },
+    {
+      "id": "m75",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:55:00.000Z",
+      "createdAt": "2026-03-22T11:55:00.000Z",
+      "cpuPercent": 64.3,
+      "memoryMb": 714.3,
+      "requestsPerSecond": 182.6,
+      "errorRate": 0.7
+    },
+    {
+      "id": "m76",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:56:00.000Z",
+      "createdAt": "2026-03-22T11:56:00.000Z",
+      "cpuPercent": 71.8,
+      "memoryMb": 703.7,
+      "requestsPerSecond": 63.5,
+      "errorRate": 1.9
+    },
+    {
+      "id": "m77",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:57:00.000Z",
+      "createdAt": "2026-03-22T11:57:00.000Z",
+      "cpuPercent": 63.8,
+      "memoryMb": 747.2,
+      "requestsPerSecond": 90.6,
+      "errorRate": 0.5
+    },
+    {
+      "id": "m78",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:58:00.000Z",
+      "createdAt": "2026-03-22T11:58:00.000Z",
+      "cpuPercent": 61.5,
+      "memoryMb": 746.1,
+      "requestsPerSecond": 56.8,
+      "errorRate": 1.2
+    },
+    {
+      "id": "m79",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T11:59:00.000Z",
+      "createdAt": "2026-03-22T11:59:00.000Z",
+      "cpuPercent": 66.6,
+      "memoryMb": 745.9,
+      "requestsPerSecond": 89,
+      "errorRate": 1.8
+    },
+    {
+      "id": "m80",
+      "serviceId": "s4",
+      "timestamp": "2026-03-22T12:00:00.000Z",
+      "createdAt": "2026-03-22T12:00:00.000Z",
+      "cpuPercent": 50.7,
+      "memoryMb": 748.1,
+      "requestsPerSecond": 161.9,
+      "errorRate": 0
+    },
+    {
+      "id": "m81",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:41:00.000Z",
+      "createdAt": "2026-03-22T11:41:00.000Z",
+      "cpuPercent": 18.8,
+      "memoryMb": 213.2,
+      "requestsPerSecond": 72.2,
+      "errorRate": 0.1
+    },
+    {
+      "id": "m82",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:42:00.000Z",
+      "createdAt": "2026-03-22T11:42:00.000Z",
+      "cpuPercent": 23.6,
+      "memoryMb": 201.1,
+      "requestsPerSecond": 133.1,
+      "errorRate": 1.3
+    },
+    {
+      "id": "m83",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:43:00.000Z",
+      "createdAt": "2026-03-22T11:43:00.000Z",
+      "cpuPercent": 19.8,
+      "memoryMb": 205.7,
+      "requestsPerSecond": 199.5,
+      "errorRate": 0.2
+    },
+    {
+      "id": "m84",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:44:00.000Z",
+      "createdAt": "2026-03-22T11:44:00.000Z",
+      "cpuPercent": 17.6,
+      "memoryMb": 221.5,
+      "requestsPerSecond": 66,
+      "errorRate": 0.1
+    },
+    {
+      "id": "m85",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:45:00.000Z",
+      "createdAt": "2026-03-22T11:45:00.000Z",
+      "cpuPercent": 24.2,
+      "memoryMb": 201.3,
+      "requestsPerSecond": 197,
+      "errorRate": 0.1
+    },
+    {
+      "id": "m86",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:46:00.000Z",
+      "createdAt": "2026-03-22T11:46:00.000Z",
+      "cpuPercent": 8,
+      "memoryMb": 217.2,
+      "requestsPerSecond": 128.1,
+      "errorRate": 0.4
+    },
+    {
+      "id": "m87",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:47:00.000Z",
+      "createdAt": "2026-03-22T11:47:00.000Z",
+      "cpuPercent": 16.9,
+      "memoryMb": 194.4,
+      "requestsPerSecond": 196.1,
+      "errorRate": 1.4
+    },
+    {
+      "id": "m88",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:48:00.000Z",
+      "createdAt": "2026-03-22T11:48:00.000Z",
+      "cpuPercent": 14.1,
+      "memoryMb": 180.5,
+      "requestsPerSecond": 119.4,
+      "errorRate": 0
+    },
+    {
+      "id": "m89",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:49:00.000Z",
+      "createdAt": "2026-03-22T11:49:00.000Z",
+      "cpuPercent": 24.3,
+      "memoryMb": 223.2,
+      "requestsPerSecond": 126.9,
+      "errorRate": 1.6
+    },
+    {
+      "id": "m90",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:50:00.000Z",
+      "createdAt": "2026-03-22T11:50:00.000Z",
+      "cpuPercent": 19.9,
+      "memoryMb": 215.3,
+      "requestsPerSecond": 127.9,
+      "errorRate": 1
+    },
+    {
+      "id": "m91",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:51:00.000Z",
+      "createdAt": "2026-03-22T11:51:00.000Z",
+      "cpuPercent": 26,
+      "memoryMb": 197.3,
+      "requestsPerSecond": 96.3,
+      "errorRate": 0.2
+    },
+    {
+      "id": "m92",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:52:00.000Z",
+      "createdAt": "2026-03-22T11:52:00.000Z",
+      "cpuPercent": 26.8,
+      "memoryMb": 227.9,
+      "requestsPerSecond": 68.5,
+      "errorRate": 1.6
+    },
+    {
+      "id": "m93",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:53:00.000Z",
+      "createdAt": "2026-03-22T11:53:00.000Z",
+      "cpuPercent": 19.7,
+      "memoryMb": 190.1,
+      "requestsPerSecond": 182.5,
+      "errorRate": 1.4
+    },
+    {
+      "id": "m94",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:54:00.000Z",
+      "createdAt": "2026-03-22T11:54:00.000Z",
+      "cpuPercent": 15.6,
+      "memoryMb": 201.4,
+      "requestsPerSecond": 191.2,
+      "errorRate": 0.5
+    },
+    {
+      "id": "m95",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:55:00.000Z",
+      "createdAt": "2026-03-22T11:55:00.000Z",
+      "cpuPercent": 20.1,
+      "memoryMb": 185.7,
+      "requestsPerSecond": 191.3,
+      "errorRate": 0
+    },
+    {
+      "id": "m96",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:56:00.000Z",
+      "createdAt": "2026-03-22T11:56:00.000Z",
+      "cpuPercent": 7.2,
+      "memoryMb": 209.4,
+      "requestsPerSecond": 144.3,
+      "errorRate": 1
+    },
+    {
+      "id": "m97",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:57:00.000Z",
+      "createdAt": "2026-03-22T11:57:00.000Z",
+      "cpuPercent": 27.2,
+      "memoryMb": 190.3,
+      "requestsPerSecond": 96.2,
+      "errorRate": 0.6
+    },
+    {
+      "id": "m98",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:58:00.000Z",
+      "createdAt": "2026-03-22T11:58:00.000Z",
+      "cpuPercent": 21.1,
+      "memoryMb": 192.8,
+      "requestsPerSecond": 64.4,
+      "errorRate": 1.4
+    },
+    {
+      "id": "m99",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T11:59:00.000Z",
+      "createdAt": "2026-03-22T11:59:00.000Z",
+      "cpuPercent": 3.7,
+      "memoryMb": 218.4,
+      "requestsPerSecond": 104.9,
+      "errorRate": 0.1
+    },
+    {
+      "id": "m100",
+      "serviceId": "s5",
+      "timestamp": "2026-03-22T12:00:00.000Z",
+      "createdAt": "2026-03-22T12:00:00.000Z",
+      "cpuPercent": 24.6,
+      "memoryMb": 211.3,
+      "requestsPerSecond": 160,
+      "errorRate": 0.3
     }
   ]
 }
