@@ -90,6 +90,30 @@ export const TRIGGER_DEPLOYMENT = gql`
   }
 `;
 
+export interface RecentDeployment {
+  id: string;
+  serviceId: string;
+  version: string;
+  timestamp: string;
+  status: string | null;
+}
+
+export interface RecentDeploymentsResult {
+  deployments: RecentDeployment[];
+}
+
+export const GET_RECENT_DEPLOYMENTS = gql`
+  query GetRecentDeployments($status: DeploymentStatus, $limit: Int) {
+    deployments(status: $status, limit: $limit) {
+      id
+      serviceId
+      version
+      timestamp
+      status
+    }
+  }
+`;
+
 export interface AcknowledgeOutageResult {
   acknowledgeOutage: {
     id: string;

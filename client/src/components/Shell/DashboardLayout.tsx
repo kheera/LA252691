@@ -13,7 +13,7 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ headerActions, children }: DashboardLayoutProps) {
-  const [navOpen, { toggle }] = useDisclosure(false);
+  const [navOpen, { toggle }] = useDisclosure(true);
   const { show: showSplash } = useSplash();
 
   return (

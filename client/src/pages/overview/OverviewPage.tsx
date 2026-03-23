@@ -1,21 +1,22 @@
-import { Group, SimpleGrid, Text, Title } from '@mantine/core';
+import { Grid, Group, Text, Title } from '@mantine/core';
 import { useQuery } from '@apollo/client/react';
 import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import { ServiceCard } from '../../components/ServiceCard/ServiceCard';
 import { StatusCounts } from '../../components/StatusSummaryBar';
 import { GET_SERVICES } from '../../graphql/services';
 import { type ServiceSummary } from '../../components/ServiceCard/types';
-
-function OverviewSimpleGrid({ children }: { children: React.ReactNode }) {
-  return <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }}>{children}</SimpleGrid>;
-}
+import { RecentDeploymentsPanel } from './components/RecentDeploymentsPanel';
 
 function ServiceGridSkeleton() {
   const count = 6;
   return (
-    <OverviewSimpleGrid>
-      {Array.from({ length: count }).map((_, i) => <ServiceCard key={i} loading />)}
-    </OverviewSimpleGrid>
+    <Grid gutter="md">
+      {Array.from({ length: count }).map((_, i) => (
+        <Grid.Col key={i} span={{ base: 12, sm: 6, xl: 4 }}>
+          <ServiceCard key={i} loading />
+        </Grid.Col>
+      ))}
+    </Grid>
   );
 }
 
@@ -30,12 +31,27 @@ export function OverviewPage() {
       </Group>
 
       {error && <Text c="red">Failed to load services: {error.message}</Text>}
-      {loading && <ServiceGridSkeleton />}
-      {data && (
-        <OverviewSimpleGrid>
-          {data.services.map((svc) => <ServiceCard key={svc.id} svc={svc} />)}
-        </OverviewSimpleGrid>
-      )}
+
+      {/* Side-by-side: service cards left, recent deployments right.
+          Panel stays in the viewport so the 6 service cards are never pushed below the fold. */}
+      <Grid gutter="md" align="stretch">
+        <Grid.Col span={{ base: 12, lg: 8 }}>
+          {loading && <ServiceGridSkeleton />}
+          {data && (
+            <Grid gutter="md">
+              {data.services.map((svc) => (
+                <Grid.Col key={svc.id} span={{ base: 12, sm: 6, xl: 4 }}>
+                  <ServiceCard svc={svc} />
+                </Grid.Col>
+              ))}
+            </Grid>
+          )}
+        </Grid.Col>
+
+        <Grid.Col span={{ base: 12, lg: 4 }}>
+          <RecentDeploymentsPanel services={data?.services ?? []} />
+        </Grid.Col>
+      </Grid>
     </DashboardLayout>
   );
 }

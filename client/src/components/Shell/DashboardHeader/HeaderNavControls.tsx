@@ -15,7 +15,7 @@ interface HeaderNavControlsProps {
 export function HeaderNavControls({ onMenuToggle, onHomeClick }: HeaderNavControlsProps) {
   return (
     <>
-      <Button variant="subtle" size="sm" hiddenFrom="lg" onClick={onMenuToggle} px="xs">
+      <Button variant="subtle" size="sm" onClick={onMenuToggle} px="xs">
         <IconMenu2 size={18} />
       </Button>
       <Button

@@ -41,15 +41,15 @@ function NavContent({ onClose }: { onClose?: () => void }) {
   const location = useLocation();
   const { show: showSplash } = useSplash();
 
-  const go = (path: string) => { navigate(path); onClose?.(); };
+  const navigateTo = (path: string) => { navigate(path); onClose?.(); };
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <Stack gap="xs">
       <Text size="xs" c="dimmed" fw={600} tt="uppercase" px={4}>Navigation</Text>
       <NavButton icon={<IconHome size={16} />}        label="Home"        onClick={() => { showSplash(); onClose?.(); }} />
-      <NavButton icon={<IconActivity size={16} />}    label="Overview"    onClick={() => go('/')}     active={isActive('/')} />
-      <NavButton icon={<IconFlask size={16} />}       label="Demo"        onClick={() => go('/demo')} active={isActive('/demo')} />
+      <NavButton icon={<IconActivity size={16} />}    label="Overview"    onClick={() => navigateTo('/')}     active={isActive('/')} />
+      <NavButton icon={<IconFlask size={16} />}       label="Demo"        onClick={() => navigateTo('/demo')} active={isActive('/demo')} />
       <NavButton icon={<IconCloudUpload size={16} />} label="Deployments" onClick={() => onClose?.()} />
     </Stack>
   );
@@ -66,23 +66,25 @@ const SHELL_SURFACE = 'var(--shell-surface)';
 export function DashboardSidebar({ navOpen, onClose }: DashboardSidebarProps) {
   return (
     <>
-      {/* Inline sidebar — lg and above */}
-      <Box
-        visibleFrom="lg"
-        bg={SHELL_SURFACE}
-        px="sm"
-        py="md"
-        style={{
-          width: 200,
-          flexShrink: 0,
-          ...sidebarBorderStyle,
-          overflow: 'auto',
-        }}
-      >
-        <NavContent />
-      </Box>
+      {/* Inline sidebar — always inline on lg+, controlled by navOpen */}
+      {navOpen && (
+        <Box
+          visibleFrom="lg"
+          bg={SHELL_SURFACE}
+          px="sm"
+          py="md"
+          style={{
+            width: 200,
+            flexShrink: 0,
+            ...sidebarBorderStyle,
+            overflow: 'auto',
+          }}
+        >
+          <NavContent />
+        </Box>
+      )}
 
-      {/* Drawer nav — hamburger below lg */}
+      {/* Overlay drawer — hamburger on smaller screens */}
       {navOpen && (
         <Box
           hiddenFrom="lg"

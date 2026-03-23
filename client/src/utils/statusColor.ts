@@ -1,5 +1,6 @@
 import { STATUS_BADGE_COLORS, STATUS_COLORS } from '../theme';
 
+
 /** Maps a service status string to the Mantine colour name used across badges, progress bars, etc. */
 export function statusColor(s: string | null): string {
   if (s === 'HEALTHY') return STATUS_COLORS.HEALTHY;
