@@ -6,15 +6,35 @@ import { allTypeDefs } from './schema/index.js';
 import { resolvers } from './resolvers/resolvers.js';
 import { createContext } from './context.js';
 
+const PORT = parseInt(process.env.PORT ?? '4000', 10);
+const CORS_ORIGIN = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
+const DISABLE_INTROSPECTION = process.env.DISABLE_INTROSPECTION !== 'false';
+
 const app = express();
-const server = new ApolloServer({ typeDefs: allTypeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs: allTypeDefs,
+  resolvers,
+  introspection: !DISABLE_INTROSPECTION,
+});
 
 await server.start();
 
-app.use(cors());
+// Security headers on every response
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  next();
+});
+
+app.use(cors({
+  origin: CORS_ORIGIN,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use('/graphql', expressMiddleware(server, { context: async () => createContext() }));
 
-app.listen(4000, () => {
-  console.log('Server ready at http://localhost:4000/graphql');
+app.listen(PORT, () => {
+  console.log(`Server ready at http://localhost:${PORT}/graphql`);
+  console.log(`Introspection: ${DISABLE_INTROSPECTION ? 'disabled' : 'enabled'}`);
 });
