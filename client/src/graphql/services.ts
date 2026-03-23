@@ -132,3 +132,47 @@ export const ACKNOWLEDGE_OUTAGE = gql`
     }
   }
 `;
+
+export interface DeploymentSettledPayload {
+  deploymentSettled: {
+    id: string;
+    serviceId: string;
+    version: string;
+    status: string;
+    timestamp: string;
+    durationSeconds: number;
+  };
+}
+
+export const SUBSCRIBE_DEPLOYMENT_SETTLED = gql`
+  subscription OnDeploymentSettled {
+    deploymentSettled {
+      id
+      serviceId
+      version
+      status
+      timestamp
+      durationSeconds
+    }
+  }
+`;
+
+export interface MetricUpdatedPayload {
+  metricUpdated: {
+    serviceId: string;
+    status: string;
+    uptime: number | null;
+    timestamp: string;
+  };
+}
+
+export const SUBSCRIBE_METRIC_UPDATES = gql`
+  subscription OnMetricUpdated {
+    metricUpdated {
+      serviceId
+      status
+      uptime
+      timestamp
+    }
+  }
+`;
