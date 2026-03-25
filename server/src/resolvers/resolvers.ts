@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { withFilter } from 'graphql-subscriptions';
 import { mockServices, mockDeployments, mockMetrics, persistFixtures } from '../utils/mockData.js';
 import type { Service, Deployment, Metric } from '../models/index.js';
 import type { AppContext } from '../context.js';
@@ -59,12 +60,11 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
   const BETA_FAILURE_RATE = 0.75;
   const STABLE_FAILURE_RATE = 0.20;
   const failureRate = /-beta\d*$/i.test(version) ? BETA_FAILURE_RATE : STABLE_FAILURE_RATE;
+  const startedAt = Date.now();
   const onPipelineComplete = () => {
     const failed = Math.random() < failureRate;
     deployment.status = failed ? 'FAILED' : 'SUCCESS';
-    deployment.durationSeconds = failed
-      ? Math.floor(Math.random() * 20) + 5
-      : Math.floor(Math.random() * 60) + 30;
+    deployment.durationSeconds = Math.round((Date.now() - startedAt) / 1000);
 
     if (failed) {
       service.status = 'DOWN';
@@ -119,7 +119,11 @@ export const resolvers = {
   Service: { deployments: batchDeploymentsLoader, metrics: batchMetricsLoader },
   Subscription: {
     metricUpdated: {
-      subscribe: () => pubsub.asyncIterableIterator(EVENTS.METRIC_UPDATED),
+      subscribe: withFilter(
+        () => pubsub.asyncIterableIterator(EVENTS.METRIC_UPDATED),
+        (payload: { metricUpdated: { serviceId: string } } | undefined, variables: { serviceId: string } | undefined) =>
+          payload?.metricUpdated.serviceId === variables?.serviceId,
+      ),
     },
     deploymentSettled: {
       subscribe: () => pubsub.asyncIterableIterator(EVENTS.DEPLOYMENT_SETTLED),

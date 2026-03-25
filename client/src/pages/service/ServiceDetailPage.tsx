@@ -15,6 +15,7 @@ import {
 } from './components';
 import { GET_SERVICE_DETAIL, type ServiceDetailResult } from '../../graphql/services';
 import { useDeploymentSettledSubscription } from '../../hooks/useDeploymentSettledSubscription';
+import { useMetricUpdatedSubscription } from '../../hooks/useMetricUpdatedSubscription';
 
 function ServiceDetailSkeleton() {
   return (
@@ -66,6 +67,7 @@ export function ServiceDetailPage() {
 
   // WS subscription — opens when this page mounts, closes on unmount.
   useDeploymentSettledSubscription(id ?? '');
+  const { metrics: liveMetrics, wsStatus } = useMetricUpdatedSubscription(id ?? '');
 
   if (loading) return <ServiceDetailSkeleton />;
 
@@ -76,8 +78,11 @@ export function ServiceDetailPage() {
 
   const { service } = data;
   const { deployments, metrics } = service;
+  // Seed the chart with the last 20 from the query, then append live subscription
+  // updates as they arrive every 10 s — the chart re-renders automatically.
+  const allMetrics = [...metrics, ...liveMetrics].slice(-20);
   // Assumes metrics are returned in ascending chronological order (oldest first); the last element is therefore the most recent.
-  const latestMetric = metrics[metrics.length - 1] ?? null;
+  const latestMetric = allMetrics[allMetrics.length - 1] ?? null;
   // Sort a copy by timestamp descending to find the most recent deployment regardless of return order.
   const latestVersion = [...deployments]
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0]?.version ?? 'v0.0.0';
@@ -94,7 +99,7 @@ export function ServiceDetailPage() {
         <ServiceIdentityHeader name={service.name} status={service.status} />
         <Grid gutter="md" align="stretch">
           <Grid.Col span={{ base: 12, md: 9 }}>
-            <MetricsChart metrics={metrics} />
+            <MetricsChart metrics={allMetrics} wsStatus={wsStatus} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 3 }}>
             <MetricTicker metric={latestMetric} />

@@ -5,6 +5,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { schema, attachWsServer } from './ws.js';
 import { createContext } from './context.js';
+import { startMetricTicker } from './metricTicker.js';
 
 const PORT = parseInt(process.env.PORT ?? '4000', 10);
 const CORS_ORIGIN = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
@@ -38,3 +39,5 @@ httpServer.listen(PORT, () => {
   console.log(`WebSocket ready at ws://localhost:${PORT}/graphql/ws`);
   console.log(`Introspection: ${DISABLE_INTROSPECTION ? 'disabled' : 'enabled'}`);
 });
+
+startMetricTicker();

@@ -1,13 +1,16 @@
 export const subscriptionDefs = `#graphql
   type Subscription {
-    metricUpdated: ServiceMetricUpdate!
+    metricUpdated(serviceId: ID!): ServiceMetricUpdate!
     deploymentSettled: Deployment!
   }
 
   type ServiceMetricUpdate {
+    id: ID!
     serviceId: ID!
-    status: String!
-    uptime: Float
     timestamp: String!
+    cpuPercent: Float
+    memoryMb: Float
+    requestsPerSecond: Float
+    errorRate: Float
   }
 `;

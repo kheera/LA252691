@@ -8,9 +8,13 @@ const wsUri = import.meta.env.VITE_WS_URL ?? 'ws://localhost:4000/graphql/ws';
 
 const httpLink = new HttpLink({ uri: httpUri });
 
-const wsLink = new GraphQLWsLink(
-  createClient({ url: wsUri }),
-);
+export const wsClient = createClient({
+  url: wsUri,
+  retryAttempts: Infinity,
+  shouldRetry: () => true, // retry on both clean and abnormal closes (e.g. server restart)
+});
+
+const wsLink = new GraphQLWsLink(wsClient);
 
 const splitLink = ApolloLink.split(
   ({ query }) => {

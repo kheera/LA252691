@@ -159,20 +159,26 @@ export const SUBSCRIBE_DEPLOYMENT_SETTLED = gql`
 
 export interface MetricUpdatedPayload {
   metricUpdated: {
+    id: string;
     serviceId: string;
-    status: string;
-    uptime: number | null;
     timestamp: string;
+    cpuPercent: number | null;
+    memoryMb: number | null;
+    requestsPerSecond: number | null;
+    errorRate: number | null;
   };
 }
 
 export const SUBSCRIBE_METRIC_UPDATES = gql`
-  subscription OnMetricUpdated {
-    metricUpdated {
+  subscription OnMetricUpdated($serviceId: ID!) {
+    metricUpdated(serviceId: $serviceId) {
+      id
       serviceId
-      status
-      uptime
       timestamp
+      cpuPercent
+      memoryMb
+      requestsPerSecond
+      errorRate
     }
   }
 `;

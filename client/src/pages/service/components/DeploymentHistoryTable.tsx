@@ -1,8 +1,23 @@
+import { useEffect, useState } from 'react';
 import { Card, ScrollArea, Stack, Table, Text } from '@mantine/core';
+import { useInterval } from '@mantine/hooks';
 import { type GqlDeployment } from '../../../graphql/services';
 import { RelativeDate } from '../../../components/RelativeDate';
 import { formatDuration } from '../../../utils/dateFormat';
 import { DeployStatusBadge } from '../../../components/DeployStatusBadge';
+
+/** Counts elapsed seconds from `startIso`, incrementing every second while mounted. */
+function PendingDeployTimer({ startIso }: { startIso: string }) {
+  const [elapsed, setElapsed] = useState(() =>
+    Math.floor((Date.now() - new Date(startIso).getTime()) / 1000),
+  );
+  const interval = useInterval(() => setElapsed((s) => s + 1), 1000);
+  useEffect(() => { interval.start(); return interval.stop; }, [interval]);
+
+  return (
+    <Text size="sm" c="blue.5" fw={600}>{formatDuration(elapsed)}</Text>
+  );
+}
 
 interface DeploymentHistoryTableProps {
   deployments: GqlDeployment[];
@@ -46,7 +61,9 @@ export function DeploymentHistoryTable({ deployments }: DeploymentHistoryTablePr
                     <Text size="sm">{d.deployedBy}</Text>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm">{formatDuration(d.durationSeconds)}</Text>
+                    {d.status === 'PENDING'
+                      ? <PendingDeployTimer startIso={d.timestamp} />
+                      : <Text size="sm">{formatDuration(d.durationSeconds)}</Text>}
                   </Table.Td>
                   <Table.Td>
                     <RelativeDate iso={d.timestamp} />

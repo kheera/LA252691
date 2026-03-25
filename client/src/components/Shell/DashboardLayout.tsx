@@ -5,9 +5,10 @@ import { DashboardHeroPanel } from './DashboardHeroPanel';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardSidebar } from './DashboardSidebar';
 import { useSplash } from './SplashContext';
+import { WsStatusIndicator } from '../WsStatusIndicator';
 
 interface DashboardLayoutProps {
-  /** Extra controls rendered on the right side of the header (e.g. a deploy button) */
+  /** Extra controls rendered on the right side of the header, before the WS indicator */
   headerActions?: ReactNode;
   children: ReactNode;
 }
@@ -28,7 +29,7 @@ export function DashboardLayout({ headerActions, children }: DashboardLayoutProp
         <DashboardHeader
           onMenuToggle={toggle}
           onHomeClick={showSplash}
-          actions={headerActions}
+          actions={<>{headerActions}<WsStatusIndicator /></>}
         />
 
         <Box style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>

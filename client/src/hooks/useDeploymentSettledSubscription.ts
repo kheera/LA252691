@@ -42,5 +42,6 @@ export function useDeploymentSettledSubscription(serviceId: string): void {
         autoClose: 6000,
       });
     },
+    onError: () => { /* subscription error — WS indicator handled by metric subscription */ },
   });
 }
