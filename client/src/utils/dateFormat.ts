@@ -6,6 +6,8 @@
  */
 export function formatRelativeDate(iso: string): string {
   const diffMs = Date.now() - new Date(iso).getTime();
+  const secs = Math.floor(diffMs / 1_000);
+  if (secs < 60) return `${secs}s ago`;
   const mins = Math.floor(diffMs / 60_000);
   if (mins < 60) return `${mins}m ago`;
   const hours = Math.floor(mins / 60);
