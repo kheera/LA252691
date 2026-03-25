@@ -21,6 +21,7 @@ export function startMetricTicker(): void {
   setInterval(() => {
     const timestamp = new Date().toISOString();
     for (const service of mockServices) {
+      if (service.status === 'DOWN') continue; // no metrics while service is down
       pubsub.publish(EVENTS.METRIC_UPDATED, {
         metricUpdated: {
           id: randomUUID(),

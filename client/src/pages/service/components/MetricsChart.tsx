@@ -1,41 +1,30 @@
 import { AreaChart } from '@mantine/charts';
-import { Card, Group, Stack, Text, Tooltip } from '@mantine/core';
-import { IconWifi, IconWifiOff, IconLoader } from '@tabler/icons-react';
+import { Alert, Card, Stack, Text } from '@mantine/core';
+import { IconAlertTriangle } from '@tabler/icons-react';
 import { type GqlMetric } from '../../../graphql/services';
-import { type WsStatus } from '../../../hooks/useWsStatus';
 
 interface MetricsChartProps {
   metrics: GqlMetric[];
-  wsStatus: WsStatus;
+  serviceStatus: string | null;
 }
 
-const WS_META: Record<WsStatus, { icon: React.ReactNode; label: string; color: string }> = {
-  connecting: { icon: <IconLoader size={14} />, label: 'WebSockets connecting…', color: 'dimmed' },
-  live: { icon: <IconWifi size={14} />, label: 'WebSockets live', color: 'teal' },
-  error: { icon: <IconWifiOff size={14} />, label: 'WebSockets disconnected', color: 'red' },
-};
-
-export function MetricsChart({ metrics, wsStatus }: MetricsChartProps) {
+export function MetricsChart({ metrics, serviceStatus }: MetricsChartProps) {
+  const isDown = serviceStatus === 'DOWN';
   const chartData = metrics.map((m) => ({
     time: m.timestamp.slice(11, 19),
     cpu: m.cpuPercent ?? 0,
     memory: m.memoryMb ?? 0,
   }));
 
-  const ws = WS_META[wsStatus];
-
   return (
-    <Card withBorder radius="md" p="lg" h="100%">
+    <Card withBorder radius="md" p="lg" h="100%" style={isDown ? { borderColor: 'var(--mantine-color-red-6)' } : undefined}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Text fw={600} size="sm" c="dimmed" tt="uppercase">CPU &amp; Memory — last 20 readings</Text>
-          <Tooltip label={ws.label} withArrow>
-            <Group gap={4} c={ws.color} style={{ cursor: 'default' }}>
-              {ws.icon}
-              <Text size="xs" fw={600} c={ws.color}>WS</Text>
-            </Group>
-          </Tooltip>
-        </Group>
+        <Text fw={600} size="sm" c="dimmed" tt="uppercase">CPU &amp; Memory — last 20 readings</Text>
+        {isDown && (
+          <Alert color="red" variant="light" icon={<IconAlertTriangle size={16} />} p="xs">
+            Service is DOWN — metrics may be stale
+          </Alert>
+        )}
         <AreaChart
           h={150}
           data={chartData}
