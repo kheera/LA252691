@@ -23,13 +23,18 @@ app.use((_req, res, next) => {
   next();
 });
 
+if (!process.env.API_KEY) {
+  console.error('[server] FATAL: API_KEY env var is not set. Refusing to start without authentication.');
+  process.exit(1);
+}
+
 app.use(cors({
   origin: CORS_ORIGIN,
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
 }));
 app.use(express.json());
-app.use('/graphql', expressMiddleware(server, { context: async () => createContext() }));
+app.use('/graphql', expressMiddleware(server, { context: async ({ req }) => createContext(req) }));
 
 const httpServer = createServer(app);
 attachWsServer(httpServer);

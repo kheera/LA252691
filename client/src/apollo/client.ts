@@ -7,16 +7,19 @@ import { offlineRetryLink } from './offlineRetryLink';
 const httpUri = import.meta.env.VITE_GRAPHQL_URL ?? 'http://localhost:4000/graphql';
 const wsUri = import.meta.env.VITE_WS_URL ?? 'ws://localhost:4000/graphql/ws';
 
-const httpLink = new HttpLink({ uri: httpUri });
+const apiKey = import.meta.env.VITE_API_KEY as string | undefined;
 
-const wsApiKey = import.meta.env.VITE_WS_API_KEY;
+const httpLink = new HttpLink({
+  uri: httpUri,
+  headers: apiKey ? { 'x-api-key': apiKey } : {},
+});
 
 export const wsClient = createClient({
   url: wsUri,
   retryAttempts: Infinity,
   shouldRetry: () => true, // retry on both clean and abnormal closes (e.g. server restart)
   // Sent once in the graphql-ws connection_init message — checked by onConnect on the server.
-  connectionParams: wsApiKey ? { authorization: `Bearer ${wsApiKey}` } : undefined,
+  connectionParams: apiKey ? { authorization: `Bearer ${apiKey}` } : undefined,
 });
 
 const wsLink = new GraphQLWsLink(wsClient);
