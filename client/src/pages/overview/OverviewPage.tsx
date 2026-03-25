@@ -36,7 +36,7 @@ export function OverviewPage() {
           Panel stays in the viewport so the 6 service cards are never pushed below the fold. */}
       <Grid gutter="md" align="stretch">
         <Grid.Col span={{ base: 12, lg: 8 }}>
-          {loading && <ServiceGridSkeleton />}
+          {loading && !data && <ServiceGridSkeleton />}
           {data && (
             <Grid gutter="md">
               {data.services.map((svc) => (

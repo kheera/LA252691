@@ -11,29 +11,56 @@ Full-stack application with a GraphQL API and a React frontend, orchestrated via
 | UI     | react-windows-ui (Windows 11 components + theming) |
 | Infra  | Docker Compose |
 
-## Prerequisites
+## Local development (no Docker)
+
+### Prerequisites
 
 | Tool | Minimum version | Notes |
 |------|----------------|-------|
-| **Node.js** | 20.6 | Required locally for `node --env-file` support (used in `server` dev script). Dockerfiles pin to Node 22. |
+| **Node.js** | 20.6 | Required for `node --env-file` support used in the `server` dev script. |
 | **Yarn** | 1.22 (Classic) | Lockfiles are Yarn 1 format. |
-| **Docker Engine** | 23 | For `docker compose` (v2 plugin). Bundled in Docker Desktop 4.x+. |
-| **Docker Compose** | 2.20 | v2 plugin (`docker compose`, not `docker-compose`). Comes with Docker Desktop 4.x or via the `docker-compose-plugin` package on Linux. |
 
-> **Tip:** Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to manage Node versions. A `.nvmrc` set to `22` is sufficient for both dev and Docker parity.
+> **Tip:** Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to manage Node versions.
 
-## Quick Start
+### Setup & start
 
 ```bash
-# Server
+# 1. Copy and fill in the environment file
+cp .env.example .env
+# Edit .env — set API_KEY, VITE_WS_API_KEY, etc.
+
+# 2. Start the server
 cd server && yarn install && yarn dev
 
-# Client
+# 3. In a second terminal, start the client
 cd client && yarn install && yarn dev
+```
 
-# Both via Docker
+The client will be available at `http://localhost:3000` and the GraphQL API at `http://localhost:4000/graphql`.
+
+---
+
+## Docker setup
+
+### Prerequisites
+
+| Tool | Minimum version | Notes |
+|------|----------------|-------|
+| **Docker Engine** | 23 | Bundled in Docker Desktop 4.x+. |
+| **Docker Compose** | 2.20 | v2 plugin (`docker compose`, not `docker-compose`). Comes with Docker Desktop 4.x or via the `docker-compose-plugin` package on Linux. |
+
+### Setup & start
+
+```bash
+# 1. Copy and fill in the environment file
+cp .env.example .env
+# Edit .env — set API_KEY, VITE_WS_API_KEY, etc.
+
+# 2. Build and start both services
 docker compose up --build
 ```
+
+The client will be served at `http://localhost:3000` and the API at `http://localhost:4000/graphql`.
 
 ## Project Structure
 
@@ -42,11 +69,93 @@ client/    # React 19 + Vite + Apollo Client + react-windows-ui
 server/    # Apollo Server 4 + Express + TypeScript
 ```
 
-See [.github/copilot-instructions.md](.github/copilot-instructions.md) for full conventions and architecture details.
+---
+
+## Features
+
+### Appearance — colour themes & light/dark mode
+
+The dashboard ships with **9 built-in colour themes** and full light/dark mode support, all user-configurable at runtime with no page reload required.
+
+Click the palette icon (🎨) in the top-right header to open the Appearance panel:
+
+| Theme | Character |
+|-------|-----------|
+| **Ocean** | Cool blue — the default |
+| **Forest** | Fresh green |
+| **Slate** | Muted blue-grey |
+| **Crimson** | Bold red |
+| **Gold** | Warm amber |
+| **Amethyst** | Deep violet |
+| **Steel** | Neutral navy-blue |
+| **Copper** | Warm burnt-orange |
+
+Each theme applies a coordinated colour palette across the entire UI — buttons, badges, charts, the hero sidebar gradient, and the dark-mode surface colours all update together. The **Light / Dark** toggle in the same panel switches the colour scheme independently of the chosen theme.
+
+Your selection is saved to `localStorage` and restored automatically on the next visit — no account or server-side preference storage required.
+
+---
+
+### WebSocket status indicator
+
+A **WS** indicator sits permanently in the top-right header so you always know the state of the real-time connection:
+
+| Indicator | Meaning |
+|-----------|---------|
+| 🟢 Teal `WS` | WebSocket connected and live — metric updates are streaming |
+| 🔴 Red `WS` (wifi-off icon) | WebSocket disconnected or errored — live updates paused |
+| ⚫ Dimmed `WS` (wifi-off icon) | WebSocket inactive — you are not on a service detail page |
+
+The indicator is only **active** (showing teal/red) on the `/service/:id` detail page, where a live subscription is actually open. On all other pages it shows as dimmed to make clear that no connection is open and no attempt is being made. The status reflects the raw WebSocket connection events in real time — it reacts instantly to a server restart or network drop without waiting for an Apollo query to timeout.
+
+---
+
+### Resilient offline mode — cached data and automatic retry
+
+The dashboard behaves gracefully when the server is unreachable:
+
+- **Cached data stays visible.** If you have already visited a page during the current session, Apollo's in-memory cache serves the last-known data immediately while the network request retries in the background. You see real content, not an empty screen.
+- **Skeletons on a cold start.** If the cache is empty (fresh page load / browser refresh), skeleton placeholders fill the layout while retrying — the page structure is always intact.
+- **Orange banner.** A full-width "Server offline — displaying cached data if available. Retrying in the background…" strip appears below the header as soon as the first network failure is detected, and disappears the moment the server responds.
+- **Toast notification with spinner.** A persistent notification also appears in the corner, updating to "Reconnected" with a green flash once connectivity is restored.
+- **Exponential back-off.** Retries happen at 1 s → 2 s → 4 s → 8 s → 15 s intervals (capped), so a slow or bouncing server isn't hammered.
+
+---
+
+### Deploy modal — guided semver version picker
+
+Clicking **Deploy** on a service detail page opens a modal that calculates the next version number for you, reducing the chance of typos or version collisions.
+
+**How it works:**
+
+1. The modal reads the service's latest deployed version (e.g. `v2.4.1`).
+2. A **Bump type** segmented control lets you choose:
+   - **Patch** — bug fix, backwards compatible (e.g. `v2.4.1 → v2.4.2`)
+   - **Minor** — new feature, backwards compatible (e.g. `v2.4.1 → v2.5.0`)
+   - **Major** — breaking change (e.g. `v2.4.1 → v3.0.0`)
+3. A **Beta release** checkbox appends a `-beta1` suffix to the result (e.g. `v2.5.0-beta1`). If the current version is already a beta (e.g. `v2.5.0-beta1`), the modal switches automatically to beta-continuation mode: checking "Beta release" increments the beta counter (`-beta2`, `-beta3`, …) and unchecking graduates it to the stable release (`v2.5.0`) — the bump-type selector is hidden since the base version is already fixed.
+4. The calculated version is shown in an **editable text field** — all the auto-calculation is a starting point, not a constraint.
+
+Bump-type descriptions are shown inline (e.g. *"New features — backwards compatible. e.g. v2.4.1 → v2.5.0"*) so users don't have to remember semver conventions.
+
+---
+
+### Simulated deployment failure rates
+
+To make the demo realistic, the server simulates real-world deployment risk when processing a `triggerDeployment` mutation:
+
+| Version type | Failure rate |
+|---|---|
+| Stable release (e.g. `v2.5.0`) | **20%** |
+| Beta release (e.g. `v2.5.0-beta1`) | **75%** |
+
+The version string is inspected server-side (`/-beta\d*$/i` regex) to determine which rate applies. This reflects the reality that pre-release builds are inherently less stable. A failed deployment records `status: FAILED` in the deployment history and the result is surfaced via a toast notification triggered by the `deploymentSettled` WebSocket subscription — so even if you navigate away after triggering, you'll still be notified when it settles.
+
+---
 
 ## Real-time Subscriptions
 
-The server uses GraphQL subscriptions over WebSocket (`graphql-ws` protocol) for live updates — service health pings and deployment-settled events. See [SUBSCRIPTIONS_PLAN.md](SUBSCRIPTIONS_PLAN.md) for the full implementation plan.
+The server uses GraphQL subscriptions over WebSocket (`graphql-ws` protocol) for live updates — service health pings and deployment-settled events.
 
 ### WebSocket Authentication
 
@@ -59,15 +168,7 @@ The `metricUpdated` (and all) subscriptions are protected by an API key that is 
 
 **Setup:**
 
-```bash
-# server/.env  (or root .env for Docker Compose)
-API_KEY=your-secret-key
-
-# client/.env
-VITE_WS_API_KEY=your-secret-key
-```
-
-Both files are gitignored. See `.env.example` and `client/.env.example` for all required variables.
+All variables live in a single `.env` file at the repo root (used by both the server and the Vite client build). Copy `.env.example` to `.env` and set `API_KEY` and `VITE_WS_API_KEY` to the same value. The file is gitignored — see `.env.example` for all required variables.
 
 **Security limitation — key stored in the client bundle:**
 
@@ -113,15 +214,13 @@ No other subscription code needs to change — the resolver `subscribe` function
 
 ### The next three controls for production
 
-**1. Replace the shared API key with per-user short-lived JWTs**
+**1. Supplement the shared API key with per-user short-lived JWTs**
 
 The current `VITE_WS_API_KEY` is a build-time Vite variable, meaning it is compiled into the JavaScript bundle and is visible to anyone who downloads the client. It is a shared secret — if it leaks, all connections are compromised and the only remediation is rotating the key everywhere.
 
-The fix: integrate an identity provider (Auth0, Entra ID, Cognito, etc.). After the user logs in, the IdP issues a signed JWT with a short expiry (e.g. 15 minutes). The client passes that JWT in `connectionParams.authorization`. The server's `onConnect` hook verifies the JWT signature, checks the expiry, and inspects claims (e.g. role, tenant). No secret lives in the bundle; compromise of one token affects only that user session; tokens expire automatically.
+The fix: keep the shared key as a first filter, but also require a per-user credential. Integrate an identity provider (Auth0, Entra ID, Cognito, etc.). After the user logs in, the IdP issues a signed JWT with a short expiry (e.g. 15 minutes). The client passes that JWT in `connectionParams.authorization` alongside (or replacing) the static key. The server's `onConnect` hook verifies the JWT signature, checks the expiry, and inspects claims (e.g. role, tenant). No secret needs to be baked into the bundle; compromise of one token affects only that user session; tokens expire automatically.
 
 **2. Add rate limiting at the HTTP and WebSocket layers**
-
-Currently there is no limit on how many requests a single IP can make. A malicious caller could flood the GraphQL endpoint with expensive queries (e.g. deeply nested selections) or open thousands of WebSocket connections to exhaust server memory.
 
 Concrete implementation:
 - Add `express-rate-limit` on the `/graphql` HTTP route (e.g. 100 requests per minute per IP).

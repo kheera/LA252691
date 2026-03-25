@@ -1,11 +1,13 @@
 import { type ReactNode } from 'react';
-import { Box, ScrollArea, Stack } from '@mantine/core';
+import { Alert, Box, ScrollArea, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconCloudOff } from '@tabler/icons-react';
 import { DashboardHeroPanel } from './DashboardHeroPanel';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardSidebar } from './DashboardSidebar';
 import { useSplash } from './SplashContext';
 import { WsStatusIndicator } from '../WsStatusIndicator';
+import { useIsServerOffline } from '../../apollo/offlineRetryLink';
 
 interface DashboardLayoutProps {
   /** Extra controls rendered on the right side of the header, before the WS indicator */
@@ -16,6 +18,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ headerActions, children }: DashboardLayoutProps) {
   const [navOpen, { toggle }] = useDisclosure(true);
   const { show: showSplash } = useSplash();
+  const serverOffline = useIsServerOffline();
 
   return (
     <Box style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
@@ -31,6 +34,19 @@ export function DashboardLayout({ headerActions, children }: DashboardLayoutProp
           onHomeClick={showSplash}
           actions={<>{headerActions}<WsStatusIndicator /></>}
         />
+
+        {serverOffline && (
+          <Alert
+            color="orange"
+            icon={<IconCloudOff size={16} />}
+            radius={0}
+            py={6}
+            px="md"
+            styles={{ root: { borderTop: 'none', borderLeft: 'none', borderRight: 'none' } }}
+          >
+            <Text size="sm">Server offline — displaying cached data if available. Retrying in the background…</Text>
+          </Alert>
+        )}
 
         <Box style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
           <DashboardSidebar navOpen={navOpen} onClose={toggle} />

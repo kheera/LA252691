@@ -88,9 +88,9 @@ export function RecentDeploymentsPanel({ services }: RecentDeploymentsPanelProps
         </Group>
 
         <ScrollArea flex={1} mah={420}>
-          {loading && <RecentDeploymentRowSkeleton />}
-          {!loading && deployments.length === 0 && <NoDeploymentsFound />}
-          {!loading && deployments.length > 0 && (
+          {loading && !data && <RecentDeploymentRowSkeleton />}
+          {(!loading || data) && deployments.length === 0 && <NoDeploymentsFound />}
+          {(!loading || data) && deployments.length > 0 && (
             <Stack gap={8}>
               {deployments.map((deployment) => (
                 <DeploymentRow

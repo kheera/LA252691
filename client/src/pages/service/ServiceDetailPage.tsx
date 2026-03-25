@@ -69,7 +69,7 @@ export function ServiceDetailPage() {
   useDeploymentSettledSubscription(id ?? '');
   const liveMetrics = useMetricUpdatedSubscription(id ?? '');
 
-  if (loading) return <ServiceDetailSkeleton />;
+  if (loading && !data?.service) return <ServiceDetailSkeleton />;
 
   if (error || !data?.service) {
     const message = error ? `Error: ${error.message}` : 'Service not found.';
