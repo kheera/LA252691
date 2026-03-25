@@ -11,6 +11,17 @@ Full-stack application with a GraphQL API and a React frontend, orchestrated via
 | UI     | react-windows-ui (Windows 11 components + theming) |
 | Infra  | Docker Compose |
 
+## Prerequisites
+
+| Tool | Minimum version | Notes |
+|------|----------------|-------|
+| **Node.js** | 20.6 | Required locally for `node --env-file` support (used in `server` dev script). Dockerfiles pin to Node 22. |
+| **Yarn** | 1.22 (Classic) | Lockfiles are Yarn 1 format. |
+| **Docker Engine** | 23 | For `docker compose` (v2 plugin). Bundled in Docker Desktop 4.x+. |
+| **Docker Compose** | 2.20 | v2 plugin (`docker compose`, not `docker-compose`). Comes with Docker Desktop 4.x or via the `docker-compose-plugin` package on Linux. |
+
+> **Tip:** Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to manage Node versions. A `.nvmrc` set to `22` is sufficient for both dev and Docker parity.
+
 ## Quick Start
 
 ```bash
