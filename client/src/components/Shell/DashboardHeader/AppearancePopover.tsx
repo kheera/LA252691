@@ -17,7 +17,7 @@ export function AppearancePopover() {
         <Stack gap="sm">
           <Text size="xs" fw={600} c="dimmed" tt="uppercase">Colour theme</Text>
           <ThemeProfileSwitcher />
-          <Text size="xs" fw={600} c="dimmed" tt="uppercase">Color scheme</Text>
+          <Text size="xs" fw={600} c="dimmed" tt="uppercase">Colour scheme</Text>
           <ColorSchemeToggle />
         </Stack>
       </Popover.Dropdown>

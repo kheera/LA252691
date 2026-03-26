@@ -6,10 +6,12 @@ import type { Service, Deployment, DeploymentStatus } from '../models/index.js';
 import type { AppContext } from '../context.js';
 import { pubsub, EVENTS } from '../pubsub.js';
 
+/** Returns all services. */
 function services(): Service[] {
   return mockServices;
 }
 
+/** Returns a single service by ID, or null if not found. */
 function service(_: unknown, { id }: { id: string }): Service | null {
   return mockServices.find((s) => s.id === id) ?? null;
 }
@@ -18,6 +20,7 @@ function service(_: unknown, { id }: { id: string }): Service | null {
 // in-memory store. In production this would be enforced at the DB query layer.
 const DEPLOYMENTS_MAX_LIMIT = 500;
 
+/** Returns deployments, optionally filtered by serviceId and/or status, capped at DEPLOYMENTS_MAX_LIMIT. */
 function deployments(
   _: unknown,
   { serviceId, status, limit }: { serviceId?: string; status?: DeploymentStatus; limit?: number },
@@ -152,6 +155,7 @@ function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: stri
   return newDeployment;
 }
 
+/** Transitions a DOWN service to DEGRADED, acknowledging the outage without claiming it is resolved. */
 function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Service {
   const service = mockServices.find((s) => s.id === serviceId);
   if (!service) {
