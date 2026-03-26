@@ -142,6 +142,19 @@ Clicking **Deploy** on a service detail page opens a modal that calculates the n
 
 Bump-type descriptions are shown inline (e.g. *"New features — backwards compatible. e.g. v2.4.1 → v2.5.0"*) so users don't have to remember semver conventions.
 
+#### Version input validation
+
+The `version` argument of `triggerDeployment` is client-supplied and treated as untrusted. The server enforces the following rule before any other processing:
+
+| Rule | Detail |
+|------|--------|
+| **Format** | Must match semver: optional `v` prefix, then `MAJOR.MINOR.PATCH`, with an optional `-beta<N>` pre-release suffix. Regex: `^v?\d+\.\d+\.\d+(-beta\d*)?$` |
+| **Examples accepted** | `1.2.3`, `v1.2.3`, `v2.0.0-beta1`, `v10.0.0-beta42` |
+| **Examples rejected** | `latest`, `../../etc/passwd`, `v1.2`, `v1.2.3.4`, `v1.2.3-rc1` |
+| **Max length** | 50 characters |
+
+A violation throws a `GraphQLError` with `extensions.code: "BAD_USER_INPUT"` and a human-readable message describing the expected format. The deploy modal's version calculator always produces a compliant string, so in normal use this guard is never triggered — it exists to protect the API when called directly (e.g. via GraphQL Playground or a third-party client).
+
 #### Version collision guard
 
 `triggerDeployment` enforces one narrow server-side rule: if a deployment for the **exact same version string** is already in `ROLLING_BACK` status for that service, the mutation is rejected with a `VERSION_COLLISION` GraphQL error — no duplicate record is created.

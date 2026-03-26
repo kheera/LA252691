@@ -60,10 +60,25 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
   setTimeout(onPipelineComplete, delayMs);
 }
 
+/**
+ * Accepted version format: optional "v" prefix, then MAJOR.MINOR.PATCH semver,
+ * with an optional "-beta<N>" pre-release suffix (e.g. v1.2.3, 1.2.3, v2.0.0-beta1).
+ * Max length 50 characters. Anything else is rejected with BAD_USER_INPUT.
+ */
+const VERSION_RE = /^v?\d+\.\d+\.\d+(-beta\d*)?$/;
+const VERSION_MAX_LEN = 50;
+
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment {
   const service = mockServices.find((s) => s.id === serviceId);
   if (!service) {
     throw new GraphQLError(`Service '${serviceId}' not found.`, { extensions: { code: 'NOT_FOUND', serviceId } });
+  }
+
+  if (version.length > VERSION_MAX_LEN || !VERSION_RE.test(version)) {
+    throw new GraphQLError(
+      `Invalid version '${version}'. Must be a semver string (e.g. v1.2.3 or v1.2.3-beta1), max ${VERSION_MAX_LEN} characters.`,
+      { extensions: { code: 'BAD_USER_INPUT', argumentName: 'version' } },
+    );
   }
 
   // NOTE — this is an intentionally narrow rule: it only blocks re-deploying the EXACT same
