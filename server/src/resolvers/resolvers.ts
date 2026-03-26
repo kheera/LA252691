@@ -68,6 +68,33 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
 const VERSION_RE = /^v?\d+\.\d+\.\d+(-beta\d*)?$/;
 const VERSION_MAX_LEN = 50;
 
+/**
+ * In-memory rate limiter: max 3 triggerDeployment calls per service per 60-second fixed window.
+ * Each entry records the start of the current window and the call count within it.
+ * In production this should be replaced with a distributed store — see README.
+ */
+const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+interface RateWindow { windowStart: number; count: number; }
+const deployRateWindows = new Map<string, RateWindow>();
+
+function checkDeployRateLimit(serviceId: string): void {
+  const now = Date.now();
+  const entry = deployRateWindows.get(serviceId);
+  if (!entry || now - entry.windowStart >= RATE_LIMIT_WINDOW_MS) {
+    deployRateWindows.set(serviceId, { windowStart: now, count: 1 });
+    return;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) {
+    const retryAfter = Math.ceil((entry.windowStart + RATE_LIMIT_WINDOW_MS - now) / 1000);
+    throw new GraphQLError(
+      `Rate limit exceeded: no more than ${RATE_LIMIT_MAX} deployments per service per minute. Retry in ${retryAfter}s.`,
+      { extensions: { code: 'RATE_LIMIT_EXCEEDED', retryAfter, serviceId } },
+    );
+  }
+  entry.count += 1;
+}
+
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment {
   const service = mockServices.find((s) => s.id === serviceId);
   if (!service) {
@@ -80,6 +107,8 @@ function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: stri
       { extensions: { code: 'BAD_USER_INPUT', argumentName: 'version' } },
     );
   }
+
+  checkDeployRateLimit(serviceId);
 
   // NOTE — this is an intentionally narrow rule: it only blocks re-deploying the EXACT same
   // version string while that version is rolling back. A different version can be deployed to

@@ -142,6 +142,26 @@ Clicking **Deploy** on a service detail page opens a modal that calculates the n
 
 Bump-type descriptions are shown inline (e.g. *"New features — backwards compatible. e.g. v2.4.1 → v2.5.0"*) so users don't have to remember semver conventions.
 
+#### Rate limiting
+
+`triggerDeployment` is rate-limited to **3 calls per service per 60-second fixed window**. Exceeding the limit returns a `GraphQLError` with:
+
+```json
+{ "extensions": { "code": "RATE_LIMIT_EXCEEDED", "retryAfter": 42 } }
+```
+
+`retryAfter` is the number of seconds until the window resets. The deploy modal surfaces this as a red toast notification: *"Rate limit reached — you can deploy again in Xs."* The toast auto-dismisses after `retryAfter` seconds.
+
+**In-memory counter:** The prototype uses a `Map<serviceId, { windowStart, count }>` stored in the Node.js process. This is sufficient for a single-process deployment but has two limitations in production: (1) it will not work correctly if the server is horizontally scaled (each instance has its own counter), and (2) the limit is per-service globally — in production it should be keyed on `userId + serviceId` so that one user cannot exhaust the quota for all other users of the same service.
+
+**Production replacement:** In a multi-instance deployment, replace the in-memory map with a shared distributed store:
+
+| Option | How |
+|--------|-----|
+| **Redis** (recommended) | Use `INCR` + `EXPIRE` (or a Lua script for atomicity). A single `INCR service:<id>:deploy` key with a 60 s TTL gives you an atomic fixed-window counter with no race conditions. |
+| **Database** | Insert a timestamped row per call and `COUNT WHERE timestamp > now - 60s`. Works but is heavier than Redis for this use case. |
+| **API Gateway** | Enforce at the network edge (AWS API Gateway, Kong, Nginx `limit_req`) before the request reaches the application layer — offloads the concern entirely from the Node.js code. |
+
 #### Version input validation
 
 The `version` argument of `triggerDeployment` is client-supplied and treated as untrusted. The server enforces the following rule before any other processing:

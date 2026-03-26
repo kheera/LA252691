@@ -86,6 +86,19 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
       // VERSION_COLLISION fires when the exact same version string is already rolling back.
       // Note: deploying a *different* version to this service is still allowed during a rollback.
       const isCollision = err.graphQLErrors?.some((e) => e.extensions?.code === 'VERSION_COLLISION');
+      const rateLimitError = err.graphQLErrors?.find((e) => e.extensions?.code === 'RATE_LIMIT_EXCEEDED');
+      if (rateLimitError) {
+        const retryAfter = rateLimitError.extensions?.retryAfter as number | undefined;
+        notifications.show({
+          title: 'Too many deployments',
+          message: retryAfter
+            ? `Rate limit reached — you can deploy again in ${retryAfter}s.`
+            : 'Rate limit reached — please wait a minute before deploying again.',
+          color: 'red',
+          autoClose: (retryAfter ?? 60) * 1000,
+        });
+        return;
+      }
       notifications.show({
         title: isCollision ? 'Version blocked' : 'Deployment error',
         message: isCollision
