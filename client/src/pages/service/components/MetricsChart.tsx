@@ -1,5 +1,5 @@
 import { AreaChart } from '@mantine/charts';
-import { Alert, Card, Stack, Text } from '@mantine/core';
+import { Alert, Card, Skeleton, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
 import { type GqlMetric, type ServiceStatus } from '../../../graphql/services';
 import { formatRelativeDate } from '../../../utils/dateFormat';
@@ -7,15 +7,21 @@ import { formatRelativeDate } from '../../../utils/dateFormat';
 interface MetricsChartProps {
   metrics: GqlMetric[];
   serviceStatus: ServiceStatus | null;
+  /** False until the first live metric arrives — shows a loading state. */
+  isReady: boolean;
+  /** Set when the subscription itself errors; shown as a warning banner. */
+  subscriptionError: string | null;
 }
 
-export function MetricsChart({ metrics, serviceStatus }: MetricsChartProps) {
+export function MetricsChart({ metrics, serviceStatus, isReady, subscriptionError }: MetricsChartProps) {
   const isDown = serviceStatus === 'DOWN';
+  // Keep null values as-is: Recharts treats null as a gap in the line, which is
+  // the correct visual for placeholder slots before real data arrives.
   const chartData = metrics.map((m) => ({
     time: formatRelativeDate(m.timestamp),
-    cpu: m.cpuPercent ?? 0,
-    memory: m.memoryMb ?? 0,
-    rps: m.requestsPerSecond ?? 0,
+    cpu: m.cpuPercent,
+    memory: m.memoryMb,
+    rps: m.requestsPerSecond,
   }));
 
   return (
@@ -27,8 +33,17 @@ export function MetricsChart({ metrics, serviceStatus }: MetricsChartProps) {
             Service is DOWN — metrics may be stale
           </Alert>
         )}
-        <AreaChart
-          h={150}
+        {subscriptionError && (
+          <Alert color="orange" variant="light" icon={<IconAlertTriangle size={16} />} p="xs">
+            Live metrics unavailable — {subscriptionError}.
+          </Alert>
+        )}
+        {!isReady && !subscriptionError && (
+          <Text size="xs" c="dimmed">Waiting for first metric…</Text>
+        )}
+        <Skeleton visible={!isReady}>
+          <AreaChart
+          h={160}
           data={chartData}
           dataKey="time"
           series={[
@@ -45,6 +60,7 @@ export function MetricsChart({ metrics, serviceStatus }: MetricsChartProps) {
           curveType="monotone"
           fillOpacity={0.15}
         />
+        </Skeleton>
       </Stack>
     </Card>
   );

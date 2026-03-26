@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { rem, Stack, Text, Title } from '@mantine/core';
+import { Stack, Text, Title } from '@mantine/core';
 import { useHeroPanelContext } from './HeroPanelContext';
 
 interface HeroTextProps {
@@ -25,7 +25,7 @@ export function HeroSubtitle({ children }: HeroTextProps) {
       fw={600}
       tt="uppercase"
       c="brand.3"
-      style={{ letterSpacing: rem(3) }}
+      style={{ letterSpacing: '0.2em' }}
     >
       {children}
     </Text>

@@ -1,6 +1,7 @@
-import { Card, Group, ScrollArea, SegmentedControl, Skeleton, Stack, Text } from '@mantine/core';
+import { Alert, Card, Group, ScrollArea, SegmentedControl, Skeleton, Stack, Text } from '@mantine/core';
 import { useState } from 'react';
 import { useQuery } from '@apollo/client/react';
+import { IconAlertCircle } from '@tabler/icons-react';
 import {
   GET_RECENT_DEPLOYMENTS,
   type RecentDeployment,
@@ -16,6 +17,7 @@ interface RecentDeploymentsPanelProps {
   services: ServiceSummary[];
 }
 
+/** Single row showing service name, version, status badge, and relative timestamp. */
 function DeploymentRow({ deployment, serviceName }: { deployment: RecentDeployment; serviceName: string }) {
   return (
     <Group justify="space-between" wrap="nowrap" gap="xs">
@@ -42,6 +44,7 @@ function DeploymentRow({ deployment, serviceName }: { deployment: RecentDeployme
   );
 }
 
+/** Placeholder skeleton shown while the deployments query is in flight. */
 function RecentDeploymentRowSkeleton() {
   return (
     <Stack gap="xs">
@@ -52,16 +55,32 @@ function RecentDeploymentRowSkeleton() {
   );
 }
 
+/** Empty state shown when the query succeeds but returns no results. */
 function NoDeploymentsFound() {
   return (
     <Text size="sm" c="dimmed" ta="center" py="xl">No deployments found</Text>
   );
 }
 
+/** Error state shown when the deployments query fails. */
+function DeploymentsError({ message }: { message: string }) {
+  return (
+    <Alert
+      color="red"
+      variant="light"
+      icon={<IconAlertCircle size={16} />}
+      title="Failed to load deployments"
+    >
+      <Text size="xs">{message}</Text>
+    </Alert>
+  );
+}
+
+/** Sidebar panel on the overview page listing the most recent deployments across all services. */
 export function RecentDeploymentsPanel({ services }: RecentDeploymentsPanelProps) {
   const [filter, setFilter] = useState<StatusFilter>('ALL');
 
-  const { data, loading } = useQuery<RecentDeploymentsResult>(GET_RECENT_DEPLOYMENTS, {
+  const { data, loading, error } = useQuery<RecentDeploymentsResult>(GET_RECENT_DEPLOYMENTS, {
     variables: {
       limit: 30,
       ...(filter === 'FAILED' && { status: 'FAILED' }),
@@ -89,8 +108,9 @@ export function RecentDeploymentsPanel({ services }: RecentDeploymentsPanelProps
 
         <ScrollArea flex={1} mah={420}>
           {loading && !data && <RecentDeploymentRowSkeleton />}
-          {(!loading || data) && deployments.length === 0 && <NoDeploymentsFound />}
-          {(!loading || data) && deployments.length > 0 && (
+          {error && <DeploymentsError message={error.message} />}
+          {!error && (!loading || data) && deployments.length === 0 && <NoDeploymentsFound />}
+          {!error && (!loading || data) && deployments.length > 0 && (
             <Stack gap={8}>
               {deployments.map((deployment) => (
                 <DeploymentRow

@@ -9,7 +9,7 @@ interface ContentCardProps {
 export function ContentCard({ title, children }: ContentCardProps) {
   return (
     <Card withBorder radius="md" p="md">
-      <Text fw={600} mb="md">{title}</Text>
+      <Text size="md" fw={600} mb="md">{title}</Text>
       {children}
     </Card>
   );

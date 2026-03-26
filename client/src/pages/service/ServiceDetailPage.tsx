@@ -67,7 +67,7 @@ export function ServiceDetailPage() {
 
   // WS subscription — opens when this page mounts, closes on unmount.
   useDeploymentSettledSubscription(id ?? '');
-  const liveMetrics = useMetricUpdatedSubscription(id ?? '');
+  const { liveMetrics, isReady: metricsReady, subscriptionError: metricsError } = useMetricUpdatedSubscription(id ?? '');
 
   if (loading && !data?.service) return <ServiceDetailSkeleton />;
 
@@ -102,7 +102,12 @@ export function ServiceDetailPage() {
         <ServiceIdentityHeader name={service.name} status={service.status} />
         <Grid gutter="md" align="stretch">
           <Grid.Col span={{ base: 12, md: 9 }}>
-            <MetricsChart metrics={allMetrics} serviceStatus={service.status} />
+            <MetricsChart
+              metrics={allMetrics}
+              serviceStatus={service.status}
+              isReady={metricsReady}
+              subscriptionError={metricsError}
+            />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 3 }}>
             <MetricTicker metric={latestMetric} />

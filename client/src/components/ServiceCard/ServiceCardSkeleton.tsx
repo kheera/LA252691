@@ -7,7 +7,7 @@ export function ServiceCardSkeleton() {
         {/* NameStatusRow */}
         <Group justify="space-between" align="center" wrap="nowrap">
           <Group gap="xs" wrap="nowrap">
-            <Skeleton circle height={22} style={{ flexShrink: 0 }} />
+            <Skeleton circle height={24} style={{ flexShrink: 0 }} />
             <Skeleton height={14} width={120} radius="sm" />
           </Group>
           <Skeleton height={20} width={72} radius="xl" style={{ flexShrink: 0 }} />

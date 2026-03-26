@@ -26,7 +26,7 @@ export function NameStatusRow({ name, status }: NameStatusRowProps) {
           color={statusBadgeColor(status)}
           variant="filled"
           autoContrast
-          size={22}
+          size={24}
           radius="xl"
           style={{ flexShrink: 0 }}
         >

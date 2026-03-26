@@ -13,7 +13,7 @@ export function SplashOverlay({ onDismiss }: SplashOverlayProps) {
   return (
     <Box style={{ position: 'fixed', inset: 0, zIndex: 1000 }}>
       <HeroBrandingPanel src={heroImage} maw={720}>
-        <Text c="gray.3" ta="center" size="md" maw={500} lh={1.7}>
+        <Text c="gray.3" ta="center" size="md" maw={500} lh={1.75}>
           Unified deployment monitoring and service health for parliamentary
           digital infrastructure.
         </Text>

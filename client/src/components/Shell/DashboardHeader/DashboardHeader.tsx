@@ -16,13 +16,13 @@ export function DashboardHeader({ onMenuToggle, onHomeClick, actions }: Dashboar
   return (
     <Box
       bg={SHELL_SURFACE}
+      px="md"
       style={{
         height: HEADER_HEIGHT,
         flexShrink: 0,
         ...headerBorderStyle,
         display: 'flex',
         alignItems: 'center',
-        padding: '0 16px',
       }}
     >
       <Group justify="space-between" style={{ width: '100%' }}>

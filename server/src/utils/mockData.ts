@@ -10,17 +10,18 @@ const fixturesPath = fileURLToPath(new URL('../../data/fixtures.json', import.me
 const fixtures = JSON.parse(readFileSync(fixturesPath, 'utf-8')) as {
   services: Service[];
   deployments: Deployment[];
-  metrics: Metric[];
 };
 
 export const mockServices: Service[] = fixtures.services;
 export const mockDeployments: Deployment[] = fixtures.deployments;
-export const mockMetrics: Metric[] = fixtures.metrics;
+// Metrics are generated at runtime by metricTicker and published via pubsub;
+// there is no persisted metric history.
+export const mockMetrics: Metric[] = [];
 
 /** Write the current in-memory state back to fixtures.json so changes survive a server restart. */
 export function persistFixtures(): void {
   writeFileSync(fixturesPath, JSON.stringify(
-    { services: mockServices, deployments: mockDeployments, metrics: mockMetrics },
+    { services: mockServices, deployments: mockDeployments },
     null,
     2,
   ));
