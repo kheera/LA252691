@@ -42,7 +42,6 @@ export interface ServiceDetailResult {
     uptime: number | null;
     lastDeployedAt: string | null;
     deployments: GqlDeployment[];
-    metrics: GqlMetric[];
   };
 }
 
@@ -62,14 +61,6 @@ export const GET_SERVICE_DETAIL = gql`
         timestamp
         status
         durationSeconds
-      }
-      metrics(last: 20) {
-        serviceId
-        timestamp
-        cpuPercent
-        memoryMb
-        requestsPerSecond
-        errorRate
       }
     }
   }

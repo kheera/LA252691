@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import type { Service, Deployment, Metric } from '../models/index.js';
+import type { Service, Deployment } from '../models/index.js';
 
 // Load fixtures with fs.readFileSync rather than a static `import ... with { type: 'json' }`.
 // A static import makes tsx watch track fixtures.json as part of the module graph, so every
@@ -14,9 +14,6 @@ const fixtures = JSON.parse(readFileSync(fixturesPath, 'utf-8')) as {
 
 export const mockServices: Service[] = fixtures.services;
 export const mockDeployments: Deployment[] = fixtures.deployments;
-// Metrics are generated at runtime by metricTicker and published via pubsub;
-// there is no persisted metric history.
-export const mockMetrics: Metric[] = [];
 
 /** Write the current in-memory state back to fixtures.json so changes survive a server restart. */
 export function persistFixtures(): void {

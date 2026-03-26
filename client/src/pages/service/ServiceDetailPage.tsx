@@ -77,11 +77,8 @@ export function ServiceDetailPage() {
   }
 
   const { service } = data;
-  const { deployments, metrics } = service;
-  // Seed the chart with the last 20 from the query, then append live subscription
-  // updates as they arrive every 10 s — the chart re-renders automatically.
-  const allMetrics = [...metrics, ...liveMetrics].slice(-20);
-  // Assumes metrics are returned in ascending chronological order (oldest first); the last element is therefore the most recent.
+  const { deployments } = service;
+  const allMetrics = liveMetrics.slice(-20);
   const latestMetric = allMetrics[allMetrics.length - 1] ?? null;
   // Sort a copy by timestamp descending to find the most recent deployment regardless of return order.
   const latestVersion = [...deployments]

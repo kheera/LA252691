@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { GraphQLError } from 'graphql';
 import { withFilter } from 'graphql-subscriptions';
-import { mockServices, mockDeployments, mockMetrics, persistFixtures } from '../utils/mockData.js';
-import type { Service, Deployment, Metric } from '../models/index.js';
+import { mockServices, mockDeployments, persistFixtures } from '../utils/mockData.js';
+import type { Service, Deployment } from '../models/index.js';
 import type { AppContext } from '../context.js';
 import { pubsub, EVENTS } from '../pubsub.js';
 
@@ -24,12 +24,6 @@ function deployments(
     .slice(0, limit ?? undefined);
 }
 
-function metrics(_: unknown, { serviceId, last }: { serviceId: string; last?: number }): Metric[] {
-  return mockMetrics
-    .filter((m) => m.serviceId === serviceId)
-    .slice(last ? -last : 0);
-}
-
 /**
  * Uses DataLoader to batch and cache deployments by service ID, avoiding N+1 query issues when fetching deployments for multiple services in the Service resolver.
  * Assumes deployments are stored in ascending chronological order (oldest first), so slice(-last) returns
@@ -37,19 +31,6 @@ function metrics(_: unknown, { serviceId, last }: { serviceId: string; last?: nu
  */
 function batchDeploymentsLoader(parent: { id: string }, { last }: { last?: number }, context: AppContext): Promise<Deployment[]> {
   return context.deploymentLoader.load(parent.id).then((all) => (last ? all.slice(-last) : all));
-}
-
-/**
- * Uses DataLoader to batch and cache metrics by service ID, with optional `last` argument to limit results.
- * Assumes metrics are stored in ascending chronological order (oldest first), so slice(-last) returns the
- * most recent `last` entries.
- */
-function batchMetricsLoader(
-  parent: { id: string },
-  { last }: { last?: number },
-  context: AppContext,
-): Promise<Metric[]> {
-  return context.metricLoader.load(parent.id).then((all) => (last ? all.slice(-last) : all));
 }
 
 /**
@@ -132,9 +113,9 @@ function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Se
 }
 
 export const resolvers = {
-  Query: { services, service, deployments, metrics },
+  Query: { services, service, deployments },
   Mutation: { triggerDeployment, acknowledgeOutage },
-  Service: { deployments: batchDeploymentsLoader, metrics: batchMetricsLoader },
+  Service: { deployments: batchDeploymentsLoader },
   Subscription: {
     metricUpdated: {
       subscribe: withFilter(

@@ -20,7 +20,6 @@ export const typeDefs = `#graphql
     lastDeployedAt: String # ISO 8601 timestamp (nullable, may not yet be deployed)
     healthTrend: String # @todo Not yet sure what this will be
     deployments(last: Int): [Deployment!]!
-    metrics(last: Int): [Metric!]!
   }
 
   type Deployment {
