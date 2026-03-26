@@ -27,6 +27,27 @@ export interface GqlDeployment {
   durationSeconds: number;
 }
 
+/**
+ * Matches the GraphQL schema exactly — cpuPercent, memoryMb, requestsPerSecond,
+ * and errorRate are non-null (Float!) on the server. Used as the type for the
+ * raw subscription payload.
+ */
+export interface ServerMetric {
+  serviceId: string;
+  timestamp: string;
+  cpuPercent: number;
+  memoryMb: number;
+  requestsPerSecond: number;
+  errorRate: number;
+  healthTrend: HealthTrend | null;
+}
+
+/**
+ * Chart-friendly variant: metric fields are nullable to accommodate the
+ * pre-data placeholder slots that useMetricUpdatedSubscription inserts into
+ * the rolling window before the first real tick arrives. Intentionally wider
+ * than the schema type — not a mismatch.
+ */
 export interface GqlMetric {
   serviceId: string;
   timestamp: string;
@@ -156,15 +177,7 @@ export const SUBSCRIBE_DEPLOYMENT_SETTLED = gql`
 `;
 
 export interface MetricUpdatedPayload {
-  metricUpdated: {
-    serviceId: string;
-    timestamp: string;
-    cpuPercent: number | null;
-    memoryMb: number | null;
-    requestsPerSecond: number | null;
-    errorRate: number | null;
-    healthTrend: HealthTrend | null;
-  };
+  metricUpdated: ServerMetric;
 }
 
 export const SUBSCRIBE_METRIC_UPDATES = gql`

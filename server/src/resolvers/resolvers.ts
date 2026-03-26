@@ -14,14 +14,19 @@ function service(_: unknown, { id }: { id: string }): Service | null {
   return mockServices.find((s) => s.id === id) ?? null;
 }
 
+// Hard ceiling to prevent a caller from requesting an unbounded slice of the
+// in-memory store. In production this would be enforced at the DB query layer.
+const DEPLOYMENTS_MAX_LIMIT = 500;
+
 function deployments(
   _: unknown,
   { serviceId, status, limit }: { serviceId?: string; status?: string; limit?: number },
 ): Deployment[] {
+  const effectiveLimit = limit !== undefined ? Math.min(limit, DEPLOYMENTS_MAX_LIMIT) : undefined;
   return mockDeployments
     .filter((d) => !serviceId || d.serviceId === serviceId)
     .filter((d) => !status || d.status === status)
-    .slice(0, limit ?? undefined);
+    .slice(0, effectiveLimit);
 }
 
 /**
@@ -35,7 +40,7 @@ function batchDeploymentsLoader(parent: { id: string }, { last }: { last?: numbe
 
 /**
  * Simulates handing off to a CI/CD pipeline (e.g. dispatching a GitHub Actions workflow).
- * The pipeline reports back after 30–60 seconds with a success or failure outcome.
+ * The pipeline reports back after 5–10 seconds with a success or failure outcome.
  */
 function dispatchPipeline(deployment: Deployment, service: Service, version: string): void {
   // Simulate deployment risk: beta builds are more likely to fail
