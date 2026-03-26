@@ -40,10 +40,10 @@ function alertPulseColor(status: ServiceStatus | null): string | undefined {
   return undefined;
 }
 
-export function ServiceCard({ svc, loading = false }: { svc?: ServiceSummary; loading?: boolean }) {
+export function ServiceCard({ svc: service, loading = false }: { svc?: ServiceSummary; loading?: boolean }) {
   if (loading) return <ServiceCardSkeleton />;
 
-  const { name, status, uptime, lastDeployedAt, id } = svc!;
+  const { name, status, uptime, lastDeployedAt, id, healthTrend } = service!;
   const isAlert = status === 'DEGRADED' || status === 'DOWN';
 
   if (isAlert) injectPulseKeyframes();
@@ -62,7 +62,7 @@ export function ServiceCard({ svc, loading = false }: { svc?: ServiceSummary; lo
   return (
     <Card withBorder radius="md" p="md" style={style}>
       <Stack gap="sm">
-        <NameStatusRow name={name} status={status} />
+        <NameStatusRow name={name} status={status} healthTrend={healthTrend} />
         <UptimeBar uptime={uptime} status={status} />
         <LastDeployedRow lastDeployedAt={lastDeployedAt} />
         <Divider />

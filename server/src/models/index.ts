@@ -1,4 +1,5 @@
 export type ServiceStatus = 'HEALTHY' | 'DEGRADED' | 'DOWN';
+export type HealthTrend = 'IMPROVING' | 'STABLE' | 'DEGRADING';
 
 export interface Service {
   id: string;
@@ -6,7 +7,7 @@ export interface Service {
   status: ServiceStatus | null;
   uptime: number | null;
   lastDeployedAt: string | null;
-  healthTrend?: string | null;
+  healthTrend?: HealthTrend | null;
 }
 
 export interface Deployment {
@@ -26,4 +27,5 @@ export interface Metric {
   memoryMb: number;
   requestsPerSecond: number;
   errorRate: number;
+  healthTrend: HealthTrend | null;
 }

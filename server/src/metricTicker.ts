@@ -1,5 +1,6 @@
 import { mockServices } from './utils/mockData.js';
 import { pubsub, EVENTS } from './pubsub.js';
+import type { HealthTrend } from './models/index.js';
 
 const INTERVAL_MS = 5_000;
 
@@ -17,6 +18,8 @@ interface ServiceMetricState {
   baseRps: number;
   baseCpu: number;
   baseMemory: number;
+  // Health score from the previous tick used to compute trend direction.
+  prevScore: number | null;
 }
 
 // Clamp a value to [min, max] and round to `decimals` places.
@@ -39,6 +42,7 @@ function seedState(): ServiceMetricState {
     baseRps: 30 + Math.random() * 100,  // 30–130 rps at idle
     baseCpu: 10 + Math.random() * 25,   // 10–35% CPU at idle
     baseMemory: 150 + Math.random() * 350, // 150–500 MB at idle
+    prevScore: null,
   };
 }
 
@@ -104,6 +108,22 @@ export function startMetricTicker(): void {
       const memory    = clamp(s.baseMemory + s.load * 450 + randn() * 10, 80, 1200, 0);
       const errorRate = clamp((s.load > 0.8 ? (s.load - 0.8) * 12 : 0) + Math.random() * 0.4, 0, 10, 2);
 
+      // ── Health trend ──────────────────────────────────────────────────────
+      // Composite score weights: error rate is the strongest signal (×5),
+      // CPU is significant (×0.4), memory contributes baseline pressure (÷12).
+      // Threshold of 5 absorbs normal Gaussian noise (~±3 pts) without masking
+      // a real deterioration.
+      const score = cpu * 0.4 + errorRate * 5 + memory / 12;
+      let healthTrend: HealthTrend | null = null;
+      if (s.prevScore !== null) {
+        const delta = score - s.prevScore;
+        if (delta > 5) healthTrend = 'DEGRADING';
+        else if (delta < -5) healthTrend = 'IMPROVING';
+        else healthTrend = 'STABLE';
+      }
+      s.prevScore = score;
+      service.healthTrend = healthTrend;
+
       pubsub.publish(EVENTS.METRIC_UPDATED, {
         metricUpdated: {
           serviceId: service.id,
@@ -112,6 +132,7 @@ export function startMetricTicker(): void {
           memoryMb: memory,
           requestsPerSecond: rps,
           errorRate,
+          healthTrend,
         },
       });
     }

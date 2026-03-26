@@ -1,5 +1,5 @@
 import { AreaChart } from '@mantine/charts';
-import { Alert, Card, Skeleton, Stack, Text } from '@mantine/core';
+import { Alert, Card, Group, Loader, Skeleton, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
 import { type GqlMetric, type ServiceStatus } from '../../../graphql/services';
 import { formatRelativeDate } from '../../../utils/dateFormat';
@@ -39,7 +39,10 @@ export function MetricsChart({ metrics, serviceStatus, isReady, subscriptionErro
           </Alert>
         )}
         {!isReady && !subscriptionError && (
-          <Text size="xs" c="dimmed">Waiting for first metric…</Text>
+          <Group gap={6}>
+            <Loader size={12} color="red" />
+            <Text size="xs" c="red" fw={600}>Waiting for first metric…</Text>
+          </Group>
         )}
         <Skeleton visible={!isReady}>
           <AreaChart

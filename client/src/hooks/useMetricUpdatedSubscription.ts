@@ -22,6 +22,7 @@ function makePlaceholders(serviceId: string): GqlMetric[] {
     memoryMb: null,
     requestsPerSecond: null,
     errorRate: null,
+    healthTrend: null,
   }));
 }
 
@@ -57,10 +58,10 @@ export function useMetricUpdatedSubscription(serviceId: string): MetricSubscript
       if (!metricUpdate) return;
       setSubscriptionError(null);
       setIsReady(true);
-      const { timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate } = metricUpdate;
+      const { timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate, healthTrend } = metricUpdate;
       // Buffer for the interval to pick up — don't write to state directly so
       // only the interval drives chart updates and the cadence stays constant.
-      pendingRef.current = { serviceId, timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate };
+      pendingRef.current = { serviceId, timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate, healthTrend };
     },
     onError: (err) => {
       setSubscriptionError(err.message);
@@ -79,6 +80,7 @@ export function useMetricUpdatedSubscription(serviceId: string): MetricSubscript
         memoryMb: null,
         requestsPerSecond: null,
         errorRate: null,
+        healthTrend: null,
       };
       pendingRef.current = null;
       setLiveMetrics((prev) => [...prev, next].slice(-MAX_LIVE_METRICS));

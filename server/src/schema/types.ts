@@ -5,6 +5,12 @@ export const typeDefs = `#graphql
     DOWN
   }
 
+  enum HealthTrend {
+    IMPROVING
+    STABLE
+    DEGRADING
+  }
+
   enum DeploymentStatus {
     PENDING
     SUCCESS
@@ -18,7 +24,7 @@ export const typeDefs = `#graphql
     status: ServiceStatus # nullable: HEALTHY | DEGRADED | DOWN
     uptime: Float # percentage with one decimal point (nullable, may not yet be deployed)
     lastDeployedAt: String # ISO 8601 timestamp (nullable, may not yet be deployed)
-    healthTrend: String # @todo Not yet sure what this will be
+    healthTrend: HealthTrend # nullable: no data until first metric tick
     deployments(last: Int): [Deployment!]!
   }
 
@@ -39,5 +45,6 @@ export const typeDefs = `#graphql
     memoryMb: Float!
     requestsPerSecond: Float!
     errorRate: Float!
+    healthTrend: HealthTrend
   }
 `;

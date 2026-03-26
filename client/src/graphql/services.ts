@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 export type ServiceStatus = 'HEALTHY' | 'DEGRADED' | 'DOWN';
+export type HealthTrend = 'IMPROVING' | 'STABLE' | 'DEGRADING';
 
 export const GET_SERVICES = gql`
   query GetServices {
@@ -10,6 +11,7 @@ export const GET_SERVICES = gql`
       status
       uptime
       lastDeployedAt
+      healthTrend
     }
   }
 `;
@@ -32,6 +34,7 @@ export interface GqlMetric {
   memoryMb: number | null;
   requestsPerSecond: number | null;
   errorRate: number | null;
+  healthTrend: HealthTrend | null;
 }
 
 export interface ServiceDetailResult {
@@ -41,6 +44,7 @@ export interface ServiceDetailResult {
     status: ServiceStatus | null;
     uptime: number | null;
     lastDeployedAt: string | null;
+    healthTrend: HealthTrend | null;
     deployments: GqlDeployment[];
   };
 }
@@ -53,6 +57,7 @@ export const GET_SERVICE_DETAIL = gql`
       status
       uptime
       lastDeployedAt
+      healthTrend
       deployments(last: 20) {
         id
         serviceId
@@ -158,6 +163,7 @@ export interface MetricUpdatedPayload {
     memoryMb: number | null;
     requestsPerSecond: number | null;
     errorRate: number | null;
+    healthTrend: HealthTrend | null;
   };
 }
 
@@ -170,6 +176,7 @@ export const SUBSCRIBE_METRIC_UPDATES = gql`
       memoryMb
       requestsPerSecond
       errorRate
+      healthTrend
     }
   }
 `;

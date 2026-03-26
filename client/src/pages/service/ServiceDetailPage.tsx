@@ -11,6 +11,7 @@ import {
   MetricTicker,
   MetricsChart,
   ServiceActionBar,
+  ServiceHealthCard,
   ServiceIdentityHeader,
 } from './components';
 import { GET_SERVICE_DETAIL, type ServiceDetailResult } from '../../graphql/services';
@@ -107,7 +108,10 @@ export function ServiceDetailPage() {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 3 }}>
-            <MetricTicker metric={latestMetric} />
+            <Stack gap="sm">
+              <MetricTicker metric={latestMetric} isReady={metricsReady} />
+              <ServiceHealthCard svc={service} liveHealthTrend={metricsReady ? (latestMetric?.healthTrend ?? null) : null} />
+            </Stack>
           </Grid.Col>
         </Grid>
         <DeploymentHistoryTable deployments={deployments} />

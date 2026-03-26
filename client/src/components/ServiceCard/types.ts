@@ -1,4 +1,4 @@
-import type { ServiceStatus } from '../../graphql/services';
+import type { ServiceStatus, HealthTrend } from '../../graphql/services';
 
 export interface ServiceSummary {
   id: string;
@@ -6,4 +6,5 @@ export interface ServiceSummary {
   status: ServiceStatus | null;
   uptime: number | null;
   lastDeployedAt: string | null;
+  healthTrend: HealthTrend | null;
 }
