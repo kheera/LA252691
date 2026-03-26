@@ -1,20 +1,21 @@
 import { Badge, Group, Text, ThemeIcon } from '@mantine/core';
 import { IconAlertTriangle, IconCheck, IconServer } from '@tabler/icons-react';
+import type { ServiceStatus } from '../../graphql/services';
 import { statusBadgeColor } from '../../utils/statusColor';
 
-function statusLabel(s: string | null): string {
-  return s ?? 'NOT DEPLOYED';
+function StatusLabel({ status }: { status: ServiceStatus | null }) {
+  return <>{status ?? 'NOT DEPLOYED'}</>;
 }
 
-function statusIcon(s: string | null) {
-  if (s === 'HEALTHY') return <IconCheck size={13} />;
-  if (s === 'DEGRADED' || s === 'DOWN') return <IconAlertTriangle size={13} />;
+function StatusIcon({ status }: { status: ServiceStatus | null }) {
+  if (status === 'HEALTHY') return <IconCheck size={13} />;
+  if (status === 'DEGRADED' || status === 'DOWN') return <IconAlertTriangle size={13} />;
   return <IconServer size={13} />;
 }
 
 interface NameStatusRowProps {
   name: string;
-  status: string | null;
+  status: ServiceStatus | null;
 }
 
 export function NameStatusRow({ name, status }: NameStatusRowProps) {
@@ -29,7 +30,7 @@ export function NameStatusRow({ name, status }: NameStatusRowProps) {
           radius="xl"
           style={{ flexShrink: 0 }}
         >
-          {statusIcon(status)}
+          <StatusIcon status={status} />
         </ThemeIcon>
         <Text fw={600} size="sm" style={{ wordBreak: 'break-word' }}>
           {name}
@@ -42,7 +43,7 @@ export function NameStatusRow({ name, status }: NameStatusRowProps) {
         size="sm"
         style={{ flexShrink: 0 }}
       >
-        {statusLabel(status)}
+        <StatusLabel status={status} />
       </Badge>
     </Group>
   );

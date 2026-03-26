@@ -15,8 +15,9 @@ services:
     build:
       context: ./client
       args:
-        # Vite inlines this at build time — sourced from .env via compose
+        # Vite inlines these at build time — sourced from .env via compose
         VITE_GRAPHQL_URL: ${VITE_GRAPHQL_URL:-http://localhost:4000/graphql}
+        VITE_API_KEY: ${VITE_API_KEY}
     ports:
       - "3000:80"
     depends_on:

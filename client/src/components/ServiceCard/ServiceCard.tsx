@@ -2,6 +2,7 @@ import React from 'react';
 import { Anchor, Card, Divider, Group, Stack } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { IconArrowRight } from '@tabler/icons-react';
+import type { ServiceStatus } from '../../graphql/services';
 import { type ServiceSummary } from './types';
 import { NameStatusRow } from './NameStatusRow';
 import { UptimeBar } from './UptimeBar';
@@ -10,9 +11,10 @@ import { ServiceCardSkeleton } from './ServiceCardSkeleton';
 
 export type { ServiceSummary };
 
-const PULSE_STYLE_ID = 'service-card-pulse-keyframes';
-
+// Injects the @keyframes rule that makes the card border glow.
+// Primarily used to draw the eye when a service is down or degraded
 function injectPulseKeyframes() {
+  const PULSE_STYLE_ID = 'service-card-pulse-keyframes';
   if (typeof document === 'undefined' || document.getElementById(PULSE_STYLE_ID)) return;
   const style = document.createElement('style');
   style.id = PULSE_STYLE_ID;
@@ -26,13 +28,13 @@ function injectPulseKeyframes() {
   document.head.appendChild(style);
 }
 
-function alertBorderColor(status: string | null): string | undefined {
+function alertBorderColor(status: ServiceStatus | null): string | undefined {
   if (status === 'DEGRADED') return 'color-mix(in srgb, var(--mantine-color-yellow-5) 25%, transparent)';
   if (status === 'DOWN') return 'color-mix(in srgb, var(--mantine-color-red-6) 50%, transparent)';
   return undefined;
 }
 
-function alertPulseColor(status: string | null): string | undefined {
+function alertPulseColor(status: ServiceStatus | null): string | undefined {
   if (status === 'DEGRADED') return 'color-mix(in srgb, var(--mantine-color-yellow-4) 50%, transparent)';
   if (status === 'DOWN') return 'color-mix(in srgb, var(--mantine-color-red-5) 85%, transparent)';
   return undefined;

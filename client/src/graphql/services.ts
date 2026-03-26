@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client';
 
+export type ServiceStatus = 'HEALTHY' | 'DEGRADED' | 'DOWN';
+
 export const GET_SERVICES = gql`
   query GetServices {
     services {
@@ -36,7 +38,7 @@ export interface ServiceDetailResult {
   service: {
     id: string;
     name: string;
-    status: string | null;
+    status: ServiceStatus | null;
     uptime: number | null;
     lastDeployedAt: string | null;
     deployments: GqlDeployment[];
@@ -119,7 +121,7 @@ export interface AcknowledgeOutageResult {
   acknowledgeOutage: {
     id: string;
     name: string;
-    status: string | null;
+    status: ServiceStatus | null;
   };
 }
 

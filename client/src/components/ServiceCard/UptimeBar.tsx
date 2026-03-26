@@ -1,9 +1,10 @@
 import { Group, Progress, Stack, Text } from '@mantine/core';
+import type { ServiceStatus } from '../../graphql/services';
 import { statusProgressColor, statusTextStyle } from '../../utils/statusColor';
 
 interface UptimeBarProps {
   uptime: number | null;
-  status: string | null;
+  status: ServiceStatus | null;
 }
 
 export function UptimeBar({ uptime, status }: UptimeBarProps) {

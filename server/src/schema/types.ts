@@ -1,4 +1,10 @@
 export const typeDefs = `#graphql
+  enum ServiceStatus {
+    HEALTHY
+    DEGRADED
+    DOWN
+  }
+
   enum DeploymentStatus {
     PENDING
     SUCCESS
@@ -9,7 +15,7 @@ export const typeDefs = `#graphql
   type Service {
     id: ID!
     name: String!
-    status: String # nullable: HEALTHY | DEGRADED | DOWN
+    status: ServiceStatus # nullable: HEALTHY | DEGRADED | DOWN
     uptime: Float # percentage with one decimal point (nullable, may not yet be deployed)
     lastDeployedAt: String # ISO 8601 timestamp (nullable, may not yet be deployed)
     healthTrend: String # @todo Not yet sure what this will be

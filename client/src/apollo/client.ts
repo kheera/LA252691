@@ -14,6 +14,7 @@ const httpLink = new HttpLink({
   headers: apiKey ? { 'x-api-key': apiKey } : {},
 });
 
+// Create the graphql websocket client
 export const wsClient = createClient({
   url: wsUri,
   retryAttempts: Infinity,

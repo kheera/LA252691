@@ -1,7 +1,9 @@
+export type ServiceStatus = 'HEALTHY' | 'DEGRADED' | 'DOWN';
+
 export interface Service {
   id: string;
   name: string;
-  status: string | null;
+  status: ServiceStatus | null;
   uptime: number | null;
   lastDeployedAt: string | null;
   healthTrend?: string | null;

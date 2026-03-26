@@ -13,6 +13,11 @@ WORKDIR /app
 ARG VITE_GRAPHQL_URL=http://localhost:4000/graphql
 ENV VITE_GRAPHQL_URL=$VITE_GRAPHQL_URL
 
+# VITE_API_KEY is a build-time arg: Vite inlines VITE_* vars into the bundle.
+# No default — omitting it means requests will be rejected by the server.
+ARG VITE_API_KEY
+ENV VITE_API_KEY=$VITE_API_KEY
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN yarn build

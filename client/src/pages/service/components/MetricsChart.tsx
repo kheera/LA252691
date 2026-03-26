@@ -1,12 +1,12 @@
 import { AreaChart } from '@mantine/charts';
 import { Alert, Card, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
-import { type GqlMetric } from '../../../graphql/services';
+import { type GqlMetric, type ServiceStatus } from '../../../graphql/services';
 import { formatRelativeDate } from '../../../utils/dateFormat';
 
 interface MetricsChartProps {
   metrics: GqlMetric[];
-  serviceStatus: string | null;
+  serviceStatus: ServiceStatus | null;
 }
 
 export function MetricsChart({ metrics, serviceStatus }: MetricsChartProps) {

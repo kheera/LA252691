@@ -1,16 +1,16 @@
 import { Badge, Card, Grid, Group, Progress, RingProgress, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
+import type { ServiceStatus } from '../graphql/services';
 import { statusBadgeColor, statusProgressColor } from '../utils/statusColor';
 
 export interface ServiceRowProps {
   name: string;
-  /** 'HEALTHY' | 'DEGRADED' | 'DOWN' */
-  status: string;
+  status: ServiceStatus | null;
   uptime: number;
   deploys: number;
 }
 
-function statusIcon(status: string) {
+function statusIcon(status: ServiceStatus | null) {
   return status === 'HEALTHY' ? <IconCheck size={14} /> : <IconAlertTriangle size={14} />;
 }
 

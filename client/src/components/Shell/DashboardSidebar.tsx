@@ -49,8 +49,6 @@ function NavContent({ onClose }: { onClose?: () => void }) {
       <Text size="xs" c="dimmed" fw={600} tt="uppercase" px={4}>Navigation</Text>
       <NavButton icon={<IconHome size={16} />}        label="Home"        onClick={() => { showSplash(); onClose?.(); }} />
       <NavButton icon={<IconActivity size={16} />}    label="Overview"    onClick={() => navigateTo('/')}     active={isActive('/')} />
-      <NavButton icon={<IconFlask size={16} />}       label="Demo"        onClick={() => navigateTo('/demo')} active={isActive('/demo')} />
-      <NavButton icon={<IconCloudUpload size={16} />} label="Deployments" onClick={() => onClose?.()} />
     </Stack>
   );
 }

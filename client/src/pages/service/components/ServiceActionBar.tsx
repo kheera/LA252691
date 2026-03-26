@@ -1,26 +1,19 @@
 import { Button, Group } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import {
   IconAlertTriangle,
   IconArrowLeft,
   IconRocket,
-  IconTerminal2,
 } from '@tabler/icons-react';
+import type { ServiceStatus } from '../../../graphql/services';
 
 interface ServiceActionBarProps {
   onBack: () => void;
   onDeployClick: () => void;
-  serviceStatus: string | null;
+  serviceStatus: ServiceStatus | null;
   onAcknowledgeOutageClick: () => void;
 }
 
 export function ServiceActionBar({ onBack, onDeployClick, serviceStatus, onAcknowledgeOutageClick }: ServiceActionBarProps) {
-  const handleLogs = () => notifications.show({
-    title: 'Log viewer',
-    message: 'Log streaming not yet connected to backend',
-    color: 'gray',
-  });
-
   return (
     <Group justify="space-between" align="center" wrap="wrap" gap="sm">
       <Button
@@ -38,7 +31,6 @@ export function ServiceActionBar({ onBack, onDeployClick, serviceStatus, onAckno
           </Button>
         )}
         <Button size="sm" variant="filled"  leftSection={<IconRocket size={14} />}      onClick={onDeployClick}>Deploy</Button>
-        <Button size="sm" variant="subtle"  leftSection={<IconTerminal2 size={14} />}   onClick={handleLogs}>Logs</Button>
       </Group>
     </Group>
   );

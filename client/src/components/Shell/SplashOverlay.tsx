@@ -28,9 +28,6 @@ export function SplashOverlay({ onDismiss }: SplashOverlayProps) {
           >
             Open Dashboard
           </Button>
-          <Button size="lg" variant="white" color="dark" radius="md" onClick={onDismiss}>
-            View Services
-          </Button>
         </Group>
       </HeroBrandingPanel>
     </Box>

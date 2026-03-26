@@ -2,9 +2,10 @@ import { Group, Text, Tooltip } from '@mantine/core';
 import { IconWifi, IconWifiOff, IconLoader } from '@tabler/icons-react';
 import { useMatch } from 'react-router-dom';
 import { useWsStatus, type WsStatus } from '../hooks/useWsStatus';
+import './WsStatusIndicator.css';
 
 const WS_META: Record<WsStatus, { icon: React.ReactNode; label: string; color: string }> = {
-  connecting: { icon: <IconLoader size={14} />, label: 'WebSockets connecting…', color: 'dimmed' },
+  connecting: { icon: <IconLoader size={14} style={{ animation: 'ws-spin 1s linear infinite' }} />, label: 'WebSockets connecting…', color: 'dimmed' },
   live: { icon: <IconWifi size={14} />, label: 'WebSockets live', color: 'teal' },
   error: { icon: <IconWifiOff size={14} />, label: 'WebSockets disconnected', color: 'red' },
 };
