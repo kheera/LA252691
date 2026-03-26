@@ -51,7 +51,7 @@ export const mockServiceDetails: Record<string, ServiceDetail> = {
     environment: 'production',
     region: 'us-east-1',
     version: 'v2.4.1',
-    owner: 'platform-team',
+    owner: 'digital-services',
     currentMetrics: { cpu: 25, memory: 45, requestRate: 1240, errorRate: 0.02, p99Latency: 45 },
     metrics: makeMetrics(25, 45),
     deployments: [
@@ -67,7 +67,7 @@ export const mockServiceDetails: Record<string, ServiceDetail> = {
     environment: 'production',
     region: 'eu-west-1',
     version: 'v1.8.2',
-    owner: 'identity-team',
+    owner: 'member-services',
     currentMetrics: { cpu: 68, memory: 74, requestRate: 320, errorRate: 2.8, p99Latency: 890 },
     metrics: makeMetrics(65, 72),
     deployments: [
@@ -82,7 +82,7 @@ export const mockServiceDetails: Record<string, ServiceDetail> = {
     environment: 'production',
     region: 'us-east-1',
     version: 'v3.1.0',
-    owner: 'analytics-team',
+    owner: 'research-office',
     currentMetrics: { cpu: 38, memory: 57, requestRate: 180, errorRate: 0.1, p99Latency: 120 },
     metrics: makeMetrics(38, 55),
     deployments: [
@@ -96,7 +96,7 @@ export const mockServiceDetails: Record<string, ServiceDetail> = {
     environment: 'production',
     region: 'ap-southeast-1',
     version: 'v0.9.3',
-    owner: 'infra-team',
+    owner: 'it-operations',
     currentMetrics: { cpu: 0, memory: 0, requestRate: 0, errorRate: 100, p99Latency: 0 },
     metrics: makeMetrics(88, 85),
     deployments: [
@@ -111,7 +111,7 @@ export const mockServiceDetails: Record<string, ServiceDetail> = {
     environment: 'staging',
     region: 'us-east-1',
     version: '—',
-    owner: 'portal-team',
+    owner: 'public-engagement',
     currentMetrics: { cpu: 0, memory: 0, requestRate: 0, errorRate: 0, p99Latency: 0 },
     metrics: makeMetrics(0, 0),
     deployments: [

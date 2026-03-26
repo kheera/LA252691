@@ -2,35 +2,35 @@
   "services": [
     {
       "id": "b763a97d-ba3d-41c6-b3c0-31ca6d4af52f",
-      "name": "api-gateway",
+      "name": "chamber-api",
       "status": "HEALTHY",
       "uptime": 99.9,
       "lastDeployedAt": "2026-03-20T10:00:00Z"
     },
     {
       "id": "c3ad1feb-49c1-4ffa-acfe-1c8fa17372ea",
-      "name": "auth-service",
+      "name": "member-identity",
       "status": "HEALTHY",
       "uptime": 95.2,
       "lastDeployedAt": "2026-03-23T02:31:21.489Z"
     },
     {
       "id": "c55e9d8b-2c89-4709-9415-65df298edfe7",
-      "name": "reporting-service",
+      "name": "hansard-service",
       "status": "HEALTHY",
       "uptime": 98.7,
       "lastDeployedAt": "2026-03-17T08:00:00Z"
     },
     {
       "id": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "name": "scheduler",
+      "name": "sitting-scheduler",
       "status": "DEGRADED",
       "uptime": 71.3,
       "lastDeployedAt": "2026-03-22T22:50:37.643Z"
     },
     {
       "id": "d5b100d3-9134-4ca5-a390-148a1b88689d",
-      "name": "intake-portal",
+      "name": "petitions-portal",
       "status": null,
       "uptime": null,
       "lastDeployedAt": null

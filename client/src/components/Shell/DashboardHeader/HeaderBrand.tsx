@@ -9,7 +9,7 @@ export function HeaderBrand() {
       <ThemeIcon variant="gradient" gradient={BRAND_GRADIENT} size="sm">
         <IconServer size={14} />
       </ThemeIcon>
-      <Text fw={700} size="md">DeployDash</Text>
+      <Text fw={700} size="md">PipelineView</Text>
     </Group>
   );
 }

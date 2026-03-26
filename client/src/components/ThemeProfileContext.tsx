@@ -20,7 +20,7 @@ import {
   type ColorProfileKey,
 } from '../theme';
 
-const STORAGE_KEY = 'deploy-dash-theme-profile';
+const STORAGE_KEY = 'pipeline-view-theme-profile';
 
 function readStoredProfile(): ColorProfileKey {
   try {
