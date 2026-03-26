@@ -48,6 +48,19 @@ cd client && yarn install && yarn dev
 
 ---
 
+## CI/CD — GitHub Actions
+
+A minimal pipeline should run on every push and pull request with two sequential jobs:
+
+1. **Test** — install server dependencies and run `yarn test`. Fail fast so broken code never reaches the build step.
+2. **Build** — build both Docker images (server and client) to confirm the Dockerfiles are valid. Pass `VITE_API_KEY` as a build arg for the client image, sourced from a repository secret.
+
+Store `API_KEY` and `VITE_API_KEY` as repository secrets (**Settings → Secrets and variables → Actions**) so they are never hardcoded. Generate a strong value with `openssl rand -hex 32`.
+
+For a deployment step on merge to `main`, add a Docker registry login (GHCR works out of the box with the automatically-provided `GITHUB_TOKEN` — no manual secret needed) and push the built images. A separate deployment job can then SSH into the target host or trigger a container orchestrator rollout.
+
+---
+
 ## Tests
 
 ```bash
