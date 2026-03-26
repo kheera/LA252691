@@ -26,7 +26,7 @@ Full-stack application with a GraphQL API and a React frontend, orchestrated via
 ```bash
 # 1. Copy and fill in the environment file
 cp .env.example .env
-# If desired edit .env — set API_KEY, VITE_WS_API_KEY, but the defaults will work
+# If desired edit .env — set API_KEY, VITE_API_KEY, but the defaults will work
 
 # 2. Build and start both services
 docker compose up --build
@@ -53,7 +53,7 @@ The client will be served at `http://localhost:3000` and the API at `http://loca
 ```bash
 # 1. Copy and fill in the environment file
 cp .env.example .env
-# Edit .env — set API_KEY, VITE_WS_API_KEY, etc.
+# Edit .env — set API_KEY, VITE_API_KEY, etc.
 
 # 2. Start the server
 cd server && yarn install && yarn dev
@@ -211,11 +211,11 @@ The `metricUpdated` (and all) subscriptions are protected by an API key that is 
 
 **Setup:**
 
-All variables live in a single `.env` file at the repo root (used by both the server and the Vite client build). Copy `.env.example` to `.env` and set `API_KEY` and `VITE_WS_API_KEY` to the same value. The file is gitignored — see `.env.example` for all required variables.
+All variables live in a single `.env` file at the repo root (used by both the server and the Vite client build). Copy `.env.example` to `.env` and set `API_KEY` and `VITE_API_KEY` to the same value. The file is gitignored — see `.env.example` for all required variables.
 
 **Security limitation — key stored in the client bundle:**
 
-The `VITE_WS_API_KEY` value is a Vite build-time variable, which means it is compiled into the JavaScript bundle that any user can download and inspect. This means the shared API key provides **transport-layer authentication only** (prevents random internet scanners connecting) but does **not** provide true user-level security.
+The `VITE_API_KEY` value is a Vite build-time variable, which means it is compiled into the JavaScript bundle that any user can download and inspect. This means the shared API key provides **transport-layer authentication only** (prevents random internet scanners connecting) but does **not** provide true user-level security.
 
 In a production system this would be replaced with credential-backed token issuance:
 
@@ -259,7 +259,7 @@ No other subscription code needs to change — the resolver `subscribe` function
 
 **1. Supplement the shared API key with per-user short-lived JWTs**
 
-The current `VITE_WS_API_KEY` is a build-time Vite variable, meaning it is compiled into the JavaScript bundle and is visible to anyone who downloads the client. It is a shared secret — if it leaks, all connections are compromised and the only remediation is rotating the key everywhere.
+The current `VITE_API_KEY` is a build-time Vite variable, meaning it is compiled into the JavaScript bundle and is visible to anyone who downloads the client. It is a shared secret — if it leaks, all connections are compromised and the only remediation is rotating the key everywhere.
 
 The fix: keep the shared key as a first filter, but also require a per-user credential. Integrate an identity provider (Auth0, Entra ID, Cognito, etc.). After the user logs in, the IdP issues a signed JWT with a short expiry (e.g. 15 minutes). The client passes that JWT in `connectionParams.authorization` alongside (or replacing) the static key. The server's `onConnect` hook verifies the JWT signature, checks the expiry, and inspects claims (e.g. role, tenant). No secret needs to be baked into the bundle; compromise of one token affects only that user session; tokens expire automatically.
 

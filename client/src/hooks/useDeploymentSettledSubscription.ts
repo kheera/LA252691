@@ -3,6 +3,7 @@ import { notifications } from '@mantine/notifications';
 import {
   GET_RECENT_DEPLOYMENTS,
   GET_SERVICE_DETAIL,
+  GET_SERVICES,
   SUBSCRIBE_DEPLOYMENT_SETTLED,
   type DeploymentSettledPayload,
 } from '../graphql/services';
@@ -29,9 +30,10 @@ export function useDeploymentSettledSubscription(serviceId: string): void {
         },
       });
 
-      // Refetch both the service detail (current page) and the overview
-      // deployments list (so it's fresh when the user navigates back).
-      client.refetchQueries({ include: [GET_RECENT_DEPLOYMENTS] });
+      // Refetch both the service detail (current page), the services overview
+      // (so the card status updates immediately without a manual refresh),
+      // and the recent deployments list.
+      client.refetchQueries({ include: [GET_RECENT_DEPLOYMENTS, GET_SERVICES] });
       client.query({ query: GET_SERVICE_DETAIL, variables: { id: serviceId }, fetchPolicy: 'network-only' });
 
       const succeeded = dep.status === 'SUCCESS';

@@ -51,6 +51,7 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
     if (failed) {
       service.status = 'DOWN';
     } else {
+      service.status = 'HEALTHY';
       service.lastDeployedAt = new Date().toISOString();
     }
     persistFixtures();

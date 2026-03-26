@@ -1,8 +1,6 @@
 import { Box, Button, Stack, Text } from '@mantine/core';
 import {
   IconActivity,
-  IconCloudUpload,
-  IconFlask,
   IconHome,
 } from '@tabler/icons-react';
 import { type ReactNode } from 'react';

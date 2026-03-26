@@ -83,10 +83,12 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
       onClose();
     },
     onError: (err) => {
+      type GqlErr = { extensions?: Record<string, unknown> };
+      const gqlErrors = ((err as unknown as { graphQLErrors?: GqlErr[] }).graphQLErrors) ?? [];
       // VERSION_COLLISION fires when the exact same version string is already rolling back.
       // Note: deploying a *different* version to this service is still allowed during a rollback.
-      const isCollision = err.graphQLErrors?.some((e) => e.extensions?.code === 'VERSION_COLLISION');
-      const rateLimitError = err.graphQLErrors?.find((e) => e.extensions?.code === 'RATE_LIMIT_EXCEEDED');
+      const isCollision = gqlErrors.some((e) => e.extensions?.code === 'VERSION_COLLISION');
+      const rateLimitError = gqlErrors.find((e) => e.extensions?.code === 'RATE_LIMIT_EXCEEDED');
       if (rateLimitError) {
         const retryAfter = rateLimitError.extensions?.retryAfter as number | undefined;
         notifications.show({
