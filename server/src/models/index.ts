@@ -10,13 +10,15 @@ export interface Service {
   healthTrend?: HealthTrend | null;
 }
 
+export type DeploymentStatus = 'PENDING' | 'SUCCESS' | 'FAILED' | 'ROLLING_BACK';
+
 export interface Deployment {
   id: string;
   serviceId: string;
   version: string;
   deployedBy: string;
   timestamp: string;
-  status: string | null;
+  status: DeploymentStatus | null;
   durationSeconds: number;
 }
 

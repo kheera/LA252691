@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { GraphQLError } from 'graphql';
 import { withFilter } from 'graphql-subscriptions';
 import { mockServices, mockDeployments, persistFixtures } from '../utils/mockData.js';
-import type { Service, Deployment } from '../models/index.js';
+import type { Service, Deployment, DeploymentStatus } from '../models/index.js';
 import type { AppContext } from '../context.js';
 import { pubsub, EVENTS } from '../pubsub.js';
 
@@ -20,7 +20,7 @@ const DEPLOYMENTS_MAX_LIMIT = 500;
 
 function deployments(
   _: unknown,
-  { serviceId, status, limit }: { serviceId?: string; status?: string; limit?: number },
+  { serviceId, status, limit }: { serviceId?: string; status?: DeploymentStatus; limit?: number },
 ): Deployment[] {
   const effectiveLimit = limit !== undefined ? Math.min(limit, DEPLOYMENTS_MAX_LIMIT) : undefined;
   return mockDeployments

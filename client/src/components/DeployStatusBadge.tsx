@@ -1,23 +1,30 @@
 import { Badge } from '@mantine/core';
+import type { DeploymentStatus } from '../graphql/services';
 
-function deployStatusColor(status: string | null): string {
-  if (status === 'SUCCESS') return 'green.7';
-  if (status === 'FAILED') return 'red.8';
-  if (status === 'ROLLING_BACK') return 'orange.7';
-  if (status === 'PENDING') return 'blue.6';
-  return 'gray.6';
+const DEPLOY_STATUS_COLOR: Record<DeploymentStatus, string> = {
+  SUCCESS: 'green.7',
+  FAILED: 'red.8',
+  ROLLING_BACK: 'orange.7',
+  PENDING: 'blue.6',
+};
+
+const DEPLOY_STATUS_LABEL: Record<DeploymentStatus, string> = {
+  SUCCESS: 'Success',
+  FAILED: 'Failed',
+  ROLLING_BACK: 'Rolling back',
+  PENDING: 'Pending…',
+};
+
+function deployStatusColor(status: DeploymentStatus | null): string {
+  return status ? DEPLOY_STATUS_COLOR[status] : 'gray.6';
 }
 
-function deployStatusLabel(status: string | null): string {
-  if (status === 'SUCCESS') return 'Success';
-  if (status === 'FAILED') return 'Failed';
-  if (status === 'ROLLING_BACK') return 'Rolling back';
-  if (status === 'PENDING') return 'Pending…';
-  return 'Unknown';
+function deployStatusLabel(status: DeploymentStatus | null): string {
+  return status ? DEPLOY_STATUS_LABEL[status] : 'Unknown';
 }
 
 interface DeployStatusBadgeProps {
-  status: string | null;
+  status: DeploymentStatus | null;
   size?: 'xs' | 'sm';
 }
 

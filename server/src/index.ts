@@ -3,7 +3,8 @@ import { expressMiddleware } from '@as-integrations/express5';
 import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
-import { schema, attachWsServer } from './ws.js';
+import { schema } from './schema/executable.js';
+import { attachWsServer } from './ws.js';
 import { createContext } from './context.js';
 import { startMetricTicker } from './metricTicker.js';
 

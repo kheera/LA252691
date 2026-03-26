@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 
 export type ServiceStatus = 'HEALTHY' | 'DEGRADED' | 'DOWN';
 export type HealthTrend = 'IMPROVING' | 'STABLE' | 'DEGRADING';
+export type DeploymentStatus = 'PENDING' | 'SUCCESS' | 'FAILED' | 'ROLLING_BACK';
 
 export const GET_SERVICES = gql`
   query GetServices {
@@ -23,7 +24,7 @@ export interface GqlDeployment {
   version: string;
   deployedBy: string;
   timestamp: string;
-  status: string | null;
+  status: DeploymentStatus | null;
   durationSeconds: number;
 }
 
@@ -115,7 +116,7 @@ export interface RecentDeployment {
   serviceId: string;
   version: string;
   timestamp: string;
-  status: string | null;
+  status: DeploymentStatus | null;
 }
 
 export interface RecentDeploymentsResult {
@@ -157,7 +158,7 @@ export interface DeploymentSettledPayload {
     id: string;
     serviceId: string;
     version: string;
-    status: string;
+    status: DeploymentStatus | null;
     timestamp: string;
     durationSeconds: number;
   };
