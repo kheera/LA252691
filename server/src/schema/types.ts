@@ -33,14 +33,12 @@ export const typeDefs = `#graphql
     durationSeconds: Int!
   }
 
-  # @todo may need further work
   type Metric {
-    id: ID!
+    serviceId: ID!
     timestamp: String!
-    createdAt: String! # alias for timestamp
-    cpuPercent: Float
-    memoryMb: Float
-    requestsPerSecond: Float
-    errorRate: Float
+    cpuPercent: Float!
+    memoryMb: Float!
+    requestsPerSecond: Float!
+    errorRate: Float!
   }
 `;

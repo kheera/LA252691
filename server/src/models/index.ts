@@ -20,12 +20,10 @@ export interface Deployment {
 }
 
 export interface Metric {
-  id: string;
-  timestamp: string;
-  createdAt: string;
   serviceId: string;
-  cpuPercent: number | null;
-  memoryMb: number | null;
-  requestsPerSecond: number | null;
-  errorRate: number | null;
+  timestamp: string;
+  cpuPercent: number;
+  memoryMb: number;
+  requestsPerSecond: number;
+  errorRate: number;
 }

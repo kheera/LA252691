@@ -26,7 +26,7 @@ export interface GqlDeployment {
 }
 
 export interface GqlMetric {
-  id: string;
+  serviceId: string;
   timestamp: string;
   cpuPercent: number | null;
   memoryMb: number | null;
@@ -64,7 +64,7 @@ export const GET_SERVICE_DETAIL = gql`
         durationSeconds
       }
       metrics(last: 20) {
-        id
+        serviceId
         timestamp
         cpuPercent
         memoryMb
@@ -161,7 +161,6 @@ export const SUBSCRIBE_DEPLOYMENT_SETTLED = gql`
 
 export interface MetricUpdatedPayload {
   metricUpdated: {
-    id: string;
     serviceId: string;
     timestamp: string;
     cpuPercent: number | null;
@@ -174,7 +173,6 @@ export interface MetricUpdatedPayload {
 export const SUBSCRIBE_METRIC_UPDATES = gql`
   subscription OnMetricUpdated($serviceId: ID!) {
     metricUpdated(serviceId: $serviceId) {
-      id
       serviceId
       timestamp
       cpuPercent

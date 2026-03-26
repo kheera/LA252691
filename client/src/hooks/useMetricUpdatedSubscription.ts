@@ -13,10 +13,10 @@ const MAX_LIVE_METRICS = 20;
 
 /** Pre-fill the rolling window with null-value placeholders so the chart always
  * has MAX_LIVE_METRICS evenly-spaced x-axis slots from the moment it mounts. */
-function makePlaceholders(): GqlMetric[] {
+function makePlaceholders(serviceId: string): GqlMetric[] {
   const now = Date.now();
   return Array.from({ length: MAX_LIVE_METRICS }, (_, i) => ({
-    id: `__placeholder_${i}`,
+    serviceId,
     timestamp: new Date(now - (MAX_LIVE_METRICS - 1 - i) * TICK_MS).toISOString(),
     cpuPercent: null,
     memoryMb: null,
@@ -42,7 +42,7 @@ export interface MetricSubscriptionResult {
  * at a steady cadence regardless of whether data is flowing.
  */
 export function useMetricUpdatedSubscription(serviceId: string): MetricSubscriptionResult {
-  const [liveMetrics, setLiveMetrics] = useState<GqlMetric[]>(makePlaceholders);
+  const [liveMetrics, setLiveMetrics] = useState<GqlMetric[]>(() => makePlaceholders(serviceId));
   const [isReady, setIsReady] = useState(false);
   const [subscriptionError, setSubscriptionError] = useState<string | null>(null);
 
@@ -57,10 +57,10 @@ export function useMetricUpdatedSubscription(serviceId: string): MetricSubscript
       if (!metricUpdate) return;
       setSubscriptionError(null);
       setIsReady(true);
-      const { id, timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate } = metricUpdate;
+      const { timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate } = metricUpdate;
       // Buffer for the interval to pick up — don't write to state directly so
       // only the interval drives chart updates and the cadence stays constant.
-      pendingRef.current = { id, timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate };
+      pendingRef.current = { serviceId, timestamp, cpuPercent, memoryMb, requestsPerSecond, errorRate };
     },
     onError: (err) => {
       setSubscriptionError(err.message);
@@ -73,7 +73,7 @@ export function useMetricUpdatedSubscription(serviceId: string): MetricSubscript
   useEffect(() => {
     const intervalId = setInterval(() => {
       const next: GqlMetric = pendingRef.current ?? {
-        id: `__gap_${Date.now()}`,
+        serviceId,
         timestamp: new Date().toISOString(),
         cpuPercent: null,
         memoryMb: null,
@@ -84,7 +84,7 @@ export function useMetricUpdatedSubscription(serviceId: string): MetricSubscript
       setLiveMetrics((prev) => [...prev, next].slice(-MAX_LIVE_METRICS));
     }, TICK_MS);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [serviceId]);
 
   return { liveMetrics, isReady, subscriptionError };
 }

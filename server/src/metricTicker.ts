@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { mockServices } from './utils/mockData.js';
 import { pubsub, EVENTS } from './pubsub.js';
 
@@ -107,7 +106,6 @@ export function startMetricTicker(): void {
 
       pubsub.publish(EVENTS.METRIC_UPDATED, {
         metricUpdated: {
-          id: randomUUID(),
           serviceId: service.id,
           timestamp,
           cpuPercent: cpu,
