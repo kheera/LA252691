@@ -80,7 +80,7 @@ Uses Node's built-in `node:test` runner — no extra dependencies. Four tests co
 
 ### Known limitations and production path
 
-**Shared API key in the client bundle.** `VITE_API_KEY` is compiled into the JavaScript bundle — visible to anyone who downloads the client. It gates transport but provides no per-user security. Production fix: replace with short-lived JWTs from an identity provider (Auth0, Entra ID, etc.), passed in `connectionParams.authorization` and verified in `onConnect`.
+**Shared API key in the client bundle.** `VITE_API_KEY` is compiled into the JavaScript bundle — visible to anyone who downloads the client. It gates transport but provides no per-user security. Production fix: supplement with short-lived JWTs from an identity provider (Auth0, Entra ID, etc.) — the public OAuth `client_id` remains in the bundle (that is normal and expected for SPAs), but each user obtains their own signed JWT which is passed in `connectionParams.authorization` and verified in `onConnect`, giving per-user identity and revocability.
 
 **No field-level authorisation.** Once connected, a client can attempt to subscribe to any `serviceId`. `withFilter` limits delivery but does not refuse the subscription itself. Production fix: check caller identity against the requested resource inside the `subscribe` function.
 
@@ -94,7 +94,7 @@ Uses Node's built-in `node:test` runner — no extra dependencies. Four tests co
 |---|---|---|
 | **In-memory fixture store** (`fixtures.json`) | No database required; state persists across restarts but is not concurrent-safe | PostgreSQL / any RDBMS |
 | **In-process `PubSub`** | No broker to configure; events on one process never reach subscribers on another | `graphql-redis-subscriptions` (Redis Pub/Sub) |
-| **In-memory rate limiter** | Simple; resets on restart; breaks under horizontal scale | Redis `INCR`/`EXPIRE` keyed on `userId + serviceId` |
+| **In-memory rate limiter** | Simple; resets on restart; breaks under horizontal scale; keyed on `serviceId` only — there is no per-user identity with a shared API key, so the limit is global across all callers for a given service | Redis `INCR`/`EXPIRE` keyed on `userId + serviceId` once per-user JWTs are in place |
 | **Shared static API key** | Simple to configure; demonstrates WS auth handshake pattern | Per-user JWT from an identity provider |
 | **No persistent metric history** | Metrics are push-only; no time-series store required; chart starts empty on page load | InfluxDB / TimescaleDB; seed chart via `metrics(serviceId, last: N)` on mount |
 | **`healthTrend` derived in-process** | Computed from consecutive ticker ticks; resets on server restart | Rolling window computed from DB-stored metrics |
