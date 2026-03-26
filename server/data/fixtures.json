@@ -3,28 +3,28 @@
     {
       "id": "s1",
       "name": "api-gateway",
-      "status": "DEGRADED",
+      "status": "HEALTHY",
       "uptime": 99.9,
       "lastDeployedAt": "2026-03-20T10:00:00Z"
     },
     {
       "id": "s2",
       "name": "auth-service",
-      "status": "DEGRADED",
+      "status": "HEALTHY",
       "uptime": 95.2,
-      "lastDeployedAt": "2026-03-23T02:44:40.002Z"
+      "lastDeployedAt": "2026-03-23T02:32:02.503Z"
     },
     {
       "id": "s3",
       "name": "reporting-service",
-      "status": "DEGRADED",
+      "status": "HEALTHY",
       "uptime": 98.7,
       "lastDeployedAt": "2026-03-17T08:00:00Z"
     },
     {
       "id": "s4",
       "name": "scheduler",
-      "status": "DEGRADED",
+      "status": "DOWN",
       "uptime": 71.3,
       "lastDeployedAt": "2026-03-22T22:50:37.643Z"
     },
@@ -252,24 +252,6 @@
       "timestamp": "2026-03-23T02:31:21.489Z",
       "status": "SUCCESS",
       "durationSeconds": 88
-    },
-    {
-      "id": "d6fac685-5c5f-406e-9ee6-bdf6e336c22c",
-      "serviceId": "s2",
-      "version": "v2.0.3",
-      "deployedBy": "manual",
-      "timestamp": "2026-03-23T02:43:54.986Z",
-      "status": "SUCCESS",
-      "durationSeconds": 43
-    },
-    {
-      "id": "4ec529b9-ddd8-40a2-9ea6-bdb70cccead7",
-      "serviceId": "s1",
-      "version": "v1.2.1-beta1",
-      "deployedBy": "manual",
-      "timestamp": "2026-03-25T14:36:25.118Z",
-      "status": "FAILED",
-      "durationSeconds": 44
     }
   ],
   "metrics": [

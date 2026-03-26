@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client/react';
-import { Button, Checkbox, Group, Modal, SegmentedControl, Stack, Text, TextInput } from '@mantine/core';
+import { Alert, Button, Checkbox, Group, Modal, SegmentedControl, Stack, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconRocket } from '@tabler/icons-react';
+import { IconAlertTriangle, IconRocket } from '@tabler/icons-react';
 import {
   GET_RECENT_DEPLOYMENTS,
   GET_SERVICE_DETAIL,
@@ -61,9 +61,11 @@ interface DeployModalProps {
   serviceId: string;
   serviceName: string;
   latestVersion: string;
+  /** Versions currently in ROLLING_BACK status for this service. */
+  rollingBackVersions: string[];
 }
 
-export function DeployModal({ opened, onClose, serviceId, serviceName, latestVersion }: DeployModalProps) {
+export function DeployModal({ opened, onClose, serviceId, serviceName, latestVersion, rollingBackVersions }: DeployModalProps) {
   const isBetaBase = /[-.]beta\d*$/i.test(latestVersion);
   const [bumpType, setBumpType] = useState<BumpType>('patch');
   const [isBeta, setIsBeta] = useState(isBetaBase);
@@ -81,9 +83,14 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
       onClose();
     },
     onError: (err) => {
+      // VERSION_COLLISION fires when the exact same version string is already rolling back.
+      // Note: deploying a *different* version to this service is still allowed during a rollback.
+      const isCollision = err.graphQLErrors?.some((e) => e.extensions?.code === 'VERSION_COLLISION');
       notifications.show({
-        title: 'Deployment error',
-        message: err.message,
+        title: isCollision ? 'Version blocked' : 'Deployment error',
+        message: isCollision
+          ? `${err.message} (You can still deploy a different version.)`
+          : err.message,
         color: 'red',
       });
     },
@@ -125,6 +132,26 @@ export function DeployModal({ opened, onClose, serviceId, serviceName, latestVer
   return (
     <Modal opened={opened} onClose={onClose} title="Deploy" centered closeOnClickOutside={!loading} closeOnEscape={!loading}>
       <Stack gap="md">
+
+        {rollingBackVersions.length > 0 && (
+          <Alert
+            icon={<IconAlertTriangle size={16} />}
+            color="orange"
+            title="Rollback in progress"
+            variant="light"
+          >
+            {rollingBackVersions.length === 1
+              ? <>
+                  Version <strong>{rollingBackVersions[0]}</strong> is currently rolling back.
+                  You can deploy a different version — but re-deploying that exact version will be blocked until the rollback completes.
+                </>
+              : <>
+                  The following versions are rolling back: <strong>{rollingBackVersions.join(', ')}</strong>.
+                  You can deploy a different version — but re-deploying any of those exact versions will be blocked until their rollback completes.
+                </>
+            }
+          </Alert>
+        )}
 
         {isBetaBase ? (
           <Text size="sm" c="dimmed">

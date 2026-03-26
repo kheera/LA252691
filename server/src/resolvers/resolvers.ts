@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { GraphQLError } from 'graphql';
 import { withFilter } from 'graphql-subscriptions';
 import { mockServices, mockDeployments, mockMetrics, persistFixtures } from '../utils/mockData.js';
 import type { Service, Deployment, Metric } from '../models/index.js';
@@ -74,13 +75,28 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
     persistFixtures();
     pubsub.publish(EVENTS.DEPLOYMENT_SETTLED, { deploymentSettled: deployment });
   };
-  const delayMs = (Math.floor(Math.random() * 31) + 30) * 1000;
+  const delayMs = (Math.floor(Math.random() * 6) + 5) * 1000;
   setTimeout(onPipelineComplete, delayMs);
 }
 
 function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment | null {
   const service = mockServices.find((s) => s.id === serviceId);
   if (!service) return null;
+
+  // NOTE — this is an intentionally narrow rule: it only blocks re-deploying the EXACT same
+  // version string while that version is rolling back. A different version can be deployed to
+  // the same service even while a rollback is in progress. This is deliberate — it lets teams
+  // push a hotfix forward without waiting, but prevents blindly re-queuing the broken version
+  // that caused the rollback in the first place.
+  const rollingBack = mockDeployments.find(
+    (d) => d.serviceId === serviceId && d.version === version && d.status === 'ROLLING_BACK',
+  );
+  if (rollingBack) {
+    throw new GraphQLError(
+      `Cannot deploy version ${version}: that exact version is currently rolling back. Deploy a different version, or wait for the rollback to complete before re-deploying this one.`,
+      { extensions: { code: 'VERSION_COLLISION', serviceId, version } },
+    );
+  }
 
   const now = new Date().toISOString();
 

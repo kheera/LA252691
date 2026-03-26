@@ -86,6 +86,9 @@ export function ServiceDetailPage() {
   // Sort a copy by timestamp descending to find the most recent deployment regardless of return order.
   const latestVersion = [...deployments]
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0]?.version ?? 'v0.0.0';
+  const rollingBackVersions = deployments
+    .filter((d) => d.status === 'ROLLING_BACK')
+    .map((d) => d.version);
 
   return (
     <DashboardLayout>
@@ -114,6 +117,7 @@ export function ServiceDetailPage() {
         serviceId={service.id}
         serviceName={service.name}
         latestVersion={latestVersion}
+        rollingBackVersions={rollingBackVersions}
       />
       <AcknowledgeOutageModal
         key={ackOutageKey}

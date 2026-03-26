@@ -11,7 +11,32 @@ Full-stack application with a GraphQL API and a React frontend, orchestrated via
 | UI     | react-windows-ui (Windows 11 components + theming) |
 | Infra  | Docker Compose |
 
+
+## Docker setup
+
+### Prerequisites
+
+| Tool | Minimum version | Notes |
+|------|----------------|-------|
+| **Docker Engine** | 23 | Bundled in Docker Desktop 4.x+. |
+| **Docker Compose** | 2.20 | v2 plugin (`docker compose`, not `docker-compose`). Comes with Docker Desktop 4.x or via the `docker-compose-plugin` package on Linux. |
+
+### Setup & start
+
+```bash
+# 1. Copy and fill in the environment file
+cp .env.example .env
+# If desired edit .env — set API_KEY, VITE_WS_API_KEY, but the defaults will work
+
+# 2. Build and start both services
+docker compose up --build
+```
+
+The client will be served at `http://localhost:3000` and the API at `http://localhost:4000/graphql`.
+
 ## Local development (no Docker)
+
+- Local dev is offered for development because it's an improved experience with better fast reloads when files change
 
 ### Prerequisites
 
@@ -21,6 +46,7 @@ Full-stack application with a GraphQL API and a React frontend, orchestrated via
 | **Yarn** | 1.22 (Classic) | Lockfiles are Yarn 1 format. |
 
 > **Tip:** Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to manage Node versions.
+
 
 ### Setup & start
 
@@ -39,28 +65,6 @@ cd client && yarn install && yarn dev
 The client will be available at `http://localhost:3000` and the GraphQL API at `http://localhost:4000/graphql`.
 
 ---
-
-## Docker setup
-
-### Prerequisites
-
-| Tool | Minimum version | Notes |
-|------|----------------|-------|
-| **Docker Engine** | 23 | Bundled in Docker Desktop 4.x+. |
-| **Docker Compose** | 2.20 | v2 plugin (`docker compose`, not `docker-compose`). Comes with Docker Desktop 4.x or via the `docker-compose-plugin` package on Linux. |
-
-### Setup & start
-
-```bash
-# 1. Copy and fill in the environment file
-cp .env.example .env
-# Edit .env — set API_KEY, VITE_WS_API_KEY, etc.
-
-# 2. Build and start both services
-docker compose up --build
-```
-
-The client will be served at `http://localhost:3000` and the API at `http://localhost:4000/graphql`.
 
 ## Project Structure
 
@@ -137,6 +141,12 @@ Clicking **Deploy** on a service detail page opens a modal that calculates the n
 4. The calculated version is shown in an **editable text field** — all the auto-calculation is a starting point, not a constraint.
 
 Bump-type descriptions are shown inline (e.g. *"New features — backwards compatible. e.g. v2.4.1 → v2.5.0"*) so users don't have to remember semver conventions.
+
+#### Version collision guard
+
+`triggerDeployment` enforces one narrow server-side rule: if a deployment for the **exact same version string** is already in `ROLLING_BACK` status for that service, the mutation is rejected with a `VERSION_COLLISION` GraphQL error — no duplicate record is created.
+
+> **Important — this is intentionally narrow.** A *different* version can still be deployed to the same service while a rollback is in progress. The rule only prevents blindly re-queuing the specific version that is currently rolling back. Teams are expected to deploy a new/fixed version forward instead of retrying the broken one during a live rollback.
 
 ---
 
