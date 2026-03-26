@@ -1,4 +1,4 @@
-import { Grid, Group, Text, Title } from '@mantine/core';
+import { Grid, Group, Stack, Text, Title } from '@mantine/core';
 import { useQuery } from '@apollo/client/react';
 import { DashboardLayout } from '../../components/Shell/DashboardLayout';
 import { ServiceCard } from '../../components/ServiceCard/ServiceCard';
@@ -6,6 +6,7 @@ import { StatusCounts } from '../../components/StatusSummaryBar';
 import { GET_SERVICES } from '../../graphql/services';
 import { type ServiceSummary } from '../../components/ServiceCard/types';
 import { RecentDeploymentsPanel } from './components/RecentDeploymentsPanel';
+import { DownServicesAlert } from './components/DownServicesAlert';
 
 function ServiceGridSkeleton() {
   const count = 6;
@@ -49,7 +50,10 @@ export function OverviewPage() {
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, lg: 4 }}>
-          <RecentDeploymentsPanel services={data?.services ?? []} />
+          <Stack gap="md">
+            <DownServicesAlert services={data?.services ?? []} />
+            <RecentDeploymentsPanel services={data?.services ?? []} />
+          </Stack>
         </Grid.Col>
       </Grid>
     </DashboardLayout>

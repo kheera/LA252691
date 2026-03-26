@@ -8,6 +8,12 @@ Service health dashboard — GraphQL API + React frontend, orchestrated via Dock
 
 The server is a Node.js/TypeScript Apollo Server 5 instance exposed via Express 5. It resolves a schema-first GraphQL API backed by an in-memory JSON fixture store (`server/data/fixtures.json`), with DataLoader used to batch and cache resolver calls and prevent N+1 queries. Real-time metric pushes and deployment-settled events are delivered over a persistent WebSocket using `graphql-ws` with Apollo's in-process `PubSub`. The client is a React 19 / Vite SPA that uses Apollo Client for queries, mutations, and subscriptions, with Mantine v8 as the sole UI component library. Apollo's in-memory cache plus a custom retry link keeps the dashboard usable when the server is temporarily unreachable — cached data stays visible and requests retry with exponential back-off.
 
+### Operational alerting
+
+The overview page includes a **Down Services alert panel** (`client/src/pages/overview/components/DownServicesAlert.tsx`) that appears automatically whenever one or more services report `DOWN` status. The panel flashes on a 1.4 s cycle and uses three independent signals — a warning icon, bold uppercase text, and a count badge — so it is visible in peripheral vision and does not rely on colour alone (accessible to colour-blind operators). Each entry links directly to the service detail page. The panel is hidden when all services are healthy, adding no visual noise during normal operation.
+
+The layout also shows a persistent **server-offline banner** (with a spinner) whenever the HTTP server is unreachable, and a **WebSocket status indicator** in the header that turns red when the live-metrics connection drops.
+
 ---
 
 ## Setup
