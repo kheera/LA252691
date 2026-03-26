@@ -102,9 +102,11 @@ function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: stri
   return newDeployment;
 }
 
-function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Service | null {
+function acknowledgeOutage(_: unknown, { serviceId }: { serviceId: string }): Service {
   const service = mockServices.find((s) => s.id === serviceId);
-  if (!service) return null;
+  if (!service) {
+    throw new GraphQLError(`Service '${serviceId}' not found.`, { extensions: { code: 'NOT_FOUND', serviceId } });
+  }
 
   service.status = 'DEGRADED';
   persistFixtures();
