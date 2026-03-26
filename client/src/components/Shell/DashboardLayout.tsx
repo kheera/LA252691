@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Alert, Box, ScrollArea, Stack, Text } from '@mantine/core';
+import { Alert, Box, Group, Loader, ScrollArea, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCloudOff } from '@tabler/icons-react';
 import { DashboardHeroPanel } from './DashboardHeroPanel';
@@ -44,7 +44,10 @@ export function DashboardLayout({ headerActions, children }: DashboardLayoutProp
             px="md"
             styles={{ root: { borderTop: 'none', borderLeft: 'none', borderRight: 'none' } }}
           >
-            <Text size="sm">Server offline — displaying cached data if available. Retrying in the background…</Text>
+            <Group gap={8} align="center">
+              <Loader size={12} color="orange" type="oval" />
+              <Text size="sm">Server offline — displaying cached data if available. Retrying in the background…</Text>
+            </Group>
           </Alert>
         )}
 
