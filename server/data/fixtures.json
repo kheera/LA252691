@@ -12,7 +12,7 @@
       "name": "auth-service",
       "status": "HEALTHY",
       "uptime": 95.2,
-      "lastDeployedAt": "2026-03-23T02:32:02.503Z"
+      "lastDeployedAt": "2026-03-23T02:31:21.489Z"
     },
     {
       "id": "c55e9d8b-2c89-4709-9415-65df298edfe7",
@@ -24,7 +24,7 @@
     {
       "id": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
       "name": "scheduler",
-      "status": "DOWN",
+      "status": "DEGRADED",
       "uptime": 71.3,
       "lastDeployedAt": "2026-03-22T22:50:37.643Z"
     },
@@ -44,7 +44,7 @@
       "deployedBy": "manual",
       "timestamp": "2026-03-22T22:50:37.643Z",
       "status": "SUCCESS",
-      "durationSeconds": 0
+      "durationSeconds": 31
     },
     {
       "id": "f6e2130a-aeaf-4622-a4dd-b8759e403ebb",
@@ -53,7 +53,7 @@
       "deployedBy": "manual",
       "timestamp": "2026-03-22T22:49:44.215Z",
       "status": "SUCCESS",
-      "durationSeconds": 0
+      "durationSeconds": 28
     },
     {
       "id": "ded72544-d586-4453-98fe-381c30d1eb68",
@@ -62,12 +62,12 @@
       "deployedBy": "manual",
       "timestamp": "2026-03-22T22:49:20.914Z",
       "status": "SUCCESS",
-      "durationSeconds": 0
+      "durationSeconds": 34
     },
     {
       "id": "62a3b8c1-48af-4175-b143-0553f49c6555",
       "serviceId": "b763a97d-ba3d-41c6-b3c0-31ca6d4af52f",
-      "version": "1.2.0",
+      "version": "v1.2.0",
       "deployedBy": "alice",
       "timestamp": "2026-03-20T10:00:00Z",
       "status": "SUCCESS",
@@ -76,7 +76,7 @@
     {
       "id": "8f40a2b4-e563-40de-9b10-ef4109b131f3",
       "serviceId": "b763a97d-ba3d-41c6-b3c0-31ca6d4af52f",
-      "version": "1.1.0",
+      "version": "v1.1.0",
       "deployedBy": "bob",
       "timestamp": "2026-03-18T14:30:00Z",
       "status": "FAILED",
@@ -85,7 +85,7 @@
     {
       "id": "3f798d08-4962-49ed-83bc-de4dd597b916",
       "serviceId": "b763a97d-ba3d-41c6-b3c0-31ca6d4af52f",
-      "version": "1.0.9",
+      "version": "v1.0.9",
       "deployedBy": "carol",
       "timestamp": "2026-03-15T11:00:00Z",
       "status": "SUCCESS",
@@ -94,7 +94,7 @@
     {
       "id": "3f4cd91b-0071-40ea-9b07-e608886220c0",
       "serviceId": "b763a97d-ba3d-41c6-b3c0-31ca6d4af52f",
-      "version": "1.0.8",
+      "version": "v1.0.8",
       "deployedBy": "alice",
       "timestamp": "2026-03-10T09:20:00Z",
       "status": "SUCCESS",
@@ -103,7 +103,7 @@
     {
       "id": "a6fb27cb-f273-451e-867d-a036f9ef8306",
       "serviceId": "c3ad1feb-49c1-4ffa-acfe-1c8fa17372ea",
-      "version": "2.0.1",
+      "version": "v2.0.1",
       "deployedBy": "alice",
       "timestamp": "2026-03-19T09:15:00Z",
       "status": "SUCCESS",
@@ -112,7 +112,7 @@
     {
       "id": "28e48564-144e-495e-84f0-fb13675225f3",
       "serviceId": "c3ad1feb-49c1-4ffa-acfe-1c8fa17372ea",
-      "version": "2.0.0",
+      "version": "v2.0.0",
       "deployedBy": "dan",
       "timestamp": "2026-03-14T16:00:00Z",
       "status": "ROLLING_BACK",
@@ -121,7 +121,7 @@
     {
       "id": "3d21832f-eaaf-4bff-8f52-b436e867e870",
       "serviceId": "c3ad1feb-49c1-4ffa-acfe-1c8fa17372ea",
-      "version": "1.9.5",
+      "version": "v1.9.5",
       "deployedBy": "bob",
       "timestamp": "2026-03-12T13:45:00Z",
       "status": "SUCCESS",
@@ -130,7 +130,7 @@
     {
       "id": "fb341704-8499-4fa9-90c4-db09cecd2879",
       "serviceId": "c3ad1feb-49c1-4ffa-acfe-1c8fa17372ea",
-      "version": "1.9.4",
+      "version": "v1.9.4",
       "deployedBy": "carol",
       "timestamp": "2026-03-08T10:30:00Z",
       "status": "FAILED",
@@ -139,7 +139,7 @@
     {
       "id": "bb15decf-2e06-498e-8c55-5057f297a66e",
       "serviceId": "c3ad1feb-49c1-4ffa-acfe-1c8fa17372ea",
-      "version": "1.9.3",
+      "version": "v1.9.3",
       "deployedBy": "alice",
       "timestamp": "2026-03-05T08:00:00Z",
       "status": "SUCCESS",
@@ -148,7 +148,7 @@
     {
       "id": "ae8af5be-d655-4855-b8b2-3bdceb0b4866",
       "serviceId": "c55e9d8b-2c89-4709-9415-65df298edfe7",
-      "version": "3.1.0",
+      "version": "v3.1.0",
       "deployedBy": "dan",
       "timestamp": "2026-03-17T08:00:00Z",
       "status": "SUCCESS",
@@ -157,7 +157,7 @@
     {
       "id": "b10f87f0-14f2-4688-82d3-843d3c9d50e7",
       "serviceId": "c55e9d8b-2c89-4709-9415-65df298edfe7",
-      "version": "3.0.2",
+      "version": "v3.0.2",
       "deployedBy": "alice",
       "timestamp": "2026-03-13T12:00:00Z",
       "status": "SUCCESS",
@@ -166,7 +166,7 @@
     {
       "id": "1f890c3a-f3a5-4c06-8a7a-9164caa7229c",
       "serviceId": "c55e9d8b-2c89-4709-9415-65df298edfe7",
-      "version": "3.0.1",
+      "version": "v3.0.1",
       "deployedBy": "bob",
       "timestamp": "2026-03-09T15:30:00Z",
       "status": "FAILED",
@@ -175,7 +175,7 @@
     {
       "id": "0fec29e0-3594-4c4d-8732-a39db3cad1b3",
       "serviceId": "c55e9d8b-2c89-4709-9415-65df298edfe7",
-      "version": "3.0.0",
+      "version": "v3.0.0",
       "deployedBy": "carol",
       "timestamp": "2026-03-04T11:15:00Z",
       "status": "SUCCESS",
@@ -184,7 +184,7 @@
     {
       "id": "deb69a53-9e17-4571-a098-b35d69ed3d5f",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.9.1-beta1",
+      "version": "v0.9.1-beta1",
       "deployedBy": "dan",
       "timestamp": "2026-03-21T06:45:00Z",
       "status": "FAILED",
@@ -193,7 +193,7 @@
     {
       "id": "b05ac391-000c-48bf-8428-0018b09f287f",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.9.0",
+      "version": "v0.9.0",
       "deployedBy": "alice",
       "timestamp": "2026-03-21T05:00:00Z",
       "status": "ROLLING_BACK",
@@ -202,7 +202,7 @@
     {
       "id": "c6598d00-dada-4039-9727-988e8371f655",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.8.5",
+      "version": "v0.8.5",
       "deployedBy": "bob",
       "timestamp": "2026-03-16T14:00:00Z",
       "status": "SUCCESS",
@@ -211,7 +211,7 @@
     {
       "id": "4cff6fd8-b5bd-467b-8b05-3649729023d3",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.8.4",
+      "version": "v0.8.4",
       "deployedBy": "carol",
       "timestamp": "2026-03-11T10:00:00Z",
       "status": "SUCCESS",
@@ -220,7 +220,7 @@
     {
       "id": "df331120-3b56-40ea-a852-76d14e0bf27d",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.8.3",
+      "version": "v0.8.3",
       "deployedBy": "dan",
       "timestamp": "2026-03-06T09:00:00Z",
       "status": "FAILED",
@@ -229,7 +229,7 @@
     {
       "id": "4608d0fd-02bc-4b82-873c-143a3e99ec72",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.8.2",
+      "version": "v0.8.2",
       "deployedBy": "alice",
       "timestamp": "2026-03-02T08:30:00Z",
       "status": "SUCCESS",
@@ -238,7 +238,7 @@
     {
       "id": "59ce88b6-88d4-4447-b397-5709e00c0de0",
       "serviceId": "63b7abc5-a3c0-4dbd-b931-f3079a2b6a07",
-      "version": "0.8.1",
+      "version": "v0.8.1",
       "deployedBy": "bob",
       "timestamp": "2026-02-28T16:00:00Z",
       "status": "SUCCESS",
