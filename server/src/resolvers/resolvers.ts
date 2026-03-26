@@ -79,9 +79,11 @@ function dispatchPipeline(deployment: Deployment, service: Service, version: str
   setTimeout(onPipelineComplete, delayMs);
 }
 
-function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment | null {
+function triggerDeployment(_: unknown, { serviceId, version }: { serviceId: string; version: string }): Deployment {
   const service = mockServices.find((s) => s.id === serviceId);
-  if (!service) return null;
+  if (!service) {
+    throw new GraphQLError(`Service '${serviceId}' not found.`, { extensions: { code: 'NOT_FOUND', serviceId } });
+  }
 
   // NOTE — this is an intentionally narrow rule: it only blocks re-deploying the EXACT same
   // version string while that version is rolling back. A different version can be deployed to
